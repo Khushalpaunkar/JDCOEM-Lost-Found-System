@@ -1,81 +1,51 @@
 
 <footer class="site-footer">
-
   <div class="footer-main">
     <div class="footer-container">
-
-      <!-- Brand and description -->
-      <div class="footer-brand-column">
-        <a href="/" class="footer-brand">
-          <span class="footer-brand-mark">SR</span>
-          <span>Smart<span>Recover</span></span>
+      <section class="footer-brand-column" aria-label="Lost and Found">
+        <a href="/" class="footer-brand" aria-label="Lost and Found home">
+          <span class="footer-brand-mark" aria-hidden="true">LF</span>
+          <span class="footer-brand-name">Lost<span>&amp;</span>Found</span>
         </a>
 
         <p class="footer-description">
-          Lost something important? We're here to help.
-          SmartRecover brings people and their belongings
-          closer through a simpler, more organized
-          recovery experience.
+          Smart Asset Recovery System — helping JDCOEM students reunite with their lost belongings since 2024.
         </p>
+      </section>
 
-        <div class="footer-status">
-          <span class="status-dot"></span>
-          <span>Built for a smarter campus community</span>
-        </div>
-      </div>
-
-      <!-- Platform links -->
-      <div class="footer-column">
-        <h3>Platform</h3>
+      <nav class="footer-column" aria-labelledby="footer-quick-links">
+        <h2 id="footer-quick-links">Quick Links</h2>
         <a href="/">Home</a>
-        <a href="/items">Browse Items</a>
-        <a href="/report-lost">Report Lost Item</a>
-        <a href="/report-found">Report Found Item</a>
-      </div>
+        <a href="/items?type=lost">Lost Items</a>
+        <a href="/items?type=found">Found Items</a>
+        <a href="/report-lost">Report Lost</a>
+        <a href="/report-found">Report Found</a>
+      </nav>
 
-      <!-- Information links -->
-      <div class="footer-column">
-        <h3>Information</h3>
-        <a href="/about">About Us</a>
-        <a href="/contact">Contact</a>
+      <nav class="footer-column" aria-labelledby="footer-support">
+        <h2 id="footer-support">Support</h2>
+        <a href="/about#faq">FAQ</a>
         <a href="/privacy">Privacy Policy</a>
         <a href="/terms">Terms of Use</a>
-      </div>
+        <a href="mailto:support@jdlostfound.edu?subject=Report%20an%20Issue">Report an Issue</a>
+        <a href="/admin">Admin Portal</a>
+      </nav>
 
-      <!-- Account links -->
-      <div class="footer-column footer-account-column">
-        <h3>Get Started</h3>
-        <p>
-          Join the community and help lost belongings
-          find their way home.
-        </p>
-        <a href="/register" class="footer-join-link">
-          Create an account <span aria-hidden="true">↗</span>
-        </a>
-        <a href="/login">Already registered? Log in</a>
-      </div>
-
+      <section class="footer-column footer-contact" aria-labelledby="footer-contact-title">
+        <h2 id="footer-contact-title">Contact Us</h2>
+        <p>CSE Dept, JDCOEM, Nagpur</p>
+        <a href="tel:1234567890">(123) 456-7890</a>
+        <a href="mailto:support@jdlostfound.edu">support@jdlostfound.edu</a>
+      </section>
     </div>
   </div>
 
-  <!-- Bottom bar -->
   <div class="footer-bottom">
     <div class="footer-bottom-container">
-
-      <p>
-        © <%= new Date().getFullYear() %>
-        Smart Asset Recovery System
-      </p>
-
-      <p class="footer-made">
-        Designed for a community that cares.
-      </p>
-
-      <a href="#top" class="footer-back-top">
+      <p>© 2024 Smart Asset Recovery System — JDCOEM. All rights reserved.</p>
+      <a href="#top" class="footer-back-top" aria-label="Back to top">
         Back to top <span aria-hidden="true">↑</span>
       </a>
-
     </div>
   </div>
-
 </footer>

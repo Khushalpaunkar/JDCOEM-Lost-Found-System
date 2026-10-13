@@ -1,46 +1,533 @@
 
-<section class="hero">
-  <div class="hero-content">
-    <span class="eyebrow">
-      A SMARTER WAY TO FIND WHAT'S LOST
-    </span>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Find lost belongings and report found items across the JDCOEM campus.">
+  <title><%= title || "Lost & Found | JDCOEM" %></title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+  <link rel="stylesheet" href="/css/home.css">
+  <link rel="stylesheet" href="/css/navbar.css">
+  <link rel="stylesheet" href="/css/footer.css">
+</head>
+<body id="top">
+<%- include('../includes/navbar') %>
 
-    <h1>
-      Lost something?
-      <span>Let's bring it back.</span>
-    </h1>
+<%
+  const demoItems = [
+    {
+      _id: 'demo-1',
+      title: 'Black Backpack',
+      category: 'Bags',
+      status: 'lost',
+      location: 'Central Library',
+      date: '12 Oct 2026',
+      image: 'https://images.unsplash.com/photo-1553062407-98eeb64c6a62?auto=format&fit=crop&w=700&q=85'
+    },
+    {
+      _id: 'demo-2',
+      title: 'Mobile Phone',
+      category: 'Electronics',
+      status: 'found',
+      location: 'College Canteen',
+      date: '11 Oct 2026',
+      image: 'https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?auto=format&fit=crop&w=700&q=85'
+    },
+    {
+      _id: 'demo-3',
+      title: 'Wireless Earbuds',
+      category: 'Electronics',
+      status: 'lost',
+      location: 'Academic Block',
+      date: '10 Oct 2026',
+      image: 'https://images.unsplash.com/photo-1606220945770-b5b6c2c55bf1?auto=format&fit=crop&w=700&q=85'
+    },
+    {
+      _id: 'demo-4',
+      title: 'Brown Wallet',
+      category: 'Personal Items',
+      status: 'found',
+      location: 'Main Entrance',
+      date: '09 Oct 2026',
+      image: 'https://images.unsplash.com/photo-1627123424574-724758594e93?auto=format&fit=crop&w=700&q=85'
+    }
+  ];
 
-    <p>
-      A simple and secure platform to report lost
-      belongings, discover found items, and reconnect
-      people with what matters to them.
-    </p>
+  const reports = typeof recentItems !== 'undefined' && Array.isArray(recentItems)
+    ? recentItems
+    : demoItems;
 
-    <div class="hero-actions">
-      <a href="/report-lost" class="btn-primary">
-        Report Lost Item
-      </a>
+  const stats = typeof homeStats !== 'undefined' && homeStats
+    ? homeStats
+    : {
+        totalReports: 124,
+        lostItems: 68,
+        foundItems: 56,
+        recoveredItems: 42
+      };
 
-      <a href="/items" class="btn-secondary">
-        Browse Found Items
-      </a>
-    </div>
+  const categories = typeof itemCategories !== 'undefined' && Array.isArray(itemCategories)
+    ? itemCategories
+    : ['Electronics', 'Bags', 'ID Cards', 'Books', 'Keys', 'Personal Items'];
 
-    <div class="hero-note">
-      Built to make item recovery simpler and safer.
-    </div>
-  </div>
+  const locations = typeof campusLocations !== 'undefined' && Array.isArray(campusLocations)
+    ? campusLocations
+    : ['Central Library', 'College Canteen', 'Academic Block', 'Main Entrance'];
+%>
 
-  <div class="hero-visual">
-    <div class="visual-card">
-      <div class="visual-icon">⌕</div>
-      <h3>Every item has a way home.</h3>
-      <p>Report it. Find it. Recover it.</p>
-      <div class="visual-tags">
-        <span>Lost Items</span>
-        <span>Found Items</span>
-        <span>Recovery</span>
+<main class="sr-home">
+
+  <!-- 1. HERO SECTION -->
+  <section class="sr-hero" id="home">
+    <div class="sr-hero-overlay"></div>
+
+    <div class="sr-container sr-hero-inner">
+      <div class="sr-hero-content">
+
+        <div class="sr-eyebrow">
+          <i class="fa-solid fa-shield-halved"></i>
+          YOUR CAMPUS LOST & FOUND PLATFORM
+        </div>
+
+        <h1>
+          Lost something?
+          <br />
+          Let's help you
+          <span>find it.</span>
+        </h1>
+
+        <p class="sr-hero-description">
+         JDCOEM's smart asset recovery system helps reunite lost items with their owners. Report, browse, and connect with your campus community.
+        </p>
+
+        <div class="sr-hero-actions">
+          <a href="/items" class="sr-btn sr-btn-primary">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            Find an Item
+          </a>
+
+          <a href="/report-lost" class="sr-btn sr-btn-outline">
+            <i class="fa-solid fa-circle-plus"></i>
+            Report an Item
+          </a>
+        </div>
+
+        <div class="sr-hero-trust">
+          <i class="fa-solid fa-circle-check"></i>
+          A safer campus. A stronger community.
+        </div>
+      </div>
+
+      <div class="sr-hero-visual" aria-hidden="true">
+        <div class="sr-floating-card sr-floating-top">
+          <span class="sr-floating-icon sr-icon-blue">
+            <i class="fa-solid fa-magnifying-glass"></i>
+          </span>
+          <span>
+            <strong>Looking for something?</strong>
+            <small>Your campus community can help.</small>
+          </span>
+        </div>
+
+        <div class="sr-hero-badge">
+          <i class="fa-solid fa-handshake-angle"></i>
+          Together, we recover.
+        </div>
       </div>
     </div>
-  </div>
-</section>
+
+    <div class="sr-hero-bottom"></div>
+  </section>
+
+
+  <!-- 2. SEARCH AND FILTER SECTION -->
+  <section class="sr-search-section" id="find-item">
+    <div class="sr-container">
+
+      <div class="sr-search-panel">
+        <div class="sr-section-heading sr-search-heading">
+          <div>
+            <span class="sr-section-kicker">QUICK SEARCH</span>
+            <h2>Find an Item</h2>
+            <p>Search reported belongings from your campus community.</p>
+          </div>
+
+          <div class="sr-search-heading-icon">
+            <i class="fa-solid fa-sliders"></i>
+          </div>
+        </div>
+
+        <form action="/items" method="GET" class="sr-search-form">
+
+          <div class="sr-search-field sr-search-keyword">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            <input
+              type="search"
+              name="search"
+              placeholder="Search wallet, phone, backpack..."
+              aria-label="Search for an item"
+            />
+          </div>
+
+          <div class="sr-search-field">
+            <i class="fa-solid fa-layer-group"></i>
+            <select name="category" aria-label="Select item category">
+              <option value="">All Categories</option>
+              <% categories.forEach(function(category) { %>
+                <option value="<%= typeof category === 'string' ? category : category.name %>">
+                  <%= typeof category === 'string' ? category : category.name %>
+                </option>
+              <% }) %>
+            </select>
+          </div>
+
+          <div class="sr-search-field">
+            <i class="fa-solid fa-location-dot"></i>
+            <select name="location" aria-label="Select campus location">
+              <option value="">All Locations</option>
+              <% locations.forEach(function(location) { %>
+                <option value="<%= typeof location === 'string' ? location : location.name %>">
+                  <%= typeof location === 'string' ? location : location.name %>
+                </option>
+              <% }) %>
+            </select>
+          </div>
+
+          <button type="submit" class="sr-btn sr-btn-primary sr-search-button">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            Search
+          </button>
+
+        </form>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- 3. RECENTLY REPORTED ITEMS -->
+  <section class="sr-items-section" id="recent-items">
+    <div class="sr-container">
+
+      <div class="sr-section-heading sr-items-heading">
+        <div>
+          <span class="sr-section-kicker">CAMPUS COMMUNITY</span>
+          <h2>Recently Reported Items</h2>
+          <p>Explore the latest lost and found reports around campus.</p>
+        </div>
+
+        <a href="/items" class="sr-text-link">
+          View All Items
+          <i class="fa-solid fa-arrow-right"></i>
+        </a>
+      </div>
+
+      <% if (reports.length > 0) { %>
+        <div class="sr-items-grid">
+
+          <% reports.slice(0, 4).forEach(function(item) {
+            const itemStatus = String(item.status || 'lost').toLowerCase();
+            const isFound = itemStatus === 'found';
+            const itemTitle = item.title || item.itemName || item.name || 'Untitled Item';
+            const itemLocation = item.location || item.campusLocation || 'Campus location';
+            const itemDate = item.date || item.createdAt || item.reportDate;
+            const itemImage = item.image || item.imageUrl || item.photo;
+            const itemId = item._id || item.id;
+          %>
+
+            <article class="sr-item-card">
+
+              <a
+                href="/items/<%= itemId %>"
+                class="sr-item-image-link"
+                aria-label="View details for <%= itemTitle %>"
+              >
+                <div class="sr-item-image">
+                  <% if (itemImage) { %>
+                    <img
+                      src="<%= itemImage %>"
+                      alt="<%= itemTitle %>"
+                      loading="lazy"
+                    />
+                  <% } else { %>
+                    <div class="sr-item-image-placeholder">
+                      <i class="fa-regular fa-image"></i>
+                    </div>
+                  <% } %>
+
+                  <span class="sr-status-badge <%= isFound ? 'sr-status-found' : 'sr-status-lost' %>">
+                    <i class="fa-solid <%= isFound ? 'fa-circle-check' : 'fa-circle-exclamation' %>"></i>
+                    <%= isFound ? 'FOUND' : 'LOST' %>
+                  </span>
+                </div>
+              </a>
+
+              <div class="sr-item-details">
+                <div class="sr-item-category">
+                  <%= item.category || 'Personal Belongings' %>
+                </div>
+
+                <h3>
+                  <a href="/items/<%= itemId %>"><%= itemTitle %></a>
+                </h3>
+
+                <div class="sr-item-meta">
+                  <i class="fa-solid fa-location-dot"></i>
+                  <span><%= itemLocation %></span>
+                </div>
+
+                <div class="sr-item-meta">
+                  <i class="fa-regular fa-calendar"></i>
+                  <span>
+                    <%= itemDate
+                      ? new Date(itemDate).toLocaleDateString('en-IN', {
+                          day: '2-digit',
+                          month: 'short',
+                          year: 'numeric'
+                        })
+                      : 'Recently reported'
+                    %>
+                  </span>
+                </div>
+
+                <a href="/items/<%= itemId %>" class="sr-item-link">
+                  View Details
+                  <i class="fa-solid fa-arrow-right"></i>
+                </a>
+              </div>
+
+            </article>
+
+          <% }) %>
+        </div>
+      <% } else { %>
+
+        <div class="sr-empty-state">
+          <div class="sr-empty-icon">
+            <i class="fa-solid fa-box-open"></i>
+          </div>
+          <h3>No reports yet</h3>
+          <p>Be the first to help your campus community by reporting an item.</p>
+          <a href="/report-lost" class="sr-btn sr-btn-primary">
+            <i class="fa-solid fa-plus"></i>
+            Create a Report
+          </a>
+        </div>
+
+      <% } %>
+
+      <div class="sr-mobile-view-all">
+        <a href="/items" class="sr-btn sr-btn-secondary">
+          View All Items <i class="fa-solid fa-arrow-right"></i>
+        </a>
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- 4. COMMUNITY STATISTICS -->
+  <section class="sr-stats-section" id="impact">
+    <div class="sr-container sr-stats-layout">
+
+      <div class="sr-stats-intro">
+        <span class="sr-section-kicker">OUR COMMUNITY IMPACT</span>
+        <h2>Small actions.<br /><span>Big difference.</span></h2>
+        <p>
+          Every report brings us one step closer to reuniting
+          someone with something important.
+        </p>
+      </div>
+
+      <div class="sr-stats-grid">
+
+        <div class="sr-stat-card">
+          <div class="sr-stat-icon sr-stat-blue">
+            <i class="fa-regular fa-file-lines"></i>
+          </div>
+          <div>
+            <strong><%= Number(stats.totalReports || 0).toLocaleString('en-IN') %></strong>
+            <span>Total Reports</span>
+          </div>
+        </div>
+
+        <div class="sr-stat-card">
+          <div class="sr-stat-icon sr-stat-red">
+            <i class="fa-solid fa-magnifying-glass"></i>
+          </div>
+          <div>
+            <strong><%= Number(stats.lostItems || 0).toLocaleString('en-IN') %></strong>
+            <span>Lost Items</span>
+          </div>
+        </div>
+
+        <div class="sr-stat-card">
+          <div class="sr-stat-icon sr-stat-green">
+            <i class="fa-solid fa-box-open"></i>
+          </div>
+          <div>
+            <strong><%= Number(stats.foundItems || 0).toLocaleString('en-IN') %></strong>
+            <span>Found Items</span>
+          </div>
+        </div>
+
+        <div class="sr-stat-card">
+          <div class="sr-stat-icon sr-stat-purple">
+            <i class="fa-solid fa-handshake-angle"></i>
+          </div>
+          <div>
+            <strong><%= Number(stats.recoveredItems || 0).toLocaleString('en-IN') %></strong>
+            <span>Items Recovered</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+
+  <!-- 5. HOW IT WORKS -->
+  <section class="sr-how-section" id="how-it-works">
+    <div class="sr-container">
+
+      <div class="sr-centered-heading">
+        <span class="sr-section-kicker">SIMPLE. SAFE. SMART.</span>
+        <h2>How SmartRecover Works</h2>
+        <p>Three simple steps to help lost belongings find their way home.</p>
+      </div>
+
+      <div class="sr-steps-grid">
+
+        <article class="sr-step-card">
+          <div class="sr-step-top">
+            <span class="sr-step-number">01</span>
+            <div class="sr-step-icon">
+              <i class="fa-solid fa-clipboard-list"></i>
+            </div>
+          </div>
+          <h3>Report an Item</h3>
+          <p>
+            Submit a lost or found report with item details,
+            a campus location and an optional photo.
+          </p>
+        </article>
+
+        <div class="sr-step-connector">
+          <i class="fa-solid fa-arrow-right"></i>
+        </div>
+
+        <article class="sr-step-card">
+          <div class="sr-step-top">
+            <span class="sr-step-number">02</span>
+            <div class="sr-step-icon">
+              <i class="fa-solid fa-magnifying-glass"></i>
+            </div>
+          </div>
+          <h3>Find a Match</h3>
+          <p>
+            Browse reported items and look for belongings
+            that match what you lost or found.
+          </p>
+        </article>
+
+        <div class="sr-step-connector">
+          <i class="fa-solid fa-arrow-right"></i>
+        </div>
+
+        <article class="sr-step-card">
+          <div class="sr-step-top">
+            <span class="sr-step-number">03</span>
+            <div class="sr-step-icon">
+              <i class="fa-solid fa-shield-heart"></i>
+            </div>
+          </div>
+          <h3>Recover Your Item</h3>
+          <p>
+            Verify ownership, coordinate a safe handover
+            and mark the item as recovered.
+          </p>
+        </article>
+
+      </div>
+    </div>
+  </section>
+
+
+  <!-- 6. CAMPUS SAFETY AND FINAL CTA -->
+  <section class="sr-cta-section" id="report-item">
+    <div class="sr-container">
+      <div class="sr-cta-card">
+
+        <div class="sr-cta-icon">
+          <i class="fa-solid fa-shield-halved"></i>
+        </div>
+
+        <div class="sr-cta-content">
+          <span class="sr-section-kicker">BUILT FOR YOUR CAMPUS</span>
+          <h2>Let's make our campus a better place.</h2>
+          <p>
+            Your lost item could be just one report away.
+            Help keep our college community connected and supportive.
+          </p>
+          <div class="sr-cta-note">
+            <i class="fa-solid fa-lock"></i>
+            Always verify ownership before handing over an item.
+          </div>
+        </div>
+
+        <div class="sr-cta-actions">
+          <a href="/report-lost" class="sr-btn sr-btn-primary">
+            <i class="fa-solid fa-plus"></i>
+            Report an Item
+          </a>
+
+          <a href="/items" class="sr-btn sr-btn-outline">
+            Browse All Items
+            <i class="fa-solid fa-arrow-right"></i>
+          </a>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+
+  <!-- 7. COMMUNITY / SAFETY INFORMATION -->
+  <section class="sr-safety-section">
+    <div class="sr-container sr-safety-grid">
+
+      <div class="sr-safety-heading">
+        <span class="sr-section-kicker">A COMMUNITY WE CAN TRUST</span>
+        <h2>Recover belongings.<br /><span>Respect privacy.</span></h2>
+      </div>
+
+      <div class="sr-safety-point">
+        <div class="sr-safety-point-icon">
+          <i class="fa-solid fa-user-shield"></i>
+        </div>
+        <div>
+          <h3>Protect Personal Information</h3>
+          <p>Avoid sharing passwords, private documents or sensitive details in public item descriptions.</p>
+        </div>
+      </div>
+
+      <div class="sr-safety-point">
+        <div class="sr-safety-point-icon">
+          <i class="fa-solid fa-circle-check"></i>
+        </div>
+        <div>
+          <h3>Verify Before Collecting</h3>
+          <p>Confirm distinguishing details and ownership before an item is handed over.</p>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+</main>
+
+<%- include('../includes/footer') %>
+</body>
+</html>

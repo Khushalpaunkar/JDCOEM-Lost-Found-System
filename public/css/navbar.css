@@ -124,7 +124,7 @@
 	position: relative;
 	display: inline-flex;
 	align-items: center;
-	min-height: 44px;
+	min-height: 40px;
 	color: #596862;
 	font-size: 17px;
 	font-weight: 700;
@@ -162,8 +162,8 @@
 }
 
 .navbar-login {
-	color: ;
-	font-size: 13px;
+	color: var(--nav-ink) ;
+	font-size: 17px;
 	font-weight: 800;
 	text-decoration: none;
 	transition: color 180ms ease;
