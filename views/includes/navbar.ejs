@@ -35,11 +35,21 @@
       </div>
 
       <div class="navbar-actions">
-        <a href="/login" class="navbar-login">Log in</a>
-        <a href="/register" class="navbar-cta">
-          <span>Get Started</span>
-          <span class="cta-arrow" aria-hidden="true">↗</span>
-        </a>
+        <% if (typeof currentUser !== 'undefined' && currentUser) { %>
+          <form action="/logout" method="POST" class="navbar-logout-form">
+            <button type="submit" class="navbar-login">Log out</button>
+          </form>
+          <a href="/profile" class="navbar-cta">
+            <span>Profile</span>
+            <span class="cta-arrow" aria-hidden="true">↗</span>
+          </a>
+        <% } else { %>
+          <a href="/login" class="navbar-login">Log in</a>
+          <a href="/register" class="navbar-cta">
+            <span>Get Started</span>
+            <span class="cta-arrow" aria-hidden="true">↗</span>
+          </a>
+        <% } %>
       </div>
     </div>
 

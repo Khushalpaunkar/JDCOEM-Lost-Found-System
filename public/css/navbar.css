@@ -163,10 +163,19 @@
 
 .navbar-login {
 	color: var(--nav-ink) ;
+	padding: 0;
+	background: transparent;
+	border: 0;
 	font-size: 17px;
 	font-weight: 800;
+	font-family: inherit;
+	cursor: pointer;
 	text-decoration: none;
 	transition: color 180ms ease;
+}
+
+.navbar-logout-form {
+	margin: 0;
 }
 
 .navbar-login:hover {

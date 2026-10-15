@@ -1,24 +1,27 @@
 
 :root {
-  --footer-bg: #102821;
-  --footer-bg-bottom: #0b1e1a;
-  --footer-accent: #c7ed78;
-  --footer-text: #f2f6f3;
-  --footer-muted: #b0c0b8;
-  --footer-border: rgb(255 255 255 / 13%);
+  --footer-bg: #fff8f1;
+  --footer-accent: #c2410c;
+  --footer-text: #172b4d;
+  --footer-muted: black;
+  --footer-border: rgb(23 43 77 / 14%);
 }
 
 .site-footer {
   color: var(--footer-text);
-  background: var(--footer-bg);
+  background:
+    radial-gradient(
+      ellipse at 100% 0%,
+      rgba(191, 219, 254, 0.7),
+      transparent 42%
+    ),
+    linear-gradient(110deg, #eff6ff 0%, #f8fbff 70%, #edf5ff 100%);
   font-family: 'Poppins', sans-serif;
 }
 
 .footer-main {
   padding: 64px 0 58px;
-  background:
-    radial-gradient(ellipse at 8% 0%, rgb(91 147 112 / 13%), transparent 38%),
-    var(--footer-bg);
+  background: transparent;
 }
 
 .footer-container {
@@ -97,8 +100,9 @@
 .footer-column > p {
   margin: 0;
   color: var(--footer-muted);
-  font-size: 12px;
+  font-size: 14px;
   line-height: 1.8;
+  font-weight: 500;
 }
 
 .footer-column > a {
@@ -124,7 +128,7 @@
 
 .footer-bottom {
   border-top: 1px solid var(--footer-border);
-  background: var(--footer-bg-bottom);
+  background: transparent;
 }
 
 .footer-bottom-container {

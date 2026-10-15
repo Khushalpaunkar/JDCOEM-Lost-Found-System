@@ -17,41 +17,58 @@
 <%- include('../includes/navbar') %>
 
 <%
+  const randomDemoTime = () => {
+    const hour = Math.floor(Math.random() * 12) + 8;
+    const minute = Math.floor(Math.random() * 60);
+    return new Date(2026, 9, 14, hour, minute).toLocaleTimeString('en-IN', {
+      hour: '2-digit',
+      minute: '2-digit'
+    });
+  };
+
   const demoItems = [
     {
       _id: 'demo-1',
       title: 'Black Backpack',
+      description: 'A black backpack with several compartments and a small keychain attached.',
       category: 'Bags',
       status: 'lost',
       location: 'Central Library',
       date: '12 Oct 2026',
-      image: 'https://images.unsplash.com/photo-1553062407-98eeb64c6a62?auto=format&fit=crop&w=700&q=85'
+      reportedTime: randomDemoTime(),
+      image: '/asset/images/Blackbackpack.jpg'
     },
     {
       _id: 'demo-2',
       title: 'Mobile Phone',
+      description: 'A smartphone in a dark case, last seen around the canteen seating area.',
       category: 'Electronics',
       status: 'found',
       location: 'College Canteen',
       date: '11 Oct 2026',
-      image: 'https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?auto=format&fit=crop&w=700&q=85'
+      reportedTime: randomDemoTime(),
+      image: '/asset/images/mobilephoneimg.jpg'
     },
     {
       _id: 'demo-3',
       title: 'Wireless Earbuds',
+      description: 'Wireless earbuds in a compact charging case; please verify the case when claiming.',
       category: 'Electronics',
       status: 'lost',
       location: 'Academic Block',
       date: '10 Oct 2026',
-      image: 'https://images.unsplash.com/photo-1606220945770-b5b6c2c55bf1?auto=format&fit=crop&w=700&q=85'
+      reportedTime: randomDemoTime(),
+      image: '/asset/images/earbuds.jpg'
     },
     {
       _id: 'demo-4',
       title: 'Brown Wallet',
+      description: 'A brown leather wallet. The owner can confirm its identifying contents.',
       category: 'Personal Items',
       status: 'found',
       location: 'Main Entrance',
       date: '09 Oct 2026',
+      reportedTime: randomDemoTime(),
       image: 'https://images.unsplash.com/photo-1627123424574-724758594e93?auto=format&fit=crop&w=700&q=85'
     }
   ];
@@ -227,12 +244,19 @@
       <% if (reports.length > 0) { %>
         <div class="sr-items-grid">
 
-          <% reports.slice(0, 4).forEach(function(item) {
+          <% reports.slice(0, 3).forEach(function(item) {
             const itemStatus = String(item.status || 'lost').toLowerCase();
             const isFound = itemStatus === 'found';
             const itemTitle = item.title || item.itemName || item.name || 'Untitled Item';
             const itemLocation = item.location || item.campusLocation || 'Campus location';
+            const itemDescription = item.description || item.details || `Reported as ${itemStatus} near ${itemLocation}.`;
             const itemDate = item.date || item.createdAt || item.reportDate;
+            const itemTime = item.reportedTime || item.time || (item.createdAt
+              ? new Date(item.createdAt).toLocaleTimeString('en-IN', {
+                  hour: '2-digit',
+                  minute: '2-digit'
+                })
+              : null);
             const itemImage = item.image || item.imageUrl || item.photo;
             const itemId = item._id || item.id;
           %>
@@ -273,6 +297,8 @@
                   <a href="/items/<%= itemId %>"><%= itemTitle %></a>
                 </h3>
 
+                <p class="sr-item-description"><%= itemDescription %></p>
+
                 <div class="sr-item-meta">
                   <i class="fa-solid fa-location-dot"></i>
                   <span><%= itemLocation %></span>
@@ -289,11 +315,14 @@
                         })
                       : 'Recently reported'
                     %>
+                    <% if (itemTime) { %>
+                      &middot; <%= itemTime %>
+                    <% } %>
                   </span>
                 </div>
 
                 <a href="/items/<%= itemId %>" class="sr-item-link">
-                  View Details
+                  View &amp; Claim
                   <i class="fa-solid fa-arrow-right"></i>
                 </a>
               </div>
@@ -327,6 +356,12 @@
     </div>
   </section>
 
+
+
+
+
+
+  
 
   <!-- 4. COMMUNITY STATISTICS -->
   <section class="sr-stats-section" id="impact">
@@ -389,70 +424,99 @@
 
 
   <!-- 5. HOW IT WORKS -->
-  <section class="sr-how-section" id="how-it-works">
-    <div class="sr-container">
+  
+<!-- HOW IT WORKS SECTION -->
+<section class="sr-process" id="how-it-works">
+  <div class="sr-process-container">
 
-      <div class="sr-centered-heading">
-        <span class="sr-section-kicker">SIMPLE. SAFE. SMART.</span>
-        <h2>How SmartRecover Works</h2>
-        <p>Three simple steps to help lost belongings find their way home.</p>
-      </div>
+    <!-- Section Heading -->
+    <div class="sr-process-heading">
+      <span class="sr-process-eyebrow">THE PROCESS</span>
 
-      <div class="sr-steps-grid">
+      <h2>How <span>LOST&FOUND</span> Works</h2>
 
-        <article class="sr-step-card">
-          <div class="sr-step-top">
-            <span class="sr-step-number">01</span>
-            <div class="sr-step-icon">
-              <i class="fa-solid fa-clipboard-list"></i>
-            </div>
-          </div>
-          <h3>Report an Item</h3>
-          <p>
-            Submit a lost or found report with item details,
-            a campus location and an optional photo.
-          </p>
-        </article>
-
-        <div class="sr-step-connector">
-          <i class="fa-solid fa-arrow-right"></i>
-        </div>
-
-        <article class="sr-step-card">
-          <div class="sr-step-top">
-            <span class="sr-step-number">02</span>
-            <div class="sr-step-icon">
-              <i class="fa-solid fa-magnifying-glass"></i>
-            </div>
-          </div>
-          <h3>Find a Match</h3>
-          <p>
-            Browse reported items and look for belongings
-            that match what you lost or found.
-          </p>
-        </article>
-
-        <div class="sr-step-connector">
-          <i class="fa-solid fa-arrow-right"></i>
-        </div>
-
-        <article class="sr-step-card">
-          <div class="sr-step-top">
-            <span class="sr-step-number">03</span>
-            <div class="sr-step-icon">
-              <i class="fa-solid fa-shield-heart"></i>
-            </div>
-          </div>
-          <h3>Recover Your Item</h3>
-          <p>
-            Verify ownership, coordinate a safe handover
-            and mark the item as recovered.
-          </p>
-        </article>
-
-      </div>
+      <p>
+        Our simple 4-step process makes it easy to report,
+        find, and recover lost items on campus.
+      </p>
     </div>
-  </section>
+
+    <!-- Four Steps -->
+    <div class="sr-process-grid">
+
+      <!-- STEP 1 -->
+      <article class="sr-process-step">
+        <div class="sr-process-number">01</div>
+
+        <div class="sr-process-icon sr-process-icon-blue">
+          <i class="fa-regular fa-file-lines"></i>
+        </div>
+
+        <h3>Report or Post</h3>
+
+        <p>
+          Lost something? Report it. Found something?
+          Post it with photos, location, and time details.
+        </p>
+      </article>
+
+      <!-- STEP 2 -->
+      <article class="sr-process-step">
+        <div class="sr-process-number">02</div>
+
+        <div class="sr-process-icon sr-process-icon-sky">
+          <i class="fa-solid fa-magnifying-glass"></i>
+        </div>
+
+        <h3>Search &amp; Browse</h3>
+
+        <p>
+          Browse reported items or search for your lost
+          belongings using available search filters.
+        </p>
+      </article>
+
+      <!-- STEP 3 -->
+      <article class="sr-process-step">
+        <div class="sr-process-number">03</div>
+
+        <div class="sr-process-icon sr-process-icon-green">
+          <i class="fa-regular fa-comments"></i>
+        </div>
+
+        <h3>Connect</h3>
+
+        <p>
+          Found a matching item? Contact the other party
+          through the available claim process.
+        </p>
+      </article>
+
+      <!-- STEP 4 -->
+      <article class="sr-process-step">
+        <div class="sr-process-number">04</div>
+
+        <div class="sr-process-icon sr-process-icon-purple">
+          <i class="fa-solid fa-circle-check"></i>
+        </div>
+
+        <h3>Recover</h3>
+
+        <p>
+          Arrange a safe campus handover, verify ownership,
+          and reunite with your belongings.
+        </p>
+      </article>
+
+    </div>
+  </div>
+</section>
+
+
+
+
+
+
 
 
   <!-- 6. CAMPUS SAFETY AND FINAL CTA -->

@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login — Lost & Found JDCOEM</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700;800&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/login.css">
+</head>
+<body>
+  <% if (error) { %>
+  <p class="form-error"><%= error %></p>
+<% } %>
+
+<% if (success) { %>
+  <p class="form-success"><%= success %></p>
+<% } %>
+
+<div class="auth-page">
+  <div class="auth-bg"></div>
+
+  <div class="auth-card">
+    <div class="auth-logo">
+      <div class="logo-icon">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+          <circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/>
+        </svg>
+      </div>
+      Lost<span class="accent">&</span>Found
+    </div>
+
+    <h2 class="auth-title">Welcome Back</h2>
+    <p class="auth-sub">Login to report and track lost items</p>
+
+
+    <form action="/login" method="POST">
+      <div class="form-group">
+        <label>Email Address <span>*</span></label>
+        <input type="email" name="email" class="form-control" placeholder="your@email.com" required autofocus>
+      </div>
+
+      <div class="form-group">
+        <label>Password <span>*</span></label>
+        <input type="password" name="password" class="form-control" placeholder="Enter your password" required>
+      </div>
+
+      <button type="submit" class="submit-btn">
+        Login
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+      </button>
+    </form>
+
+    <p class="auth-switch">Don't have an account? <a href="/register">Create one</a></p>
+  </div>
+</div>
+</body>
+</html>

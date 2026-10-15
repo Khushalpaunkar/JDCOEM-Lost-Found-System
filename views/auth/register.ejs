@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Register — Lost & Found JDCOEM</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700;800&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/register.css">
+</head>
+<body>
+<% if (error) { %>
+  <p class="alert-error" role="alert"><%= error %></p>
+<% } %>
+<% if (success) { %>
+  <p class="alert-success" role="status"><%= success %></p>
+<% } %>
+<div class="auth-page">
+  <div class="auth-bg"></div>
+
+  <div class="auth-card">
+    <div class="auth-logo">
+      <div class="logo-icon">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+          <circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/>
+        </svg>
+      </div>
+      Lost<span class="accent">&</span>Found
+    </div>
+
+    <h2 class="auth-title">Create Account</h2>
+    <p class="auth-sub">Join the JDCOEM community and help recover lost items</p>
+
+    
+
+    <form action="/register" method="POST" enctype="multipart/form-data">
+      <div class="register-grid">
+
+        <div class="form-group col-span-3">
+          <label>Full Name <span>*</span></label>
+          <input type="text" name="name" class="form-control" placeholder="Your full name" required>
+        </div>
+
+        <div class="form-group">
+          <label>College BT ID</label>
+          <input type="text" name="collegeId" class="form-control" placeholder="e.g. BT21CSE001">
+        </div>
+
+        <div class="form-group">
+          <label>Department</label>
+          <select name="department" class="form-control dept-select">
+            <option value="">Select Department</option>
+            <option value="CSE">CSE</option>
+            <option value="IT">IT</option>
+            <option value="ECE">ECE</option>
+            <option value="MECH">Mechanical</option>
+            <option value="CIVIL">Civil</option>
+            <option value="ENTC">ENTC</option>
+          </select>
+        </div>
+
+        <div class="form-group ">
+          <label>Email Address <span>*</span></label>
+          <input type="email" name="email" class="form-control" placeholder="your@email.com" required>
+        </div>
+
+        <div class="form-group">
+          <label>Mobile Number</label>
+          <input type="tel" name="mobile" class="form-control" placeholder="10-digit number">
+        </div>
+
+        <div class="form-group">
+          <label>Address</label>
+          <input type="text" name="address" class="form-control" placeholder="Your address">
+        </div>
+
+        <div class="form-group">
+          <label>Password <span>*</span></label>
+          <input type="password" name="password" class="form-control" placeholder="Min 6 characters" required minlength="6">
+        </div>
+
+        <div class="form-group">
+          <label>Confirm Password <span>*</span></label>
+          <input type="password" name="confirmPassword" class="form-control" placeholder="Repeat password" required>
+        </div>
+
+        <div class="form-group">
+          <label for="profilePhoto">Profile Photo <span>*</span></label>
+          <label class="file-label" for="profilePhoto">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="18" height="18" x="3" y="3" rx="2" ry="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/></svg>
+            <span id="profileLabel">Choose photo…</span>
+          </label>
+          <input class="file-input" type="file" name="profilePhoto" id="profilePhoto" accept="image/jpeg,image/png,image/webp" required>
+          <small class="file-hint">JPEG, PNG, or WebP. Maximum 5 MB.</small>
+          <img class="file-preview" id="profilePreview" alt="Profile photo preview" hidden>
+        </div>
+
+        <div class="form-group">
+          <label for="collegeIdPhoto">College ID Card <span>*</span></label>
+          <label class="file-label" for="collegeIdPhoto">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="14" height="10" x="5" y="7" rx="2"/><path d="M12 12v3"/><path d="M8 11h1"/><path d="M15 11h1"/></svg>
+            <span id="idLabel">Choose ID card…</span>
+          </label>
+          <input class="file-input" type="file" name="collegeIdPhoto" id="collegeIdPhoto" accept="image/jpeg,image/png,image/webp" required>
+          <small class="file-hint">JPEG, PNG, or WebP. Maximum 5 MB.</small>
+          <img class="file-preview" id="collegeIdPreview" alt="College ID card preview" hidden>
+        </div>
+
+        <div class="form-group col-span-3 register-terms">
+          <label class="terms-label">
+            <input
+  type="checkbox"
+  name="termsAccepted"
+  value="true"
+  required
+>
+            I agree to the Terms & Conditions and Privacy Policy
+          </label>
+        </div>
+
+        <div class="col-span-3 register-submit">
+          <button type="submit" class="submit-btn">
+            Create Account
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><line x1="19" x2="19" y1="8" y2="14"/><line x1="22" x2="16" y1="11" y2="11"/></svg>
+          </button>
+        </div>
+
+      </div>
+    </form>
+
+    <p class="auth-switch">Already have an account? <a href="/login">Login</a></p>
+  </div>
+</div>
+<script>
+  document.querySelectorAll(".file-input").forEach((input) => {
+    const label = document.getElementById(input.id === "profilePhoto" ? "profileLabel" : "idLabel");
+    const preview = document.getElementById(input.id === "profilePhoto" ? "profilePreview" : "collegeIdPreview");
+    const defaultLabel = input.id === "profilePhoto" ? "Choose photo…" : "Choose ID card…";
+    let previewUrl;
+
+    input.addEventListener("change", () => {
+      if (previewUrl) URL.revokeObjectURL(previewUrl);
+      const file = input.files[0];
+      label.textContent = file ? file.name : defaultLabel;
+      preview.hidden = !file;
+      if (file) {
+        previewUrl = URL.createObjectURL(file);
+        preview.src = previewUrl;
+      }
+    });
+  });
+</script>
+</body>
+</html>

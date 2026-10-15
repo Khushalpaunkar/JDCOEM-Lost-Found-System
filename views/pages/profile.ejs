@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= title %></title>
+  <link rel="stylesheet" href="/css/home.css">
+  <link rel="stylesheet" href="/css/navbar.css">
+  <link rel="stylesheet" href="/css/footer.css">
+  <link rel="stylesheet" href="/css/profile.css">
+</head>
+<body>
+  <%- include('../includes/navbar') %>
+
+  <main class="profile-page">
+    <section class="profile-panel" aria-labelledby="profile-heading">
+      <span class="profile-kicker">ACCOUNT</span>
+      <h1 id="profile-heading">My Profile</h1>
+
+      <% if (imageMessage) { %>
+        <p class="profile-message <%= imageMessageIsError ? 'is-error' : 'is-success' %>" role="status"><%= imageMessage %></p>
+      <% } %>
+
+      <div class="profile-overview">
+        <div class="profile-photo-frame">
+          <% if (user.profilePhotoFileId) { %>
+            <img src="/users/<%= user._id %>/images/profile-photo" alt="Profile photo of <%= user.name %>">
+          <% } else { %>
+            <span class="profile-photo-empty" aria-label="No profile photo uploaded">Photo unavailable</span>
+          <% } %>
+        </div>
+
+        <dl class="profile-details">
+          <div><dt>Name</dt><dd><%= user.name %></dd></div>
+          <div><dt>Email</dt><dd><%= user.email %></dd></div>
+          <div><dt>College BT ID</dt><dd><%= user.collegeId || 'Not provided' %></dd></div>
+          <div><dt>Department</dt><dd><%= user.department || 'Not provided' %></dd></div>
+          <div><dt>Mobile</dt><dd><%= user.mobile || 'Not provided' %></dd></div>
+          <div><dt>Address</dt><dd><%= user.address || 'Not provided' %></dd></div>
+          <div><dt>Account type</dt><dd><%= user.role %></dd></div>
+        </dl>
+      </div>
+
+      <section class="profile-id-section" aria-labelledby="college-id-heading">
+        <div>
+          <h2 id="college-id-heading">College ID card</h2>
+          <p><%= user.collegeIdPhotoFileId ? 'Uploaded' : 'Not uploaded' %></p>
+        </div>
+        <% if (user.collegeIdPhotoFileId) { %>
+          <img class="college-id-preview" src="/users/<%= user._id %>/images/college-id" alt="Private college ID card image">
+        <% } %>
+      </section>
+
+      <form class="profile-image-form" action="/profile/images" method="POST" enctype="multipart/form-data">
+        <h2>Replace images</h2>
+        <p>Select either or both images. Existing images remain until the replacements save successfully.</p>
+        <div class="profile-image-fields">
+          <label>
+            Profile photo
+            <input type="file" name="profilePhoto" accept="image/jpeg,image/png,image/webp">
+          </label>
+          <label>
+            College ID card
+            <input type="file" name="collegeIdPhoto" accept="image/jpeg,image/png,image/webp">
+          </label>
+        </div>
+        <button type="submit" class="profile-save-button">Save image changes</button>
+      </form>
+    </section>
+  </main>
+
+  <%- include('../includes/footer') %>
+</body>
+</html>
