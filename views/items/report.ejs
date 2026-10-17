@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Report a lost or found item at JDCOEM and help reconnect campus belongings with their owners.">
+  <title><%= title || "Report an Item | SmartRecover" %></title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+  <link rel="stylesheet" href="/css/navbar.css">
+  <link rel="stylesheet" href="/css/report.css">
+  <link rel="stylesheet" href="/css/footer.css">
+</head>
+<body>
+  <%- include('../includes/navbar') %>
+
+  <main class="report-page">
+    <div class="report-container">
+      <header class="report-intro">
+        <div class="report-intro-copy">
+          <p class="report-eyebrow"><span aria-hidden="true"></span> JDCOEM CAMPUS COMMUNITY</p>
+          <h1> <i class="fa-solid fa-hashtag"></i> REPORT AN ITEM </h1>
+          <p class="report-intro-text">
+            One clear report can turn a campus-wide search into a quick reunion. Share what you know and help JDCOEM look out for one another.
+          </p>
+        </div>
+        <figure class="report-campus-visual">
+          <img src="/asset/images/jdgateimage.jpg" alt="A covered walkway on the JDCOEM campus">
+          <figcaption>
+            <span class="report-visual-label">JDCOEM COMMUNITY</span>
+            <strong>Small acts bring belongings home.</strong>
+          </figcaption>
+        </figure>
+      </header>
+
+      <% if (typeof error !== 'undefined' && error) { %>
+        <p class="report-server-error" role="alert"><i class="fa-solid fa-circle-exclamation" aria-hidden="true"></i> <%= error %></p>
+      <% } %>
+
+      <form class="report-form" action="/report" method="POST"  enctype="multipart/form-data" novalidate>
+        <fieldset class="report-section report-type-section">
+          <legend class="report-section-heading"><span class="report-step">01</span> What are you reporting?</legend>
+          <p class="report-section-description">Choose the option that best describes what happened.</p>
+          <div class="report-type-options">
+            <label class="report-type-card">
+              <input type="radio" name="status" value="lost" checked required>
+              <span class="report-type-icon report-type-icon-lost" aria-hidden="true"><i class="fa-solid fa-magnifying-glass"></i></span>
+              <span class="report-type-copy"><strong>I Lost Something</strong><small>Help the campus community look for your item</small></span>
+              <span class="report-type-check" aria-hidden="true"><i class="fa-solid fa-check"></i></span>
+            </label>
+            <label class="report-type-card">
+              <input type="radio" name="status" value="found" required>
+              <span class="report-type-icon report-type-icon-found" aria-hidden="true"><i class="fa-solid fa-hand-holding-heart"></i></span>
+              <span class="report-type-copy"><strong>I Found Something</strong><small>Help its owner know it has been found</small></span>
+              <span class="report-type-check" aria-hidden="true"><i class="fa-solid fa-check"></i></span>
+            </label>
+          </div>
+        </fieldset>
+
+        <section class="report-section" aria-labelledby="report-details-heading">
+          <h2 class="report-section-heading" id="report-details-heading"><span class="report-step">02</span> Item details</h2>
+          <p class="report-section-description">A clear description helps people recognize the item.</p>
+          <div class="report-fields-grid">
+            <div class="report-field report-field-full">
+              <label for="report-title">Item name <span class="report-required">*</span></label>
+              <input id="report-title" name="title" type="text" maxlength="100" placeholder="e.g. Blue water bottle" autocomplete="off" required aria-describedby="title-hint">
+              <small class="report-field-hint" id="title-hint">Use a short, recognizable name. Up to 100 characters.</small>
+            </div>
+
+            <div class="report-field">
+              <label for="report-category">Category <span class="report-required">*</span></label>
+              <select id="report-category" name="category" required>
+                <option value="" selected disabled>Select a category</option>
+                <option value="Electronics">Electronics</option>
+                <option value="ID Card">ID Card</option>
+                <option value="Books &amp; Notes">Books &amp; Notes</option>
+                <option value="Wallet &amp; Money">Wallet &amp; Money</option>
+                <option value="Keys">Keys</option>
+                <option value="Bags">Bags</option>
+                <option value="Clothing">Clothing</option>
+                <option value="Accessories">Accessories</option>
+                <option value="Documents">Documents</option>
+                <option value="Other">Other</option>
+              </select>
+            </div>
+
+            <div class="report-field">
+              <label for="report-location">Campus location <span class="report-required">*</span></label>
+              <input id="report-location" name="location" type="text" placeholder="e.g. Central Library, 2nd floor" autocomplete="off" required>
+            </div>
+
+            <div class="report-field">
+              <label for="report-date">Date</label>
+              <input id="report-date" name="date" type="date" aria-describedby="date-hint">
+              <small class="report-field-hint" id="date-hint">When you last saw it or found it.</small>
+            </div>
+
+            <div class="report-field">
+              <label for="report-time">Approximate time</label>
+              <input id="report-time" name="time" type="time">
+            </div>
+
+            <div class="report-field report-field-full">
+              <label for="report-description">Description <span class="report-required">*</span></label>
+              <textarea id="report-description" name="description" rows="5" maxlength="2000" placeholder="Describe its color, brand, condition, and any distinctive features." required aria-describedby="description-hint"></textarea>
+              <small class="report-field-hint" id="description-hint">Mention details that make the item easy to recognize. Up to 2,000 characters.</small>
+            </div>
+          </div>
+        </section>
+
+        <section class="report-section report-upload-section" aria-labelledby="report-upload-heading">
+          <h2 class="report-section-heading" id="report-upload-heading"><span class="report-step">03</span> Add photos <span class="report-optional">Optional</span></h2>
+          <p class="report-section-description">A clear photo can help someone recognize the right item at a glance.</p>
+          <div class="report-upload" id="report-upload">
+            <input class="report-upload-input" id="report-images" name="image" type="file" accept=".jpg,.jpeg,.png,.webp,image/jpeg,image/png,image/webp" multiple aria-describedby="upload-guidance upload-message">
+            <label class="report-upload-prompt" for="report-images" tabindex="0">
+              <span class="report-upload-icon" aria-hidden="true"><i class="fa-solid fa-arrow-up-from-bracket"></i></span>
+              <span class="report-upload-title">Choose images <span>or drag them here</span></span>
+              <span class="report-upload-meta" id="upload-guidance">JPEG, PNG or WebP - Up to 5 images - 5 MB each</span>
+            </label>
+            <p class="report-upload-empty" id="upload-empty">No images selected</p>
+            <ul class="report-upload-list" id="upload-list" aria-label="Selected image previews"></ul>
+          </div>
+          <p class="report-upload-message" id="upload-message" role="status" aria-live="polite">Selected images will be uploaded with your report.</p>
+        </section>
+
+        <div class="report-form-bottom">
+          <div class="report-form-actions">
+            <a class="report-cancel" href="/items">Back to Items</a>
+            <button class="report-submit" type="submit">
+              <span id="report-submit-label">Submit Lost Report</span>
+              <i class="fa-solid fa-arrow-right" aria-hidden="true"></i>
+            </button>
+          </div>
+        </div>
+        <p class="report-validation-message" id="report-validation-message" role="alert" aria-live="assertive"></p>
+      </form>
+
+      <dialog class="report-lightbox" id="report-lightbox" aria-labelledby="report-lightbox-caption">
+        <button class="report-lightbox-close" id="report-lightbox-close" type="button" aria-label="Close image preview">
+          <i class="fa-solid fa-xmark" aria-hidden="true"></i>
+        </button>
+        <img class="report-lightbox-image" id="report-lightbox-image" alt="">
+        <p class="report-lightbox-caption" id="report-lightbox-caption"></p>
+      </dialog>
+    </div>
+  </main>
+
+  <%- include('../includes/footer') %>
+
+  <script src="/js/report.js" defer></script>
+</body>
+</html>

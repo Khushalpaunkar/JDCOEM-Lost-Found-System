@@ -6,6 +6,7 @@ const express = require("express");
 const path = require("path");
 const helmet = require("helmet");
 const authRoutes = require("./Routes/authRoutes");
+const itemRoutes = require("./Routes/itemRoutes");
 
 const app = express();
 
@@ -13,7 +14,15 @@ app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
 
 // Security middleware
-app.use(helmet());
+app.use(
+  helmet({
+    contentSecurityPolicy: {
+      directives: {
+        "img-src": ["'self'", "data:", "blob:"]
+      }
+    }
+  })
+);
 
 // Parse form data
 app.use(express.urlencoded({ extended: true }));
@@ -42,6 +51,7 @@ app.use(
 // Static files
 app.use(express.static(path.join(__dirname, "public")));
 
+
 // Health check
 app.get("/health", (req, res) => {
   res.json({
@@ -58,7 +68,13 @@ app.get("/", (req, res) => {
   });
 });
 
+
+
+// Item management routes
+app.use("/", itemRoutes);
+
 // Authentication routes
 app.use("/", authRoutes);
+
 
 module.exports = app;

@@ -1,0 +1,203 @@
+ 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Browse Items | SmartRecover</title>
+  <link rel="stylesheet" href="/css/items.css">
+  <link rel="stylesheet" href="/css/navbar.css">
+  <link rel="stylesheet" href="/css/footer.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+</head>
+<body>
+
+  <%- include('../includes/navbar') %>
+
+  <main class="items-page">
+
+    <!-- Hero -->
+    <section class="items-hero">
+      <div class="hero-content">
+        <span class="eyebrow"><i class="fa-solid fa-magnifying-glass"></i> CAMPUS LOST & FOUND</span>
+        <h1>Every item has a <span>story.</span><br>Let's reunite it.</h1>
+        <p>Browse reported items across JDCOEM and help belongings find their way home.</p>
+
+        <a href="/items/new" class="hero-btn">
+          <i class="fa-solid fa-plus"></i> Report an Item
+        </a>
+      </div>
+
+      <div class="hero-visual">
+        <div class="hero-icon"><i class="fa-solid fa-box-open"></i></div>
+        <div class="floating-card floating-top">
+          <i class="fa-solid fa-circle-check"></i>
+          <span>One campus, one community</span>
+        </div>
+        <div class="floating-card floating-bottom">
+          <i class="fa-solid fa-heart"></i>
+          <span>Helping items find their owners</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Search and filters -->
+    <section class="browse-section">
+      <div class="section-heading">
+        <div>
+          <span class="section-kicker">THE CAMPUS COLLECTION</span>
+          <h2>Browse reported items</h2>
+          <p>Find something lost or help someone recover what matters.</p>
+        </div>
+      </div>
+
+      <div class="filter-panel">
+        <div class="search-box">
+          <i class="fa-solid fa-magnifying-glass"></i>
+          <input type="search" id="itemSearch" placeholder="Search by item name, location..." aria-label="Search items">
+        </div>
+
+        <div class="filter-controls">
+          <select id="typeFilter" aria-label="Filter by item type">
+            <option value="all">All Reports</option>
+            <option value="lost">Lost Items</option>
+            <option value="found">Found Items</option>
+          </select>
+
+          <select id="categoryFilter" aria-label="Filter by category">
+            <option value="all">All Categories</option>
+            <option value="electronics">Electronics</option>
+            <option value="accessories">Accessories</option>
+            <option value="documents">Documents & ID</option>
+            <option value="bags">Bags & Backpacks</option>
+            <option value="other">Other</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Report counts will be connected to database later -->
+      <div class="results-row">
+        <p>Explore campus reports</p>
+        <span><i class="fa-solid fa-shield-halved"></i> Campus community</span>
+      </div>
+
+      <!-- Temporary UI placeholders: replace with real Atlas records in the next step -->
+      <div class="items-grid" id="itemsGrid">
+
+        <article class="item-card" data-type="lost" data-category="electronics" data-search="wireless earbuds library">
+          <div class="item-image image-electronics">
+            <span class="item-badge lost-badge"><i class="fa-solid fa-circle-exclamation"></i> Lost</span>
+            <i class="fa-solid fa-headphones-simple placeholder-icon"></i>
+            <span class="image-label">ITEM IMAGE</span>
+          </div>
+          <div class="item-info">
+            <div class="item-meta"><span>Electronics</span><span>Report details</span></div>
+            <h3>Item title will appear here</h3>
+            <p class="item-description">A short description of the reported item will appear here.</p>
+            <div class="item-location"><i class="fa-solid fa-location-dot"></i> Campus location</div>
+            <div class="item-footer">
+              <span class="status-text"><i class="fa-regular fa-clock"></i> Awaiting recovery</span>
+              <button class="details-btn" type="button" disabled>View Details <i class="fa-solid fa-arrow-right"></i></button>
+            </div>
+          </div>
+        </article>
+
+        <article class="item-card" data-type="found" data-category="documents" data-search="college id classroom">
+          <div class="item-image image-documents">
+            <span class="item-badge found-badge"><i class="fa-solid fa-circle-check"></i> Found</span>
+            <i class="fa-solid fa-id-card placeholder-icon"></i>
+            <span class="image-label">ITEM IMAGE</span>
+          </div>
+          <div class="item-info">
+            <div class="item-meta"><span>Documents & ID</span><span>Report details</span></div>
+            <h3>Item title will appear here</h3>
+            <p class="item-description">A short description of the reported item will appear here.</p>
+            <div class="item-location"><i class="fa-solid fa-location-dot"></i> Campus location</div>
+            <div class="item-footer">
+              <span class="status-text"><i class="fa-regular fa-clock"></i> Awaiting owner</span>
+              <button class="details-btn" type="button" disabled>View Details <i class="fa-solid fa-arrow-right"></i></button>
+            </div>
+          </div>
+        </article>
+
+        <article class="item-card" data-type="lost" data-category="bags" data-search="backpack canteen">
+          <div class="item-image image-bags">
+            <span class="item-badge lost-badge"><i class="fa-solid fa-circle-exclamation"></i> Lost</span>
+            <i class="fa-solid fa-briefcase placeholder-icon"></i>
+            <span class="image-label">ITEM IMAGE</span>
+          </div>
+          <div class="item-info">
+            <div class="item-meta"><span>Bags & Backpacks</span><span>Report details</span></div>
+            <h3>Item title will appear here</h3>
+            <p class="item-description">A short description of the reported item will appear here.</p>
+            <div class="item-location"><i class="fa-solid fa-location-dot"></i> Campus location</div>
+            <div class="item-footer">
+              <span class="status-text"><i class="fa-regular fa-clock"></i> Awaiting recovery</span>
+              <button class="details-btn" type="button" disabled>View Details <i class="fa-solid fa-arrow-right"></i></button>
+            </div>
+          </div>
+        </article>
+
+      </div>
+
+      <div class="no-results" id="noResults" hidden>
+        <i class="fa-solid fa-magnifying-glass"></i>
+        <h3>No matching items</h3>
+        <p>Try another keyword or change your filters.</p>
+      </div>
+
+      <div class="browse-note">
+        <i class="fa-solid fa-circle-info"></i>
+        <p>These are temporary design placeholders. In the next step, we will replace them with real reports and Cloudinary images from MongoDB Atlas.</p>
+      </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="report-cta">
+      <div class="cta-icon"><i class="fa-solid fa-hand-holding-heart"></i></div>
+      <div class="cta-copy">
+        <h2>Found something on campus?</h2>
+        <p>Your small action could make someone's day. Report it and help return it to its owner.</p>
+      </div>
+      <a href="/items/new" class="cta-btn">Report an Item <i class="fa-solid fa-arrow-right"></i></a>
+    </section>
+
+  </main>
+
+  <%- include('../includes/footer') %>
+
+  <script>
+    const searchInput = document.getElementById('itemSearch');
+    const typeFilter = document.getElementById('typeFilter');
+    const categoryFilter = document.getElementById('categoryFilter');
+    const cards = [...document.querySelectorAll('.item-card')];
+    const noResults = document.getElementById('noResults');
+
+    function filterItems() {
+      const query = searchInput.value.trim().toLowerCase();
+      const type = typeFilter.value;
+      const category = categoryFilter.value;
+      let visible = 0;
+
+      cards.forEach(card => {
+        const matchesSearch = (card.dataset.search || '').includes(query);
+        const matchesType = type === 'all' || card.dataset.type === type;
+        const matchesCategory = category === 'all' || card.dataset.category === category;
+        const show = matchesSearch && matchesType && matchesCategory;
+
+        card.hidden = !show;
+        if (show) visible++;
+      });
+
+      noResults.hidden = visible !== 0;
+    }
+
+    searchInput.addEventListener('input', filterItems);
+    typeFilter.addEventListener('change', filterItems);
+    categoryFilter.addEventListener('change', filterItems);
+  </script>
+
+</body>
+</html>
