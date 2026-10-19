@@ -17,65 +17,7 @@
 <%- include('../includes/navbar') %>
 
 <%
-  const randomDemoTime = () => {
-    const hour = Math.floor(Math.random() * 12) + 8;
-    const minute = Math.floor(Math.random() * 60);
-    return new Date(2026, 9, 14, hour, minute).toLocaleTimeString('en-IN', {
-      hour: '2-digit',
-      minute: '2-digit'
-    });
-  };
-
-  const demoItems = [
-    {
-      _id: 'demo-1',
-      title: 'Black Backpack',
-      description: 'A black backpack with several compartments and a small keychain attached.',
-      category: 'Bags',
-      status: 'lost',
-      location: 'Central Library',
-      date: '12 Oct 2026',
-      reportedTime: randomDemoTime(),
-      image: '/asset/images/Blackbackpack.jpg'
-    },
-    {
-      _id: 'demo-2',
-      title: 'Mobile Phone',
-      description: 'A smartphone in a dark case, last seen around the canteen seating area.',
-      category: 'Electronics',
-      status: 'found',
-      location: 'College Canteen',
-      date: '11 Oct 2026',
-      reportedTime: randomDemoTime(),
-      image: '/asset/images/mobilephoneimg.jpg'
-    },
-    {
-      _id: 'demo-3',
-      title: 'Wireless Earbuds',
-      description: 'Wireless earbuds in a compact charging case; please verify the case when claiming.',
-      category: 'Electronics',
-      status: 'lost',
-      location: 'Academic Block',
-      date: '10 Oct 2026',
-      reportedTime: randomDemoTime(),
-      image: '/asset/images/earbuds.jpg'
-    },
-    {
-      _id: 'demo-4',
-      title: 'Brown Wallet',
-      description: 'A brown leather wallet. The owner can confirm its identifying contents.',
-      category: 'Personal Items',
-      status: 'found',
-      location: 'Main Entrance',
-      date: '09 Oct 2026',
-      reportedTime: randomDemoTime(),
-      image: 'https://images.unsplash.com/photo-1627123424574-724758594e93?auto=format&fit=crop&w=700&q=85'
-    }
-  ];
-
-  const reports = typeof recentItems !== 'undefined' && Array.isArray(recentItems)
-    ? recentItems
-    : demoItems;
+  const reports = recentItems;
 
   const stats = typeof homeStats !== 'undefined' && homeStats
     ? homeStats
@@ -244,7 +186,7 @@
       <% if (reports.length > 0) { %>
         <div class="sr-items-grid">
 
-          <% reports.slice(0, 3).forEach(function(item) {
+          <% reports.forEach(function(item) {
             const itemStatus = String(item.status || 'lost').toLowerCase();
             const isFound = itemStatus === 'found';
             const itemTitle = item.title || item.itemName || item.name || 'Untitled Item';
@@ -257,7 +199,9 @@
                   minute: '2-digit'
                 })
               : null);
-            const itemImage = item.image || item.imageUrl || item.photo;
+            const itemImage = (
+              Array.isArray(item.image) ? item.image[0] : item.image
+            ) || item.imageUrl || item.photo;
             const itemId = item._id || item.id;
           %>
 

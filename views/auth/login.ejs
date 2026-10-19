@@ -34,6 +34,9 @@
 
 
     <form action="/login" method="POST">
+      <% if (returnTo) { %>
+        <input type="hidden" name="returnTo" value="<%= returnTo %>">
+      <% } %>
       <div class="form-group">
         <label>Email Address <span>*</span></label>
         <input type="email" name="email" class="form-control" placeholder="your@email.com" required autofocus>

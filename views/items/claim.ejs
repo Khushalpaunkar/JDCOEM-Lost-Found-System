@@ -1,0 +1,114 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= title %></title>
+  <link rel="stylesheet" href="/css/claim.css">
+  <link rel="stylesheet" href="/css/navbar.css">
+  <link rel="stylesheet" href="/css/footer.css">
+</head>
+<body>
+  <%- include("../includes/navbar") %>
+
+  <main class="claim-page">
+    <div class="claim-card">
+      <a class="back-link" href="/items/<%= item._id %>">
+        &larr; Back to item
+      </a>
+
+      <p class="eyebrow">SMARTRECOVER · ITEM RECOVERY</p>
+      <h1>Claim this item</h1>
+      <p class="intro">
+        Tell us why this item belongs to you. Provide accurate details
+        so your claim can be reviewed.
+      </p>
+
+      <div class="item-summary">
+        <span class="summary-label">ITEM REPORTED</span>
+        <h2><%= item.title %></h2>
+        <p><%= item.category || "Uncategorized" %></p>
+      </div>
+
+      <% if (typeof success !== "undefined" && success) { %>
+        <div class="success-message" role="status">
+          Your claim has been submitted successfully and is pending review.
+        </div>
+      <% } %>
+
+      <% if (error) { %>
+        <div class="error-message" role="alert"><%= error %></div>
+      <% } %>
+
+      <% if (!(typeof success !== "undefined" && success)) { %>
+        <form action="/items/<%= item._id %>/claim" method="POST" enctype="multipart/form-data">
+          <div class="form-group">
+            <label for="description">Why is this item yours?</label>
+            <textarea
+              id="description"
+              name="description"
+              rows="4"
+              minlength="20"
+              maxlength="1000"
+              placeholder="Describe when and where you lost it..."
+              required
+            ></textarea>
+            <small>Enter at least 20 characters.</small>
+          </div>
+
+          <div class="form-group">
+            <label for="proofDetails">Ownership verification details</label>
+            <textarea
+              id="proofDetails"
+              name="proofDetails"
+              rows="4"
+              minlength="10"
+              maxlength="1000"
+              placeholder="Mention unique marks, contents, stickers, or other details only the owner would know..."
+              required
+            ></textarea>
+            <small>Do not include passwords or other sensitive credentials.</small>
+          </div>
+
+          <div class="form-group">
+            <label for="proofPhotos">Proof photos (optional)</label>
+            <input
+              id="proofPhotos"
+              name="proofPhotos"
+              type="file"
+              accept="image/jpeg,image/png,image/webp"
+              multiple
+            >
+            <small>Upload up to 5 JPG, PNG, or WebP images, 5 MB each.</small>
+          </div>
+
+          <div class="form-group">
+            <label for="contactNumber">Contact number</label>
+            <input
+              id="contactNumber"
+              name="contactNumber"
+              type="tel"
+              inputmode="tel"
+              maxlength="15"
+              placeholder="Enter your contact number"
+              pattern="[0-9+\-\s()]{7,15}"
+              required
+            >
+          </div>
+
+          <button type="submit" class="submit-btn">
+            Submit Claim <span aria-hidden="true">&rarr;</span>
+          </button>
+
+          <p class="privacy-note">
+            Your claim will be reviewed before any item is handed over.
+          </p>
+        </form>
+      <% } %>
+    </div>
+  </main>
+
+  <%- include("../includes/footer") %>
+</body>
+</html>

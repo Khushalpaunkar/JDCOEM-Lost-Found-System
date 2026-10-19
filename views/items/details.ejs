@@ -1,0 +1,329 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title><%= item.title %> | SmartRecover</title>
+
+  <link rel="stylesheet" href="/css/navbar.css">
+  <link rel="stylesheet" href="/css/footer.css">
+  <link rel="stylesheet" href="/css/item-details.css">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+</head>
+
+<body>
+  <%- include('../includes/navbar') %>
+
+  <main class="details-page">
+
+    <div class="details-container">
+
+      <a href="/items" class="back-link">
+        <i class="fa-solid fa-arrow-left"></i>
+        Back to Browse Items
+      </a>
+
+      <div class="details-layout">
+
+        <!-- Item image gallery -->
+        <section class="gallery-panel">
+          <div class="gallery-heading">
+            <span class="section-kicker">ITEM GALLERY</span>
+            <h2>Reported item</h2>
+          </div>
+
+          <% const images = Array.isArray(item.image)
+            ? item.image.filter(url => typeof url === 'string' && url.trim())
+            : typeof item.image === 'string' && item.image.trim()
+              ? [item.image]
+              : [];
+          %>
+
+          <% if (images.length > 0) { %>
+            <div class="image-gallery">
+              <% images.forEach((imageUrl, index) => { %>
+                <a
+                  class="gallery-image <%= index === 0 ? 'gallery-image-main' : '' %>"
+                  href="<%= imageUrl %>"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="Open item photo <%= index + 1 %> in a new tab"
+                >
+                  <img
+                    src="<%= imageUrl %>"
+                    alt="<%= item.title %> - Photo <%= index + 1 %>"
+                    loading="<%= index === 0 ? 'eager' : 'lazy' %>"
+                  >
+                  <span class="image-open-icon">
+                    <i class="fa-solid fa-up-right-and-down-left-from-center"></i>
+                  </span>
+                </a>
+              <% }); %>
+            </div>
+
+            <p class="gallery-note">
+              <i class="fa-regular fa-images"></i>
+              <%= images.length %> photo<%= images.length === 1 ? '' : 's' %>
+              uploaded with this report. Select a photo to view it separately.
+            </p>
+          <% } else { %>
+            <div class="no-image">
+              <i class="fa-regular fa-image"></i>
+              <h3>No photos available</h3>
+              <p>This report does not have any uploaded images.</p>
+            </div>
+          <% } %>
+        </section>
+
+        <!-- Item information -->
+        <section class="details-panel">
+
+          <div class="details-topline">
+            <span class="type-badge <%= item.status === 'lost' ? 'badge-lost' : 'badge-found' %>">
+              <i class="fa-solid <%= item.status === 'lost' ? 'fa-circle-exclamation' : 'fa-circle-check' %>"></i>
+              <%= item.status === 'lost' ? 'Lost Item' : item.status === 'found' ? 'Found Item' : 'Item Report' %>
+            </span>
+
+            <span class="recovery-badge <%= ['recovered', 'closed'].includes(item.recoveryStatus) ? 'recovery-closed' : 'recovery-open' %>">
+              <i class="fa-solid <%= ['recovered', 'closed'].includes(item.recoveryStatus) ? 'fa-check' : 'fa-clock' %>"></i>
+              <%= item.recoveryStatus === 'recovered' ? 'Recovered' : item.recoveryStatus === 'closed' ? 'Closed' : (item.recoveryStatus || 'open') === 'open' ? 'Open' : 'Under review' %>
+            </span>
+          </div>
+
+          <span class="section-kicker">ITEM INFORMATION</span>
+
+          <h1><%= item.title %></h1>
+
+          <div class="category-label">
+            <i class="fa-solid fa-tag"></i>
+            <%= item.category || 'Uncategorized' %>
+          </div>
+
+          <div class="details-divider"></div>
+
+          <div class="information-block">
+            <h3><i class="fa-regular fa-file-lines"></i> Description</h3>
+            <p class="description-text"><%= item.description || 'No description provided.' %></p>
+          </div>
+
+          <div class="information-grid">
+
+            <div class="information-card">
+              <span class="info-icon location-icon">
+                <i class="fa-solid fa-location-dot"></i>
+              </span>
+              <div>
+                <span class="info-label">Location</span>
+                <p><%= item.location || 'Not specified' %></p>
+              </div>
+            </div>
+
+            <div class="information-card">
+              <span class="info-icon date-icon">
+                <i class="fa-regular fa-calendar"></i>
+              </span>
+              <div>
+                <span class="info-label">Reported date</span>
+                <p>
+                  <% const reportDate = item.date || item.createdAt; %>
+                  <%= reportDate && !Number.isNaN(new Date(reportDate).getTime())
+                    ? new Date(reportDate).toLocaleDateString('en-IN', {
+                        day: '2-digit',
+                        month: 'short',
+                        year: 'numeric'
+                      })
+                    : 'Not specified' %>
+                </p>
+              </div>
+            </div>
+
+            <div class="information-card">
+              <span class="info-icon time-icon">
+                <i class="fa-regular fa-clock"></i>
+              </span>
+              <div>
+                <span class="info-label">Reported time</span>
+                <p>
+                  <%= item.time || (
+                    reportDate && !Number.isNaN(new Date(reportDate).getTime())
+                      ? new Date(reportDate).toLocaleTimeString('en-IN', {
+                          hour: '2-digit',
+                          minute: '2-digit',
+                          hour12: true
+                        })
+                      : 'Not specified'
+                  ) %>
+                </p>
+              </div>
+            </div>
+
+            <div class="information-card">
+              <span class="info-icon report-icon">
+                <i class="fa-solid fa-shield-halved"></i>
+              </span>
+              <div>
+                <span class="info-label">Report reference</span>
+                <p class="reference-id"><%= item._id %></p>
+              </div>
+            </div>
+
+          </div>
+
+          <a href="/items" class="browse-again-btn">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            Browse More Items
+          </a>
+
+        </section>
+      </div>
+      
+      <!-- Additional details sections -->
+      <div class="details-extra-grid">
+
+        <!-- Reported By -->
+        <section class="extra-panel reporter-panel">
+          <div class="extra-panel-heading">
+            <div class="extra-heading-icon">
+              <i class="fa-solid fa-user-graduate"></i>
+            </div>
+            <div>
+              <span class="section-kicker">REPORT INFORMATION</span>
+              <h2>Reported By</h2>
+              <p>Student who submitted this report</p>
+            </div>
+          </div>
+
+          <% const reporter = item.reportedBy || {}; %>
+
+          <div class="reporter-profile">
+            <div class="reporter-avatar">
+              <i class="fa-solid fa-user"></i>
+            </div>
+            <div class="reporter-identity">
+              <span class="info-label">Student Name</span>
+              <h3><%= reporter.name || 'Name not available' %></h3>
+              <span class="reporter-tag">
+                <i class="fa-solid fa-shield-halved"></i>
+                Campus Reporter
+              </span>
+            </div>
+          </div>
+
+          <div class="reporter-info-grid">
+            <div class="reporter-info-item">
+              <span class="reporter-info-icon">
+                <i class="fa-solid fa-building-columns"></i>
+              </span>
+              <div>
+                <span class="info-label">Department</span>
+                <p><%= reporter.department || 'Not available' %></p>
+              </div>
+            </div>
+
+            <div class="reporter-info-item">
+              <span class="reporter-info-icon">
+                <i class="fa-solid fa-phone"></i>
+              </span>
+              <div>
+                <span class="info-label">Contact Number</span>
+                <p><%= reporter.mobile || 'Not available' %></p>
+              </div>
+            </div>
+
+            <div class="reporter-info-item reporter-bt">
+              <span class="reporter-info-icon">
+                <i class="fa-solid fa-id-card"></i>
+              </span>
+              <div>
+                <span class="info-label">BT ID</span>
+                <p><%= reporter.collegeId || 'Not available' %></p>
+              </div>
+            </div>
+          </div>
+
+          <p class="reporter-privacy-note">
+            <i class="fa-solid fa-lock"></i>
+            Reporter information is displayed according to the account data available.
+          </p>
+        </section>
+
+        <!-- Claim CTA -->
+        <section class="extra-panel claim-cta-panel">
+          <div class="claim-decoration">
+            <div class="claim-decoration-icon">
+              <i class="fa-solid fa-hand-holding-heart"></i>
+            </div>
+            <span class="claim-decoration-dot"></span>
+          </div>
+
+          <span class="section-kicker"><%= item.status === 'found' ? 'LOST SOMETHING?' : 'FOUND SOMETHING?' %></span>
+          <h2><%= item.status === 'found' ? 'Is this your item?' : 'Did you find this item?' %></h2>
+
+          <p class="claim-description">
+            <% if (item.status === 'found') { %>
+              Think this item belongs to you? Submit an ownership claim for review.
+            <% } else { %>
+              Found an item that may match this report? Submit a Found report with its location, condition, and photos.
+            <% } %>
+          </p>
+
+          <% const itemClosed = ['recovered', 'closed'].includes(item.recoveryStatus); %>
+          <% const itemOpen = (item.recoveryStatus || 'open') === 'open'; %>
+          <% const isOwnReport = String(item.reportedBy && item.reportedBy._id || item.reportedBy) === String(currentUser && (currentUser._id || currentUser.id)); %>
+
+          <% if (itemClosed) { %>
+            <div class="claim-unavailable">
+              <i class="fa-solid fa-circle-check"></i>
+              <%= item.recoveryStatus === 'recovered' ? 'This item has been recovered.' : 'This report is closed and has no active actions.' %>
+            </div>
+          <% } else if (!itemOpen) { %>
+            <div class="claim-unavailable">
+              <i class="fa-solid fa-clock"></i>
+              This report is not currently accepting actions.
+            </div>
+          <% } else if (item.status === 'found' && !currentUser) { %>
+            <a href="/login?returnTo=<%= encodeURIComponent(`/items/${item._id}/claim`) %>" class="claim-action-btn">
+              Claim This Item <i class="fa-solid fa-arrow-right"></i>
+            </a>
+          <% } else if (item.status === 'found' && isOwnReport) { %>
+            <div class="claim-unavailable"><i class="fa-solid fa-circle-info"></i>You cannot claim an item you reported.</div>
+          <% } else if (item.status === 'found') { %>
+            <a
+              href="/items/<%= item._id %>/claim"
+              class="claim-action-btn"
+            >
+              Claim This Item <i class="fa-solid fa-arrow-right"></i>
+            </a>
+            <span class="claim-helper">
+              <i class="fa-solid fa-lock"></i>
+              Ownership verification is required.
+            </span>
+          <% } else if (item.status === 'lost' && !currentUser) { %>
+            <a href="/login?returnTo=<%= encodeURIComponent(`/items/${item._id}/report-found`) %>" class="claim-action-btn">
+              I Found This Item <i class="fa-solid fa-arrow-right"></i>
+            </a>
+          <% } else if (item.status === 'lost' && isOwnReport) { %>
+            <div class="claim-unavailable"><i class="fa-solid fa-circle-info"></i>You submitted this Lost report.</div>
+          <% } else if (item.status === 'lost') { %>
+            <a href="/items/<%= item._id %>/report-found" class="claim-action-btn">
+              I Found This Item <i class="fa-solid fa-arrow-right"></i>
+            </a>
+            <span class="claim-helper"><i class="fa-solid fa-link"></i>Submitting a report does not verify recovery.</span>
+          <% } else { %>
+            <div class="claim-unavailable"><i class="fa-solid fa-circle-info"></i>No action is available for this report.</div>
+          <% } %>
+        </section>
+
+      </div>
+
+    </div>
+  </main>
+
+  <%- include('../includes/footer') %>
+</body>
+</html>

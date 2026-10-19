@@ -1,5 +1,95 @@
 
+const mongoose = require("mongoose");
 const Item = require("../models/item");
+const deleteCloudinaryUploads = require("../utils/deleteCloudinaryUploads");
+
+const allowedCategories = Item.schema.path("category").enumValues;
+
+function getUserId(req) {
+  return req.session?.user?._id || req.session?.user?.id;
+}
+
+function reportError(message) {
+  const error = new Error(message);
+  error.code = "INVALID_REPORT";
+  return error;
+}
+
+function validateReportInput(body, status) {
+  const title = String(body.title || "").trim();
+  const description = String(body.description || "").trim();
+  const category = String(body.category || "").trim();
+  const location = String(body.location || "").trim();
+  const time = String(body.time || "").trim();
+  const rawDate = String(body.date || "").trim();
+  const date = rawDate ? new Date(`${rawDate}T00:00:00.000Z`) : new Date();
+
+  if (!title || title.length > 100) {
+    throw reportError("Enter an item name no longer than 100 characters.");
+  }
+  if (!description || description.length > 2000) {
+    throw reportError("Enter item details no longer than 2,000 characters.");
+  }
+  if (!allowedCategories.includes(category)) {
+    throw reportError("Choose a valid item category.");
+  }
+  if (!location || location.length > 200) {
+    throw reportError("Enter a location no longer than 200 characters.");
+  }
+  if (rawDate && (
+    Number.isNaN(date.getTime()) ||
+    date.toISOString().slice(0, 10) !== rawDate
+  )) {
+    throw reportError("Enter a valid report date.");
+  }
+  if (time && !/^([01]\d|2[0-3]):[0-5]\d$/.test(time)) {
+    throw reportError("Enter a valid report time.");
+  }
+  if (!["lost", "found"].includes(status)) {
+    throw reportError("Choose a valid report type.");
+  }
+
+  return { title, description, category, location, date, time, status };
+}
+
+async function createItemReport(req, status) {
+  const reportedBy = getUserId(req);
+  if (!mongoose.isValidObjectId(reportedBy)) {
+    throw reportError("Please log in again before submitting a report.");
+  }
+
+  const fields = validateReportInput(req.body, status);
+  const imageUrls = (req.files || []).map((file) => file.path);
+  const hasInvalidImageUrl = imageUrls.some((imageUrl) => {
+    try {
+      const parsedUrl = new URL(imageUrl);
+      return parsedUrl.protocol !== "https:" || parsedUrl.hostname !== "res.cloudinary.com";
+    } catch {
+      return true;
+    }
+  });
+
+  if (hasInvalidImageUrl) {
+    throw reportError("One or more photos could not be uploaded. Please try again.");
+  }
+
+  const item = new Item({
+    ...fields,
+    reportedBy,
+    image: imageUrls,
+    recoveryStatus: "open"
+  });
+  await item.save();
+  return item;
+}
+
+function renderReportForm(res, req, options = {}) {
+  return res.status(options.status || 200).render("items/report", {
+    title: options.title || "Report an Item | SmartRecover",
+    currentUser: req.session.user || null,
+    error: options.error || null
+  });
+}
 
 // GET /report — Single Lost/Found report page
 exports.showReportForm = (req, res) => {
@@ -18,106 +108,65 @@ exports.showReportForm = (req, res) => {
 // POST /report — Save a new report
 exports.createItem = async (req, res) => {
   try {
-    const user = req.session.user;
-
-    if (!user) {
-      return res.redirect("/login");
-    }
-
-    const {
-      title,
-      description,
-      category,
-      status,
-      location,
-      date,
-      time
-    } = req.body;
-
-    if (!["lost", "found"].includes(status)) {
-      return res.status(400).send("Invalid report type.");
-    }
-
-    const reportedBy = user._id || user.id;
-
-    if (!reportedBy) {
-      return res.status(401).send(
-        "Please log in again. User ID is missing from your session."
-      );
-    }
-
-    // Only persist secure Cloudinary URLs returned by Multer.
-    const uploadedFiles = req.files || [];
-    const imageUrls = uploadedFiles.map((file) => file.path);
-    const hasInvalidImageUrl = imageUrls.some((imageUrl) => {
-      try {
-        const parsedUrl = new URL(imageUrl);
-        return parsedUrl.protocol !== "https:" || parsedUrl.hostname !== "res.cloudinary.com";
-      } catch {
-        return true;
-      }
-    });
-
-    if (hasInvalidImageUrl) {
-      console.error("Report upload completed without valid secure Cloudinary URLs", {
-        uploadedFileCount: uploadedFiles.length
-      });
-      return res.status(502).send(
-        "One or more images could not be uploaded. Please try again."
-      );
-    }
-
-    const item = new Item({
-      title,
-      description,
-      category,
-      status,
-      location,
-      date: date || Date.now(),
-      time,
-      reportedBy,
-      image: imageUrls,
-      recoveryStatus: "open"
-    });
-
-    await item.save();
-
+    const item = await createItemReport(req, req.body.status);
     return res.redirect("/");
   } catch (error) {
     console.error("Create item error:", error);
-
-    return res.status(500).send(
-      "Unable to submit your report. Please try again."
-    );
+    await deleteCloudinaryUploads(req.files);
+    const status = error.code === "INVALID_REPORT" || error.name === "ValidationError" ? 400 : 500;
+    return renderReportForm(res, req, {
+      status,
+      error: status === 400 ? error.message : "Unable to submit your report. Please try again."
+    });
   }
 };
-
 
 // GET /items — Display items from MongoDB Atlas
 exports.getAllItems = async (req, res) => {
   try {
-    const filter = {};
+    const queryValue = (value) => typeof value === "string" ? value.trim() : "";
+    const selectedSearch = queryValue(req.query.search).slice(0, 100);
+    const requestedStatus = queryValue(req.query.status);
+    const selectedStatus = ["lost", "found"].includes(requestedStatus)
+      ? requestedStatus
+      : "";
+    const requestedCategory = queryValue(req.query.category);
+    const selectedCategory = allowedCategories.includes(requestedCategory)
+      ? requestedCategory
+      : "";
+    const selectedLocation = queryValue(req.query.location).slice(0, 200);
+    const filter = { recoveryStatus: "open" };
 
-    if (["lost", "found"].includes(req.query.status)) {
-      filter.status = req.query.status;
+    if (selectedStatus) filter.status = selectedStatus;
+    if (selectedCategory) filter.category = selectedCategory;
+    if (selectedLocation) {
+      filter.location = new RegExp(`^${selectedLocation.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}$`, "i");
+    }
+    if (selectedSearch) {
+      const searchRegex = new RegExp(
+        selectedSearch.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"),
+        "i"
+      );
+      filter.$or = ["title", "description", "category", "location"].map((field) => ({
+        [field]: searchRegex
+      }));
     }
 
-    if (req.query.category) {
-      filter.category = req.query.category;
-    }
+    const [items, locations] = await Promise.all([
+      Item.find(filter).sort({ createdAt: -1 }).lean(),
+      Item.distinct("location", { recoveryStatus: "open" })
+    ]);
 
-    filter.recoveryStatus = "open";
-
-    const items = await Item.find(filter)
-      .sort({ createdAt: -1 })
-      .lean();
-
-    res.render("items/index", {
+    return res.render("items/index", {
       title: "Browse Items | SmartRecover",
       currentUser: req.session.user || null,
       items,
-      selectedStatus: req.query.status || "",
-      selectedCategory: req.query.category || ""
+      categories: allowedCategories,
+      locations: locations.sort((a, b) => a.localeCompare(b)),
+      selectedSearch,
+      selectedStatus,
+      selectedCategory,
+      selectedLocation
     });
   } catch (error) {
     console.error("Fetch items error:", error);
@@ -134,7 +183,12 @@ exports.getItemDetails = async (req, res) => {
       return res.status(400).send("Invalid item ID.");
     }
 
-    const item = await Item.findById(req.params.id).lean();
+    const item = await Item.findById(req.params.id)
+      .populate({
+        path: "reportedBy",
+        select: "name department mobile collegeId"
+      })
+      .lean();
 
     if (!item) {
       return res.status(404).send("Item not found.");

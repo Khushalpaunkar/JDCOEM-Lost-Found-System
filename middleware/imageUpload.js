@@ -11,6 +11,16 @@ const upload = multer({
   }
 });
 
+const claimProofUpload = multer({
+  storage,
+  limits: {
+    fileSize: 5 * 1024 * 1024,
+    files: 5,
+    fields: 30,
+    parts: 36
+  }
+});
+
 function uploadFields(fields, onError) {
   const parse = upload.fields(fields);
   return (req, res, next) => {
@@ -45,3 +55,12 @@ exports.profileImages = uploadFields(
   ],
   (req, res) => res.redirect("/profile?imageError=upload")
 );
+
+exports.claimProofPhotos = (req, res, next) => {
+  claimProofUpload.array("proofPhotos", 5)(req, res, (error) => {
+    if (error) {
+      req.claimProofUploadError = error;
+    }
+    next();
+  });
+};

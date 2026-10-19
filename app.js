@@ -7,6 +7,9 @@ const path = require("path");
 const helmet = require("helmet");
 const authRoutes = require("./Routes/authRoutes");
 const itemRoutes = require("./Routes/itemRoutes");
+const claimRoutes = require("./Routes/claimRoutes");
+const foundReportRoutes = require("./Routes/foundReportRoutes");
+const Item = require("./models/item");
 
 const app = express();
 
@@ -18,7 +21,12 @@ app.use(
   helmet({
     contentSecurityPolicy: {
       directives: {
-        "img-src": ["'self'", "data:", "blob:"]
+        imgSrc: [
+          "'self'",
+          "data:",
+          "blob:",
+          "https://res.cloudinary.com"
+        ]
       }
     }
   })
@@ -61,20 +69,36 @@ app.get("/health", (req, res) => {
 });
 
 // Home page
-app.get("/", (req, res) => {
-  res.render("pages/home", {
-    title: "SmartRecover | Lost & Found",
-    currentUser: req.session.user || null
-  });
+app.get("/", async (req, res) => {
+  try {
+    const recentItems = await Item.find({ recoveryStatus: "open" })
+      .sort({ createdAt: -1 })
+      .limit(3)
+      .lean();
+
+    return res.render("pages/home", {
+      title: "Lost&Found System JDCOEM",
+      currentUser: req.session.user || null,
+      recentItems
+    });
+  } catch (error) {
+    console.error("Load home page error:", error);
+    return res.status(500).send("Unable to load the home page right now.");
+  }
 });
 
-
+app.get("/about" , (req , res ) => {
+  res.render("pages/about");
+});
 
 // Item management routes
 app.use("/", itemRoutes);
+app.use("/", foundReportRoutes);
 
 // Authentication routes
 app.use("/", authRoutes);
+
+app.use(claimRoutes);
 
 
 module.exports = app;

@@ -77,7 +77,8 @@
   }
 
   function updateReportType() {
-    const status = form.querySelector('input[name="status"]:checked').value;
+    const status = form.querySelector('input[name="status"]:checked')?.value || form.dataset.reportStatus;
+    if (!status) return;
     submitLabel.textContent = status === 'found' ? 'Submit Found Report' : 'Submit Lost Report';
   }
 

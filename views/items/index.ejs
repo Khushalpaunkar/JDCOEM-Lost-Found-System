@@ -1,4 +1,4 @@
- 
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -44,6 +44,84 @@
     </section>
 
     <!-- Search and filters -->
+    <section class="sr-search-section" id="find-item">
+    <div class="sr-container">
+
+      <div class="sr-search-panel">
+        <div class="sr-search-heading">
+          <div>
+            <span class="section-kicker">QUICK SEARCH</span>
+            <h2>Find an item</h2>
+            <p>Search by keyword, report type, category, or location.</p>
+          </div>
+
+          <div class="sr-search-heading-icon">
+            <i class="fa-solid fa-sliders"></i>
+          </div>
+        </div>
+
+        <form action="/items" method="GET" class="sr-search-form">
+          <div class="sr-search-field sr-search-keyword">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            <input
+              type="search"
+              name="search"
+              value="<%= selectedSearch %>"
+              placeholder="Search wallet, phone, backpack..."
+              aria-label="Search for an item"
+              maxlength="100"
+            />
+          </div>
+
+          <div class="sr-search-field">
+            <i class="fa-solid fa-layer-group"></i>
+            <select name="category" aria-label="Select item category">
+              <option value="">All Categories</option>
+              <% categories.forEach(function(category) { %>
+                <option value="<%= category %>" <%= selectedCategory === category ? 'selected' : '' %>>
+                  <%= category %>
+                </option>
+              <% }) %>
+            </select>
+          </div>
+
+          <div class="sr-search-field">
+            <i class="fa-solid fa-circle-exclamation"></i>
+            <select name="status" aria-label="Select report type">
+              <option value="">Lost &amp; Found</option>
+              <option value="lost" <%= selectedStatus === 'lost' ? 'selected' : '' %>>Lost items</option>
+              <option value="found" <%= selectedStatus === 'found' ? 'selected' : '' %>>Found items</option>
+            </select>
+          </div>
+
+          <div class="sr-search-field">
+            <i class="fa-solid fa-location-dot"></i>
+            <select name="location" aria-label="Select campus location">
+              <option value="">All Locations</option>
+              <% locations.forEach(function(location) { %>
+                <option value="<%= location %>" <%= selectedLocation === location ? 'selected' : '' %>>
+                  <%= location %>
+                </option>
+              <% }) %>
+            </select>
+          </div>
+
+          <button type="submit" class="sr-search-button">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            Apply filters
+          </button>
+        </form>
+
+        <% if (selectedSearch || selectedStatus || selectedCategory || selectedLocation) { %>
+          <a href="/items" class="sr-clear-filters">
+            <i class="fa-solid fa-xmark"></i> Clear filters
+          </a>
+        <% } %>
+      </div>
+    </div>
+  </section>
+
+
     <section class="browse-section">
       <div class="section-heading">
         <div>
@@ -53,105 +131,121 @@
         </div>
       </div>
 
-      <div class="filter-panel">
-        <div class="search-box">
-          <i class="fa-solid fa-magnifying-glass"></i>
-          <input type="search" id="itemSearch" placeholder="Search by item name, location..." aria-label="Search items">
+
+<div class="results-row">
+  <p><strong><%= items.length %></strong> <%= items.length === 1 ? 'report' : 'reports' %> found</p>
+  <span><i class="fa-solid fa-shield-halved"></i> Campus community</span>
+</div>
+
+<div class="sr-items-grid" id="itemsGrid">
+
+    <% if (items && items.length > 0) { %>
+  <% items.forEach(item => {
+    const firstImage = Array.isArray(item.image)
+      ? item.image[0]
+      : item.image;
+
+    const reportDate = item.date || item.createdAt;
+
+    const formattedDate = reportDate
+      ? new Date(reportDate).toLocaleDateString("en-IN", {
+          day: "2-digit",
+          month: "short",
+          year: "numeric"
+        })
+      : "";
+
+    const formattedTime = item.time || (
+      reportDate
+        ? new Date(reportDate).toLocaleTimeString("en-IN", {
+            hour: "2-digit",
+            minute: "2-digit",
+            hour12: true
+          })
+        : ""
+    );
+  %>
+
+      <article class="sr-item-card"
+        data-type="<%= item.status %>"
+        data-category="<%= item.category %>"
+        data-search="<%= [item.title, item.description, item.category, item.location].join(' ').toLowerCase() %>">
+
+        <div class="item-image">
+          <span class="item-badge <%= item.status === 'lost' ? 'lost-badge' : 'found-badge' %>">
+            <i class="fa-solid <%= item.status === 'lost' ? 'fa-circle-exclamation' : 'fa-circle-check' %>"></i>
+            <%= item.status === 'lost' ? 'Lost' : 'Found' %>
+          </span>
+
+          <% if (firstImage) { %>
+            <img
+              src="<%= firstImage %>"
+              alt="<%= item.title %>"
+              loading="lazy"
+              onerror="this.style.display='none'; this.nextElementSibling.hidden=false;">
+            <div class="image-fallback" hidden>
+              <i class="fa-regular fa-image"></i>
+              <span>Image unavailable</span>
+            </div>
+          <% } else { %>
+            <div class="image-fallback">
+              <i class="fa-regular fa-image"></i>
+              <span>No image available</span>
+            </div>
+          <% } %>
         </div>
 
-        <div class="filter-controls">
-          <select id="typeFilter" aria-label="Filter by item type">
-            <option value="all">All Reports</option>
-            <option value="lost">Lost Items</option>
-            <option value="found">Found Items</option>
-          </select>
+        <div class="item-info">
+          <div class="item-category"><%= item.category %></div>
 
-          <select id="categoryFilter" aria-label="Filter by category">
-            <option value="all">All Categories</option>
-            <option value="electronics">Electronics</option>
-            <option value="accessories">Accessories</option>
-            <option value="documents">Documents & ID</option>
-            <option value="bags">Bags & Backpacks</option>
-            <option value="other">Other</option>
-          </select>
+          <h3><%= item.title %></h3>
+
+          <p class="item-description"><%= item.description %></p>
+
+          <div class="item-location">
+            <i class="fa-solid fa-location-dot"></i>
+            <span><%= item.location %></span>
+          </div>
+
+          <div class="item-date">
+            <i class="fa-regular fa-calendar"></i>
+            <span><%= formattedDate %><%= formattedTime ? ' · ' + formattedTime : '' %></span>
+          </div>
+
+          <div class="item-footer">
+            <span class="status-text">
+              <i class="fa-regular fa-clock"></i>
+              <%= item.recoveryStatus === 'recovered' || item.recoveryStatus === 'closed'
+                ? 'Closed'
+                : item.status === 'lost' ? 'Awaiting recovery' : 'Awaiting owner' %>
+            </span>
+
+            <a href="/items/<%= item._id %>" class="details-btn">
+              View Details <i class="fa-solid fa-arrow-right"></i>
+            </a>
+          </div>
         </div>
-      </div>
+      </article>
 
-      <!-- Report counts will be connected to database later -->
-      <div class="results-row">
-        <p>Explore campus reports</p>
-        <span><i class="fa-solid fa-shield-halved"></i> Campus community</span>
-      </div>
+    <% }); %>
+  <% } else { %>
+    <div class="empty-state">
+      <i class="fa-solid fa-box-open"></i>
+      <h3><%= selectedSearch || selectedStatus || selectedCategory || selectedLocation
+        ? 'No matching items'
+        : 'No items found yet' %></h3>
+      <p><%= selectedSearch || selectedStatus || selectedCategory || selectedLocation
+        ? 'Try changing your search or filters.'
+        : 'New lost and found reports will appear here.' %></p>
+      <% if (selectedSearch || selectedStatus || selectedCategory || selectedLocation) { %>
+        <a href="/items" class="hero-btn">Clear filters</a>
+      <% } else { %>
+        <a href="/report" class="hero-btn">Report an Item</a>
+      <% } %>
+    </div>
+  <% } %>
+</div>
 
-      <!-- Temporary UI placeholders: replace with real Atlas records in the next step -->
-      <div class="items-grid" id="itemsGrid">
-
-        <article class="item-card" data-type="lost" data-category="electronics" data-search="wireless earbuds library">
-          <div class="item-image image-electronics">
-            <span class="item-badge lost-badge"><i class="fa-solid fa-circle-exclamation"></i> Lost</span>
-            <i class="fa-solid fa-headphones-simple placeholder-icon"></i>
-            <span class="image-label">ITEM IMAGE</span>
-          </div>
-          <div class="item-info">
-            <div class="item-meta"><span>Electronics</span><span>Report details</span></div>
-            <h3>Item title will appear here</h3>
-            <p class="item-description">A short description of the reported item will appear here.</p>
-            <div class="item-location"><i class="fa-solid fa-location-dot"></i> Campus location</div>
-            <div class="item-footer">
-              <span class="status-text"><i class="fa-regular fa-clock"></i> Awaiting recovery</span>
-              <button class="details-btn" type="button" disabled>View Details <i class="fa-solid fa-arrow-right"></i></button>
-            </div>
-          </div>
-        </article>
-
-        <article class="item-card" data-type="found" data-category="documents" data-search="college id classroom">
-          <div class="item-image image-documents">
-            <span class="item-badge found-badge"><i class="fa-solid fa-circle-check"></i> Found</span>
-            <i class="fa-solid fa-id-card placeholder-icon"></i>
-            <span class="image-label">ITEM IMAGE</span>
-          </div>
-          <div class="item-info">
-            <div class="item-meta"><span>Documents & ID</span><span>Report details</span></div>
-            <h3>Item title will appear here</h3>
-            <p class="item-description">A short description of the reported item will appear here.</p>
-            <div class="item-location"><i class="fa-solid fa-location-dot"></i> Campus location</div>
-            <div class="item-footer">
-              <span class="status-text"><i class="fa-regular fa-clock"></i> Awaiting owner</span>
-              <button class="details-btn" type="button" disabled>View Details <i class="fa-solid fa-arrow-right"></i></button>
-            </div>
-          </div>
-        </article>
-
-        <article class="item-card" data-type="lost" data-category="bags" data-search="backpack canteen">
-          <div class="item-image image-bags">
-            <span class="item-badge lost-badge"><i class="fa-solid fa-circle-exclamation"></i> Lost</span>
-            <i class="fa-solid fa-briefcase placeholder-icon"></i>
-            <span class="image-label">ITEM IMAGE</span>
-          </div>
-          <div class="item-info">
-            <div class="item-meta"><span>Bags & Backpacks</span><span>Report details</span></div>
-            <h3>Item title will appear here</h3>
-            <p class="item-description">A short description of the reported item will appear here.</p>
-            <div class="item-location"><i class="fa-solid fa-location-dot"></i> Campus location</div>
-            <div class="item-footer">
-              <span class="status-text"><i class="fa-regular fa-clock"></i> Awaiting recovery</span>
-              <button class="details-btn" type="button" disabled>View Details <i class="fa-solid fa-arrow-right"></i></button>
-            </div>
-          </div>
-        </article>
-
-      </div>
-
-      <div class="no-results" id="noResults" hidden>
-        <i class="fa-solid fa-magnifying-glass"></i>
-        <h3>No matching items</h3>
-        <p>Try another keyword or change your filters.</p>
-      </div>
-
-      <div class="browse-note">
-        <i class="fa-solid fa-circle-info"></i>
-        <p>These are temporary design placeholders. In the next step, we will replace them with real reports and Cloudinary images from MongoDB Atlas.</p>
-      </div>
     </section>
 
     <!-- CTA -->
@@ -167,37 +261,6 @@
   </main>
 
   <%- include('../includes/footer') %>
-
-  <script>
-    const searchInput = document.getElementById('itemSearch');
-    const typeFilter = document.getElementById('typeFilter');
-    const categoryFilter = document.getElementById('categoryFilter');
-    const cards = [...document.querySelectorAll('.item-card')];
-    const noResults = document.getElementById('noResults');
-
-    function filterItems() {
-      const query = searchInput.value.trim().toLowerCase();
-      const type = typeFilter.value;
-      const category = categoryFilter.value;
-      let visible = 0;
-
-      cards.forEach(card => {
-        const matchesSearch = (card.dataset.search || '').includes(query);
-        const matchesType = type === 'all' || card.dataset.type === type;
-        const matchesCategory = category === 'all' || card.dataset.category === category;
-        const show = matchesSearch && matchesType && matchesCategory;
-
-        card.hidden = !show;
-        if (show) visible++;
-      });
-
-      noResults.hidden = visible !== 0;
-    }
-
-    searchInput.addEventListener('input', filterItems);
-    typeFilter.addEventListener('change', filterItems);
-    categoryFilter.addEventListener('change', filterItems);
-  </script>
 
 </body>
 </html>

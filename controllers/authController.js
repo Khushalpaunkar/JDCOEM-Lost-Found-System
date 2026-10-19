@@ -3,6 +3,20 @@ const User = require("../models/User");
 const bcrypt = require("bcryptjs");
 const imageStorage = require("../services/imageStorage");
 
+function getSafeReturnTo(value) {
+  if (typeof value !== "string" || !value.startsWith("/") || value.startsWith("//")) {
+    return null;
+  }
+
+  try {
+    const target = new URL(value, "http://smartrecover.local");
+    if (target.origin !== "http://smartrecover.local") return null;
+    return `${target.pathname}${target.search}${target.hash}`;
+  } catch {
+    return null;
+  }
+}
+
 // Show registration page
 exports.showRegister = (req, res) => {
   res.render("auth/register", {
@@ -226,12 +240,14 @@ exports.register = async (req, res) => {
 
 /* Show login page */
 exports.showLogin = (req, res) => {
+  const returnTo = getSafeReturnTo(req.query.returnTo);
   if (req.session && req.session.user) {
-    return res.redirect("/");
+    return res.redirect(returnTo || "/");
   }
 
   res.render("auth/login", {
     error: null,
+    returnTo,
     success:
       req.query.registered === "success"
         ? "Account created successfully! Please log in."
@@ -241,6 +257,7 @@ exports.showLogin = (req, res) => {
 
 /* Login existing student */
 exports.login = async (req, res) => {
+  const returnTo = getSafeReturnTo(req.body.returnTo);
   try {
     const email = req.body.email?.trim().toLowerCase();
     const password = req.body.password;
@@ -248,6 +265,7 @@ exports.login = async (req, res) => {
     if (!email || !password) {
       return res.status(400).render("auth/login", {
         error: "Please enter your email and password.",
+        returnTo,
         success: null
       });
     }
@@ -257,6 +275,7 @@ exports.login = async (req, res) => {
     if (!user || !user.isActive) {
       return res.status(401).render("auth/login", {
         error: "Invalid email or password.",
+        returnTo,
         success: null
       });
     }
@@ -279,6 +298,7 @@ exports.login = async (req, res) => {
         console.error("Session creation error:", err.message);
         return res.status(500).render("auth/login", {
           error: "Unable to log in right now. Please try again.",
+          returnTo,
           success: null
         });
       }
@@ -295,12 +315,12 @@ exports.login = async (req, res) => {
           console.error("Session save error:", saveError.message);
           return res.status(500).render("auth/login", {
             error: "Unable to complete login. Please try again.",
+            returnTo,
             success: null
           });
         }
 
-        // Temporary destination until the dashboard page is ready
-        return res.redirect("/");
+        return res.redirect(returnTo || "/");
       });
     });
   } catch (error) {
@@ -308,6 +328,7 @@ exports.login = async (req, res) => {
 
     return res.status(500).render("auth/login", {
       error: "Something went wrong. Please try again.",
+      returnTo,
       success: null
     });
   }
