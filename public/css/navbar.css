@@ -1,10 +1,11 @@
 :root {
-	--nav-ink: #2b200e;
+	--nav-ink:#eb5f1e ;
 	--nav-muted: #687873;
 	--nav-line: #e5ebe7;
-	--nav-accent: #ec7310;
+	--nav-accent: #2b170e;
 	--nav-accent-bright: #d8f276;
 	--nav-paper: #fff;
+		
 }
 
 .site-navbar,
@@ -13,7 +14,7 @@
 }
 
 .site-navbar {
-	position: sticky;
+	position: sticky; 
 	top: 0;
 	z-index: 100;
 	width: 100%;
@@ -81,7 +82,7 @@
 }
 
 .brand-caption {
-	color: var(--nav-muted);
+	color: black;
 	font-size: 10px;
 	font-weight: 800;
 	line-height: 1.2;

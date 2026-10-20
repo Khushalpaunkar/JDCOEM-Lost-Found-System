@@ -1,213 +1,709 @@
-<!doctype html>
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="Learn how SmartRecover helps the JDCOEM community report lost belongings, share found-item information, and take thoughtful steps toward recovery.">
-  <meta name="theme-color" content="#071720">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
   <title>About Us | SmartRecover</title>
+
+  <meta
+    name="description"
+    content="Discover SmartRecover, the JDCOEM Lost & Found platform created to help students report, discover, and recover lost belongings."
+  />
+
+  <meta name="theme-color" content="#f7f9ff">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+    rel="stylesheet"
+  >
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
   <link rel="stylesheet" href="/css/about.css">
   <link rel="stylesheet" href="/css/navbar.css">
-    <link rel="stylesheet" href="/css/footer.css">
+  <link rel="stylesheet" href="/css/footer.css">
 </head>
+
 <body>
+
   <div class="about-page">
+
+    <!-- 1. EXISTING NAVBAR -->
     <%- include('../includes/navbar') %>
 
-    <main id="main-content">
-      <!-- 1. Hero -->
-      <section class="sr-hero" aria-labelledby="hero-title">
-        <div class="sr-hero__glow sr-hero__glow--one" aria-hidden="true"></div>
-        <div class="sr-hero__glow sr-hero__glow--two" aria-hidden="true"></div>
-        <div class="sr-hero__grid" aria-hidden="true"></div>
-        <div class="sr-hero__inner sr-shell">
-          <div class="sr-hero__copy" data-reveal>
-            <p class="sr-eyebrow sr-eyebrow--light"><span class="sr-eyebrow__spark" aria-hidden="true"></span> Lost &amp; Found · JDCOEM</p>
-            <h1 id="hero-title">Every lost item<br><em>deserves a way home.</em></h1>
-            <p class="sr-hero__intro">SmartRecover helps the JDCOEM community report lost belongings, share found-item information, explore available reports, and take the next step toward reuniting items with their rightful owners.</p>
-            <div class="sr-hero__actions">
-              <!-- Default placeholder: update /report-lost to the application's verified lost-item route. -->
-              <a class="sr-button sr-button--lime" href="/report-lost">Report an item <span aria-hidden="true">↗</span></a>
-              <a class="sr-button sr-button--glass" href="/items">Browse items <span aria-hidden="true">→</span></a>
+
+    <main>
+
+      <!-- 2. HERO SECTION -->
+      <section class="about-hero" id="about-home">
+
+        <div class="about-container hero-layout">
+
+          <div class="hero-content">
+
+            <div class="eyebrow hero-eyebrow">
+              <span class="eyebrow-dot"></span>
+              ABOUT JDCOEM LOST & FOUND
             </div>
-            <div class="sr-hero__note"><span class="sr-hero__note-dot" aria-hidden="true"></span> A more connected way to look out for one another</div>
+
+            <h1>
+              <span class="hero-title-line">A Smarter Way to Manage Campus</span>
+              <span class="gradient-text">Lost&Found Items.</span>
+            </h1>
+
+            <p class="hero-description">
+             Smart Asset Recovery System is a dedicated campus Lost & Found platform built for JDCOEM, helping students report lost belongings, share found-item information, and manage recovery requests through one organized system.
+            </p>
+
+            <div class="hero-actions">
+              <a href="/report" class="about-btn about-btn-primary">
+                Report an Item
+                <span aria-hidden="true">↗</span>
+              </a>
+
+              <a href="/items" class="about-btn about-btn-secondary">
+                Explore Items
+                <span aria-hidden="true">→</span>
+              </a>
+            </div>
+
+            <div class="hero-trust-line">
+              <span class="trust-icon" aria-hidden="true">✦</span>
+              <span> By the JDCOEM community</span>
+            </div>
+
           </div>
 
-          <div class="sr-hero-art" role="img" aria-label="Illustration of a lost notebook being found through connected campus reports" data-reveal>
-            <div class="sr-hero-art__orbit sr-hero-art__orbit--outer" aria-hidden="true"></div>
-            <div class="sr-hero-art__orbit sr-hero-art__orbit--inner" aria-hidden="true"></div>
-            <span class="sr-hero-art__dot sr-hero-art__dot--a" aria-hidden="true"></span>
-            <span class="sr-hero-art__dot sr-hero-art__dot--b" aria-hidden="true"></span>
-            <div class="sr-found-card">
-              <div class="sr-found-card__top"><span class="sr-found-card__tag"><i aria-hidden="true"></i> CAMPUS REPORT</span><span class="sr-found-card__more" aria-hidden="true">•••</span></div>
-              <div class="sr-notebook" aria-hidden="true"><span class="sr-notebook__spine"></span><span class="sr-notebook__line sr-notebook__line--one"></span><span class="sr-notebook__line sr-notebook__line--two"></span><span class="sr-notebook__line sr-notebook__line--three"></span><span class="sr-notebook__mark">S</span></div>
-              <div class="sr-found-card__title">Something familiar?</div>
-              <div class="sr-found-card__description">A notebook report with details that may help its owner recognize it.</div>
-              <div class="sr-found-card__bottom"><span class="sr-found-card__avatar" aria-hidden="true">JD</span><span>Shared with the campus community</span><span class="sr-found-card__arrow" aria-hidden="true">↗</span></div>
-            </div>
-            <div class="sr-float-chip sr-float-chip--pin"><span aria-hidden="true">⌖</span> Campus-wide</div>
-            <div class="sr-float-chip sr-float-chip--match"><span aria-hidden="true">✳</span> A clue can connect</div>
-            <svg class="sr-hero-art__path" viewBox="0 0 500 430" fill="none" aria-hidden="true"><path d="M45 300C120 300 111 113 214 113s72 191 156 191c39 0 54-35 87-35" stroke="url(#path-gradient)" stroke-width="1.5" stroke-dasharray="5 8"/><circle cx="45" cy="300" r="5" fill="#B9EB76"/><circle cx="457" cy="269" r="5" fill="#B9EB76"/><defs><linearGradient id="path-gradient" x1="44" y1="113" x2="457" y2="304" gradientUnits="userSpaceOnUse"><stop stop-color="#B9EB76" stop-opacity=".12"/><stop offset=".55" stop-color="#B9EB76"/><stop offset="1" stop-color="#63D1C2" stop-opacity=".25"/></linearGradient></defs></svg>
-            <p class="sr-hero-art__caption"><span aria-hidden="true">✳</span> Every detail helps make a connection.</p>
-          </div>
-          <a class="sr-hero__scroll" href="#mission"><span class="sr-hero__scroll-line" aria-hidden="true"></span> Discover the story</a>
         </div>
-        <div class="sr-hero__bottomline" aria-hidden="true"></div>
+
+        <div class="hero-bottom-line" aria-hidden="true"></div>
       </section>
 
-      <!-- 2. Mission -->
-      <section class="sr-mission sr-section" id="mission" aria-labelledby="mission-title">
-        <div class="sr-shell sr-mission__layout">
-          <div class="sr-mission__lead" data-reveal>
-            <p class="sr-eyebrow"><span>01</span> THE REASON WE'RE HERE</p>
-            <h2 id="mission-title">Making lost-and-found <span>simple, connected,</span> and accessible.</h2>
-            <p class="sr-mission__closing">A small act of sharing can make a big difference to someone else's day.</p>
-          </div>
-          <div class="sr-mission__body" data-reveal>
-            <p class="sr-mission__opening">A lost ID card, a misplaced notebook, a set of keys left behind. Losing something on campus is stressful. Finding an item without knowing its owner can be just as uncertain.</p>
-            <p>When updates depend on scattered notices or word of mouth, useful details are easy to miss. SmartRecover was created to give JDCOEM students a more organized place to explore relevant reports and use the application's reporting and claim workflows.</p>
-            <p>Our aim is to make reporting more convenient, encourage responsible next steps, and help the campus community look out for one another.</p>
-            <div class="sr-mission__signature"><span class="sr-mission__signature-mark" aria-hidden="true">↗</span><span>Less searching alone.<br><strong>More finding together.</strong></span></div>
-          </div>
-          <div class="sr-mission-visual" aria-hidden="true" data-reveal>
-            <div class="sr-mission-visual__grain"></div>
-            <div class="sr-mission-visual__label">A CAMPUS, CONNECTED</div>
-            <div class="sr-mission-visual__map">
-              <svg viewBox="0 0 450 270" fill="none"><path d="M35 214C83 214 71 82 160 82c64 0 67 118 130 118 52 0 47-82 126-82" stroke="#7FCBB8" stroke-width="2" stroke-dasharray="5 7"/><path d="M68 50h75v46H68zM275 49h97v57h-97zM179 160h80v44h-80zM330 164h62v39h-62z" stroke="#D5E8D8" stroke-opacity=".45"/><circle cx="35" cy="214" r="8" fill="#C6EE81"/><circle cx="416" cy="118" r="8" fill="#C6EE81"/><circle cx="160" cy="82" r="5" fill="#7FCBB8"/><circle cx="290" cy="200" r="5" fill="#7FCBB8"/></svg>
-              <span class="sr-mission-visual__pin sr-mission-visual__pin--one">LOST</span><span class="sr-mission-visual__pin sr-mission-visual__pin--two">FOUND</span>
+
+      <!-- 3. OUR MISSION -->
+      <section class="about-section mission-section" id="our-mission">
+
+        <div class="about-container mission-layout">
+
+          <div class="mission-visual reveal">
+
+            <div class="mission-visual-background"></div>
+
+            <div class="mission-note mission-note-top">
+              <span class="note-icon">⌕</span>
+              <div>
+                <strong>Something missing?</strong>
+                <small>Start with a report.</small>
+              </div>
             </div>
-            <div class="sr-mission-visual__bottom"><span>One shared place to start</span><span aria-hidden="true">✳</span></div>
+
+            <div class="mission-centerpiece">
+              <div class="mission-center-icon">
+                <svg viewBox="0 0 100 100" aria-hidden="true">
+                  <circle cx="42" cy="42" r="25" fill="none" stroke="currentColor" stroke-width="7"/>
+                  <path d="M61 61 L82 82" fill="none" stroke="currentColor" stroke-width="8" stroke-linecap="round"/>
+                  <path d="M32 42 L39 49 L53 34" fill="none" stroke="#22C58B" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </div>
+
+              <span class="mission-orbit-dot dot-one"></span>
+              <span class="mission-orbit-dot dot-two"></span>
+              <span class="mission-orbit-dot dot-three"></span>
+            </div>
+
+            <div class="mission-note mission-note-bottom">
+              <span class="note-icon note-icon-green">♡</span>
+              <div>
+                <strong>Someone can help.</strong>
+                <small>Every detail can matter.</small>
+              </div>
+            </div>
+
+            <span class="mission-decoration decoration-one"></span>
+            <span class="mission-decoration decoration-two"></span>
+
           </div>
+
+
+          <div class="mission-content reveal">
+
+            <div class="eyebrow">
+              <span class="eyebrow-dot"></span>
+              WHY LOST&FOUND?
+            </div>
+
+            <h2 class="section-heading">
+              Making lost-and-found
+              <span class="gradient-text">simple, connected,</span>
+              and accessible.
+            </h2>
+
+            <p>
+              Losing something important on campus can be stressful.
+              Finding an item without knowing its owner can be just as
+              challenging. Often, the information people need is scattered
+              across conversations, messages, or notices.
+            </p>
+
+            <p>
+              SmartRecover was created to make this process more organized.
+              It gives students a dedicated platform to report missing
+              belongings, share found-item information, explore relevant
+              reports, and use the available claim process.
+            </p>
+
+            <div class="mission-highlight">
+              <span class="highlight-mark" aria-hidden="true">“</span>
+              <p>
+                Technology becomes meaningful when it helps people solve
+                everyday problems.
+              </p>
+            </div>
+
+          </div>
+
         </div>
       </section>
 
-      <!-- 3. How it works -->
-      <section class="sr-how sr-section" aria-labelledby="how-title">
-        <div class="sr-shell">
-          <div class="sr-section-heading sr-section-heading--center" data-reveal>
-            <p class="sr-eyebrow"><span>02</span> A CLEARER PATH FORWARD</p>
-            <h2 id="how-title">From lost to found,<br><span>one step at a time.</span></h2>
-            <p>Three thoughtful steps help students move from a report toward a possible reunion.</p>
+
+      <!-- 4. HOW IT WORKS -->
+      <section class="about-section workflow-section" id="how-it-works">
+
+        <div class="about-container">
+
+          <div class="section-intro reveal">
+            <div class="eyebrow eyebrow-centered">
+              <span class="eyebrow-dot"></span>
+              A SIMPLE JOURNEY
+            </div>
+
+            <h2 class="section-heading">
+              From lost to found,
+              <span class="gradient-text">one step at a time.</span>
+            </h2>
+
+            <p>
+              A straightforward journey that helps students take the next
+              step when a belonging goes missing or an item is discovered.
+            </p>
           </div>
-          <div class="sr-steps">
-            <article class="sr-step" data-reveal>
-              <div class="sr-step__top"><span class="sr-step__number">01</span><span class="sr-step__icon" aria-hidden="true"><svg viewBox="0 0 48 48"><path d="M24 7v21m0 0 8-8m-8 8-8-8M10 29v9a3 3 0 0 0 3 3h22a3 3 0 0 0 3-3v-9"/></svg></span></div>
+
+
+          <div class="workflow-grid">
+
+            <article class="workflow-card reveal">
+              <div class="workflow-card-top">
+                <span class="step-number">01</span>
+                <span class="step-icon" aria-hidden="true">
+                  <svg viewBox="0 0 48 48">
+                    <path d="M15 10 H29 L36 17 V38 H15 Z" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linejoin="round"/>
+                    <path d="M29 10 V18 H36" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linejoin="round"/>
+                    <path d="M20 25 H31 M20 31 H29" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+                    <path d="M11 17 V34" stroke="#4779F5" stroke-width="3" stroke-linecap="round"/>
+                  </svg>
+                </span>
+              </div>
+
               <h3>Report an item</h3>
-              <p>When something goes missing, submit a lost-item report with relevant details. If you find an item, use the dedicated found-item reporting workflow to share what you discovered.</p>
-              <span class="sr-step__foot">Two distinct ways to help</span>
+
+              <p>
+                Lost something? Submit a report with the relevant details.
+                Found something? Use the dedicated found-item reporting
+                process to share the information.
+              </p>
+
+              <div class="workflow-card-footer">
+                <span>Start with the details</span>
+                <span class="footer-arrow" aria-hidden="true">↗</span>
+              </div>
             </article>
-            <div class="sr-steps__connector" aria-hidden="true"><span>→</span></div>
-            <article class="sr-step sr-step--featured" data-reveal>
-              <div class="sr-step__top"><span class="sr-step__number">02</span><span class="sr-step__icon" aria-hidden="true"><svg viewBox="0 0 48 48"><circle cx="21" cy="21" r="12"/><path d="m30 30 10 10M16 21h10m-5-5v10"/></svg></span></div>
+
+
+            <article class="workflow-card workflow-card-featured reveal">
+              <div class="workflow-card-top">
+                <span class="step-number">02</span>
+                <span class="step-icon step-icon-featured" aria-hidden="true">
+                  <svg viewBox="0 0 48 48">
+                    <circle cx="20" cy="20" r="11" fill="none" stroke="currentColor" stroke-width="2.5"/>
+                    <path d="M28 28 L39 39" stroke="currentColor" stroke-width="3.5" stroke-linecap="round"/>
+                    <path d="M15 20 L19 24 L26 16" fill="none" stroke="#22C58B" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                </span>
+              </div>
+
               <h3>Discover and connect</h3>
-              <p>Explore the reports available in the app and review useful item details. If something looks familiar, follow the supported claim process for the next steps.</p>
-              <span class="sr-step__foot">Look closely. Follow up responsibly.</span>
+
+              <p>
+                Browse available item reports and review the details.
+                If an item appears to match your belongings, follow the
+                application's claim process.
+              </p>
+
+              <div class="workflow-card-footer">
+                <span>Explore relevant reports</span>
+                <span class="footer-arrow" aria-hidden="true">↗</span>
+              </div>
             </article>
-            <div class="sr-steps__connector" aria-hidden="true"><span>→</span></div>
-            <article class="sr-step" data-reveal>
-              <div class="sr-step__top"><span class="sr-step__number">03</span><span class="sr-step__icon" aria-hidden="true"><svg viewBox="0 0 48 48"><path d="M8 25.5 19 36 40 13M12 12h13M12 19h7"/></svg></span></div>
+
+
+            <article class="workflow-card reveal">
+              <div class="workflow-card-top">
+                <span class="step-number">03</span>
+                <span class="step-icon step-icon-green" aria-hidden="true">
+                  <svg viewBox="0 0 48 48">
+                    <circle cx="24" cy="24" r="17" fill="none" stroke="currentColor" stroke-width="2.5"/>
+                    <path d="M15 24 L21 30 L34 17" fill="none" stroke="#22C58B" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                </span>
+              </div>
+
               <h3>Work toward recovery</h3>
-              <p>Use the available claim and communication process to coordinate a return, with appropriate ownership checks along the way. Email updates may support relevant steps where implemented.</p>
-              <span class="sr-step__foot">A claim begins a conversation</span>
+
+              <p>
+                Follow the supported claim and communication process
+                to coordinate the return of the item after appropriate
+                ownership checks.
+              </p>
+
+              <div class="workflow-card-footer">
+                <span>Help make a connection</span>
+                <span class="footer-arrow" aria-hidden="true">↗</span>
+              </div>
             </article>
+
           </div>
-          <p class="sr-how__note"><span aria-hidden="true">✳</span> A claim can help start the process; it does not by itself confirm ownership or guarantee recovery.</p>
+
+          <p class="workflow-note reveal">
+            <span aria-hidden="true">ⓘ</span>
+            <span class="workflow-note-text">
+              A claim does not automatically establish ownership or guarantee
+              that an item will be recovered.
+            </span>
+          </p>
+
         </div>
       </section>
 
-      <!-- 4. Values -->
-      <section class="sr-values sr-section" aria-labelledby="values-title">
-        <div class="sr-shell">
-          <div class="sr-values__heading" data-reveal>
-            <div><p class="sr-eyebrow"><span>03</span> WHAT GUIDES THE EXPERIENCE</p><h2 id="values-title">The principles<br>behind <span>SmartRecover.</span></h2></div>
-            <p>Useful technology starts with people. These are the ideas we want every interaction to reflect.</p>
-          </div>
-          <div class="sr-values__grid">
-            <article class="sr-value sr-value--trust" data-reveal><span class="sr-value__index">A / 01</span><div class="sr-value__icon" aria-hidden="true"><svg viewBox="0 0 48 48"><path d="M24 5 39 11v11c0 10-6.2 16.7-15 21-8.8-4.3-15-11-15-21V11L24 5Z"/><path d="m17 24 5 5 10-11"/></svg></div><h3>Trust &amp; responsibility</h3><p>Honest reports, responsible claims, and thoughtful care help make recovery a better experience for everyone.</p><span class="sr-value__accent" aria-hidden="true"></span></article>
-            <article class="sr-value sr-value--privacy" data-reveal><span class="sr-value__index">A / 02</span><div class="sr-value__icon" aria-hidden="true"><svg viewBox="0 0 48 48"><rect x="10" y="21" width="28" height="21" rx="4"/><path d="M16 21v-6a8 8 0 0 1 16 0v6m-8 9v4"/></svg></div><h3>Privacy &amp; care</h3><p>Student information deserves respect. Share only what is needed and handle personal details responsibly.</p><span class="sr-value__accent" aria-hidden="true"></span></article>
-            <article class="sr-value sr-value--community" data-reveal><span class="sr-value__index">A / 03</span><div class="sr-value__icon" aria-hidden="true"><svg viewBox="0 0 48 48"><circle cx="18" cy="16" r="6"/><circle cx="33" cy="19" r="5"/><path d="M6 39v-4a12 12 0 0 1 24 0v4H6Zm24-11a10 10 0 0 1 12 10v1H34"/></svg></div><h3>Community support</h3><p>A little attention from a fellow student can be the clue that helps a belonging find its way back.</p><span class="sr-value__accent" aria-hidden="true"></span></article>
-            <article class="sr-value sr-value--simple" data-reveal><span class="sr-value__index">A / 04</span><div class="sr-value__icon" aria-hidden="true"><svg viewBox="0 0 48 48"><path d="M9 12h30M9 24h20M9 36h13"/><circle cx="35" cy="24" r="4"/><circle cx="28" cy="36" r="4"/><circle cx="16" cy="12" r="4"/></svg></div><h3>Simple &amp; accessible</h3><p>Reporting and exploring should feel clear, so students can focus on the details that matter.</p><span class="sr-value__accent" aria-hidden="true"></span></article>
-          </div>
-        </div>
-      </section>
 
-      <!-- 5. JDCOEM community -->
-      <section class="sr-community sr-section" aria-labelledby="community-title">
-        <div class="sr-community__wash" aria-hidden="true"></div>
-        <div class="sr-shell sr-community__layout">
-          <div class="sr-community__copy" data-reveal>
-            <p class="sr-eyebrow sr-eyebrow--light"><span>04</span> MADE FOR OUR CAMPUS</p>
-            <h2 id="community-title">Built for the<br><em>JDCOEM community.</em></h2>
-            <p>SmartRecover is designed for students of JD College of Engineering and Management, Nagpur. It brings lost-and-found information into a shared campus experience and makes it easier to take a responsible first step.</p>
-            <p>When we pay attention, report thoughtfully, and help one another, small campus moments can turn into meaningful connections.</p>
-            <div class="sr-community__mantra"><span class="sr-community__mantra-icon" aria-hidden="true">✳</span><span>One campus. One community.<br><strong>A better way to recover.</strong></span></div>
-          </div>
-          <div class="sr-community-art" role="img" aria-label="Abstract illustration of students and campus paths connecting around a shared lost-and-found point" data-reveal>
-            <div class="sr-community-art__skyline" aria-hidden="true"><span class="sr-building sr-building--a"><i></i><i></i><i></i></span><span class="sr-building sr-building--b"><i></i><i></i><i></i><i></i></span><span class="sr-building sr-building--c"><i></i><i></i></span><span class="sr-community-art__tree sr-community-art__tree--a"></span><span class="sr-community-art__tree sr-community-art__tree--b"></span></div>
-            <svg class="sr-community-art__routes" viewBox="0 0 520 430" fill="none" aria-hidden="true"><path d="M44 307c58 0 53-103 134-103 70 0 73 99 147 99 72 0 63-145 145-145" stroke="#B9E77A" stroke-width="2" stroke-dasharray="5 8"/><path d="M63 142c57 0 71 88 133 88s76-104 145-104" stroke="#6AD0BC" stroke-width="1.5" stroke-dasharray="4 9"/><circle cx="44" cy="307" r="7" fill="#C7EF80"/><circle cx="470" cy="158" r="7" fill="#C7EF80"/><circle cx="341" cy="126" r="5" fill="#6AD0BC"/></svg>
-            <div class="sr-community-art__center"><span class="sr-community-art__center-icon" aria-hidden="true">⌖</span><span>JDCOEM<br><small>CONNECTED BY CARE</small></span></div>
-            <span class="sr-community-art__person sr-community-art__person--one" aria-hidden="true">A</span><span class="sr-community-art__person sr-community-art__person--two" aria-hidden="true">R</span><span class="sr-community-art__person sr-community-art__person--three" aria-hidden="true">S</span>
-            <div class="sr-community-art__caption"><span class="sr-community-art__caption-mark" aria-hidden="true">✳</span> Better together, on campus.</div>
-          </div>
-        </div>
-      </section>
+      <!-- 5. OUR VALUES -->
+      <section class="about-section values-section" id="our-values">
 
-      <!-- 6. Developer -->
-      <section class="sr-developer sr-section" aria-labelledby="developer-title">
-        <div class="sr-shell">
-          <div class="sr-developer__heading" data-reveal><p class="sr-eyebrow"><span>05</span> THE PERSON BEHIND THE PROJECT</p><h2 id="developer-title">Meet the <span>developer.</span></h2></div>
-          <div class="sr-developer__card" data-reveal>
-            <div class="sr-developer__identity">
-              <div class="sr-developer__portrait" role="img" aria-label="Initials avatar for developer Khushal Paunkar"><span>KP</span><i aria-hidden="true"></i><b aria-hidden="true"></b><small>STUDENT DEVELOPER</small></div>
-              <div class="sr-developer__name"><h3>Khushal Paunkar</h3><p>Student Developer <span>·</span> Aspiring Full-Stack Developer</p></div>
-              <div class="sr-developer__facts"><div><span>EDUCATION</span><strong>B.Tech — Computer Science<br>and Engineering</strong></div><div><span>COLLEGE</span><strong>JD College of Engineering<br>and Management, Nagpur</strong></div></div>
+        <div class="about-container">
+
+          <div class="values-heading-layout reveal">
+
+            <div>
+              <div class="eyebrow">
+                <span class="eyebrow-dot"></span>
+                WHAT GUIDES US
+              </div>
+
+              <h2 class="section-heading">
+                Built around the
+                <span class="gradient-text">right values.</span>
+              </h2>
             </div>
-            <div class="sr-developer__story">
-              <span class="sr-developer__quote" aria-hidden="true">“</span>
-              <p>Hi, I'm Khushal Paunkar, a Computer Science and Engineering student at JD College of Engineering and Management, Nagpur. I enjoy building practical web applications that solve real-world problems. SmartRecover is one of my academic projects, developed to make the campus lost-and-found process more organized and accessible. Through this project, I aim to apply my web development skills to create useful solutions for the college community.</p>
-              <p class="sr-developer__motivation">A student project exploring how thoughtful web development can address a practical campus problem.</p>
-              <div class="sr-tech"><span class="sr-tech__label">BUILT WITH</span><div class="sr-tech__tags"><span>Node.js</span><span>Express.js</span><span>EJS</span><span>MongoDB Atlas</span><span>CSS</span><span>Cloudinary</span></div></div>
-            </div>
+
+            <p>
+              A useful platform is more than a set of features. It is also
+              about the way people use it and the community it supports.
+            </p>
+
           </div>
+
+
+          <div class="values-grid">
+
+            <article class="value-card reveal">
+              <div class="value-icon value-icon-blue">
+                <svg viewBox="0 0 48 48" aria-hidden="true">
+                  <path d="M24 5 L39 11 V22 C39 32 32 39 24 43 C16 39 9 32 9 22 V11 Z" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linejoin="round"/>
+                  <path d="M16 24 L22 30 L33 18" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </div>
+
+              <span class="value-index">01 / TRUST</span>
+              <h3>Trust & responsibility</h3>
+              <p>
+                Encourage honest reporting, responsible claims, and
+                thoughtful handling of belongings.
+              </p>
+            </article>
+
+
+            <article class="value-card reveal">
+              <div class="value-icon value-icon-purple">
+                <svg viewBox="0 0 48 48" aria-hidden="true">
+                  <rect x="9" y="21" width="30" height="22" rx="5" fill="none" stroke="currentColor" stroke-width="2.5"/>
+                  <path d="M16 21 V15 A8 8 0 0 1 32 15 V21" fill="none" stroke="currentColor" stroke-width="2.5"/>
+                  <circle cx="24" cy="31" r="3" fill="currentColor"/>
+                  <path d="M24 34 V37" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+                </svg>
+              </div>
+
+              <span class="value-index">02 / PRIVACY</span>
+              <h3>Privacy & security</h3>
+              <p>
+                Respect personal information and encourage careful,
+                responsible handling of student details.
+              </p>
+            </article>
+
+
+            <article class="value-card reveal">
+              <div class="value-icon value-icon-green">
+                <svg viewBox="0 0 48 48" aria-hidden="true">
+                  <circle cx="17" cy="15" r="6" fill="none" stroke="currentColor" stroke-width="2.5"/>
+                  <circle cx="32" cy="17" r="5" fill="none" stroke="currentColor" stroke-width="2.5"/>
+                  <path d="M5 38 V33 A12 12 0 0 1 29 33 V38 Z" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linejoin="round"/>
+                  <path d="M29 28 A10 10 0 0 1 43 37" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+                </svg>
+              </div>
+
+              <span class="value-index">03 / COMMUNITY</span>
+              <h3>Community support</h3>
+              <p>
+                Make it easier for students to help one another find
+                and return lost belongings.
+              </p>
+            </article>
+
+
+            <article class="value-card reveal">
+              <div class="value-icon value-icon-orange">
+                <svg viewBox="0 0 48 48" aria-hidden="true">
+                  <path d="M12 10 H36 A4 4 0 0 1 40 14 V34 A4 4 0 0 1 36 38 H12 A4 4 0 0 1 8 34 V14 A4 4 0 0 1 12 10 Z" fill="none" stroke="currentColor" stroke-width="2.5"/>
+                  <path d="M16 19 H32 M16 25 H32 M16 31 H26" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+                </svg>
+              </div>
+
+              <span class="value-index">04 / SIMPLICITY</span>
+              <h3>Simple & accessible</h3>
+              <p>
+                Keep the experience understandable so students can
+                report, browse, and take the next step with ease.
+              </p>
+            </article>
+
+          </div>
+
         </div>
       </section>
 
-      <!-- 7. Final CTA -->
-      <section class="sr-cta" aria-labelledby="cta-title">
-        <div class="sr-cta__orb sr-cta__orb--one" aria-hidden="true"></div><div class="sr-cta__orb sr-cta__orb--two" aria-hidden="true"></div>
-        <div class="sr-shell sr-cta__inner" data-reveal>
-          <p class="sr-eyebrow sr-eyebrow--light"><span>YOUR NEXT STEP</span></p>
-          <h2 id="cta-title">Let's help every lost item<br><em>find its way home.</em></h2>
-          <p>Whether you've lost something or discovered an item on campus, taking the right first step can help someone reconnect with their belongings.</p>
-          <div class="sr-cta__actions">
-            <!-- Default placeholder: update /report-lost to the application's verified lost-item route. -->
-            <a class="sr-button sr-button--lime" href="/report-lost">Report an item <span aria-hidden="true">↗</span></a>
-            <a class="sr-button sr-button--outline" href="/items">Browse items <span aria-hidden="true">→</span></a>
-          </div>
+
+      <!-- 6. JDCOEM COMMUNITY -->
+      <section class="about-section community-section" id="jdcoem-community">
+
+        <div class="community-background" aria-hidden="true">
+          <span class="community-orb community-orb-one"></span>
+          <span class="community-orb community-orb-two"></span>
         </div>
-        <div class="sr-cta__rings" aria-hidden="true"><span></span><span></span><span></span></div>
+
+        <div class="about-container community-layout">
+
+          <div class="community-content reveal">
+
+            <div class="eyebrow">
+              <span class="eyebrow-dot"></span>
+              OUR CAMPUS, OUR COMMUNITY
+            </div>
+
+            <h2 class="section-heading">
+              Built for the
+              <span class="community-highlight">JDCOEM community.</span>
+            </h2>
+
+            <p>
+              Smart Asset Recovery System is designed around the students of JD College
+              of Engineering and Management, Nagpur. A missing belonging
+              may seem like a small problem, but finding it can make a
+              meaningful difference to someone's day.
+            </p>
+
+            <p>
+              By bringing reporting and discovery into one platform,
+              Smart Asset Recovery System aims to encourage students to help one another
+              and make the campus lost-and-found experience more organized.
+            </p>
+
+            <div class="community-signature">
+              <span class="signature-line"></span>
+              <span>One campus. One community. A better way to recover Items.</span>
+            </div>
+
+          </div>
+
+
+          <div class="community-visual reveal">
+
+            <div class="campus-art-card">
+              <div class="campus-photo-frame">
+                <img
+                  class="campus-art-image"
+                  src="/asset/images/loginimg.jpg"
+                  alt="JDCOEM campus courtyard"
+                >
+                <span class="campus-photo-label" aria-hidden="true">
+                  <span class="campus-photo-label-dot"></span>
+                  JDCOEM <span class="campus-photo-label-divider">/</span> NAGPUR
+                </span>
+                <span class="campus-photo-corner campus-photo-corner-top" aria-hidden="true"></span>
+                <span class="campus-photo-corner campus-photo-corner-bottom" aria-hidden="true"></span>
+              </div>
+            </div>
+
+            <div class="community-floating-note">
+              <span class="community-note-icon" aria-hidden="true">✦</span>
+              <span> Smart Asset Recovery System</span>
+            </div>
+
+            
+          </div>
+
+        </div>
       </section>
+
+
+      <!-- 7. MEET THE DEVELOPER -->
+      <section class="about-section developer-section" id="developer">
+
+        <div class="about-container developer-container reveal">
+
+          <div class="section-intro developer-section-intro">
+
+
+            <h2 class="section-heading">
+              Meet the
+              <span class="gradient-text">developer.</span>
+            </h2>
+   
+            <p>
+              A student project driven by curiosity, practical learning,
+              and the desire to solve a real-world problem.
+            </p>
+          </div>
+
+
+            <div class="developer-profile-side">
+
+              <div class="developer-portrait-frame">
+                <img
+                  class="developer-portrait"
+                  src="/asset/images/Developerimg.png"
+                  alt="Portrait of Khushal Paunkar"
+                  loading="lazy"
+                >
+              </div>
+
+              <div class="developer-name-block">
+                <span class="developer-label">STUDENT DEVELOPER</span>
+                <h3>Khushal Paunkar</h3>
+              </div>
+            </div>
+
+
+            <div class="developer-about-side">
+
+              <span class="developer-quote-mark" aria-hidden="true">“</span>
+
+              <div class="eyebrow">
+                <span class="eyebrow-dot"></span>
+                A LITTLE ABOUT ME
+              </div>
+
+              <h3>
+                Building useful things,
+                <span class="gradient-text">one idea at a time.</span>
+              </h3>
+
+              <p>
+                Hi, I'm Khushal Paunkar, a Computer Science and Engineering
+                student at JD College of Engineering and Management, Nagpur.
+                I enjoy building practical web applications that solve
+                real-world problems.
+              </p>
+
+              <p>
+                Smart Asset Recovery System is one of my academic projects, developed to
+                make the campus lost-and-found process more organized and
+                accessible. Through this project, I aim to apply my web
+                development skills to create useful solutions for the
+                college community.
+              </p>
+
+              <div class="developer-details-grid">
+                <div class="developer-detail">
+                  <span class="detail-icon" aria-hidden="true">⌂</span>
+                  <div>
+                    <small>EDUCATION</small>
+                    <strong>B.Tech — Computer Science and Engineering</strong>
+                  </div>
+                </div>
+
+                <div class="developer-detail">
+                  <span class="detail-icon" aria-hidden="true">⌖</span>
+                  <div>
+                    <small>INSTITUTION</small>
+                    <strong>JD College of Engineering and Management, Nagpur</strong>
+                  </div>
+                </div>
+              </div>
+
+              <div class="developer-motivation">
+                <span class="motivation-icon" aria-hidden="true">✳</span>
+                <p>
+                  My goal is to turn what I learn into practical applications
+                  that make everyday tasks easier.
+                </p>
+              </div>
+
+              <div class="technology-block">
+                <span class="technology-label">TECHNOLOGIES USED IN SMARTRECOVER</span>
+
+                <div class="technology-tags">
+                  <span>HTML</span>
+                  <span>JavaScript</span>
+                   <span>CSS</span>
+                  <span>Node.js</span>
+                  <span>Express.js</span>
+                  <span>EJS</span>
+                  <span>MongoDB Atlas</span>
+                  <span>Cloudinary</span>
+                </div>
+              </div>
+
+              <p class="developer-project-note">
+                Smart Asset Recovery System is an academic project built to apply web
+                development concepts to a real campus problem.
+              </p>
+
+            </div>
+        </div>
+      </section>
+
+
+      <!-- 8. FINAL CTA -->
+      <section class="about-cta-section" id="get-started">
+
+        <div class="cta-background" aria-hidden="true">
+          <span class="cta-orb cta-orb-one"></span>
+          <span class="cta-orb cta-orb-two"></span>
+          <span class="cta-ring cta-ring-one"></span>
+          <span class="cta-ring cta-ring-two"></span>
+        </div>
+
+        <div class="about-container">
+
+          <div class="cta-layout reveal">
+
+            <div class="cta-content">
+
+              <div class="eyebrow cta-eyebrow">
+                <span class="eyebrow-dot"></span>
+                YOUR NEXT STEP STARTS HERE
+              </div>
+
+              <h2>
+                Let's help every lost item
+                <span>find its way home.</span>
+              </h2>
+
+              <p>
+                Lost something or found an item on campus?
+                Take the first step and help make a meaningful connection
+                within the JDCOEM community.
+              </p>
+
+              <div class="cta-actions">
+                <a href="/report" class="about-btn cta-primary">
+                  Report an Item
+                  <span aria-hidden="true">↗</span>
+                </a>
+
+                <a href="/items" class="about-btn cta-secondary">
+                  Browse Items
+                  <span aria-hidden="true">→</span>
+                </a>
+              </div>
+
+            </div>
+
+            <div class="cta-illustration" aria-hidden="true">
+              <div class="cta-illustration-circle">
+                <div class="cta-package">
+                  <div class="package-top"></div>
+                  <div class="package-front">
+                    <span class="package-heart">♡</span>
+                  </div>
+                  <div class="package-side"></div>
+                </div>
+
+                <span class="cta-mini-star cta-mini-star-one">✦</span>
+                <span class="cta-mini-star cta-mini-star-two">+</span>
+                <span class="cta-mini-star cta-mini-star-three">✧</span>
+              </div>
+            </div>
+
+          </div>
+
+          <p class="cta-bottom-note">
+            <span aria-hidden="true">♡</span>
+            Built to encourage a more helpful campus community.
+          </p>
+
+        </div>
+      </section>
+
     </main>
 
+
+    <!-- 9. EXISTING FOOTER -->
     <%- include('../includes/footer') %>
+
   </div>
 
+
+  <!-- Lightweight scroll reveal; page content remains visible without JS -->
   <script>
-    // Content starts visible. Add reveal behavior only when IntersectionObserver is available.
-    (() => {
-      const items = document.querySelectorAll('.about-page [data-reveal]');
-      if (!('IntersectionObserver' in window) || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-      items.forEach((item) => item.classList.add('sr-reveal-ready'));
-      const observer = new IntersectionObserver((entries, activeObserver) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add('sr-is-visible');
-            activeObserver.unobserve(entry.target);
-          }
-        });
-      }, { threshold: 0.14, rootMargin: '0px 0px -35px 0px' });
-      items.forEach((item) => observer.observe(item));
+    (function () {
+      const page = document.querySelector('.about-page');
+
+      if (!page || !('IntersectionObserver' in window)) {
+        return;
+      }
+
+      const elements = page.querySelectorAll('.reveal');
+
+      if (!elements.length) {
+        return;
+      }
+
+      page.classList.add('about-motion-ready');
+
+      const observer = new IntersectionObserver(
+        function (entries, currentObserver) {
+          entries.forEach(function (entry) {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('is-visible');
+              currentObserver.unobserve(entry.target);
+            }
+          });
+        },
+        {
+          threshold: 0.12,
+          rootMargin: '0px 0px -35px 0px'
+        }
+      );
+
+      elements.forEach(function (element) {
+        observer.observe(element);
+      });
     })();
   </script>
+
 </body>
 </html>

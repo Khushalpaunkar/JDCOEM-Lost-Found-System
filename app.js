@@ -9,6 +9,7 @@ const authRoutes = require("./Routes/authRoutes");
 const itemRoutes = require("./Routes/itemRoutes");
 const claimRoutes = require("./Routes/claimRoutes");
 const foundReportRoutes = require("./Routes/foundReportRoutes");
+const { notFound, globalErrorHandler } = require("./middleware/errorHandler");
 const Item = require("./models/item");
 
 const app = express();
@@ -83,7 +84,12 @@ app.get("/", async (req, res) => {
     });
   } catch (error) {
     console.error("Load home page error:", error);
-    return res.status(500).send("Unable to load the home page right now.");
+    return res.status(500).render("pages/500", {
+      title: "Something Went Wrong | SmartRecover",
+      currentUser: req.session.user || null,
+      status: 500,
+      message: "Unable to load the home page right now."
+    });
   }
 });
 
@@ -100,5 +106,8 @@ app.use("/", authRoutes);
 
 app.use(claimRoutes);
 
+// Unmatched routes and centralized error handling (must stay after all routes)
+app.use(notFound);
+app.use(globalErrorHandler);
 
 module.exports = app;

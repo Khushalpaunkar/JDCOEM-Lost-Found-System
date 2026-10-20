@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex">
+  <title><%= typeof title !== 'undefined' && title ? title : "Page Not Found | SmartRecover" %></title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+  <link rel="stylesheet" href="/css/navbar.css">
+  <link rel="stylesheet" href="/css/footer.css">
+  <link rel="stylesheet" href="/css/error.css">
+</head>
+<body id="top">
+<%- include('../includes/navbar') %>
+
+<main class="sr-error">
+  <div class="sr-error-card">
+    <p class="sr-error-code">404</p>
+    <h1 class="sr-error-title">Page not found</h1>
+    <p class="sr-error-message">
+      The page you are looking for doesn't exist or may have been moved.
+    </p>
+    <div class="sr-error-actions">
+      <a href="/" class="sr-error-btn sr-error-btn-primary">
+        <i class="fa-solid fa-house"></i> Back to Home
+      </a>
+      <a href="/items" class="sr-error-btn sr-error-btn-secondary">
+        <i class="fa-solid fa-magnifying-glass"></i> Browse Items
+      </a>
+    </div>
+  </div>
+</main>
+
+<%- include('../includes/footer') %>
+</body>
+</html>

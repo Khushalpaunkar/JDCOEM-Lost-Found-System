@@ -8,6 +8,10 @@ async function connectDB() {
     throw new Error("MONGODB_URI is missing in .env");
   }
 
+  mongoose.connection.on("error", (error) => {
+    console.error("MongoDB connection error:", error.message);
+  });
+
   await mongoose.connect(uri, {
     serverSelectionTimeoutMS: 10000,
   });

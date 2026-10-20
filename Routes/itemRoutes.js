@@ -46,7 +46,12 @@ function handleReportUploadError(error, req, res, next) {
     ? "Please upload no more than 5 images, each 5 MB or smaller."
     : "Your images could not be uploaded. Please try again later.";
 
-  return res.status(statusCode).send(message);
+  return res.status(statusCode).render("pages/500", {
+    title: "Something Went Wrong | SmartRecover",
+    currentUser: req.session?.user || null,
+    status: statusCode,
+    message
+  });
 }
 
 // Protect routes that create reports

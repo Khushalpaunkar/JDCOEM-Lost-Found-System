@@ -5,6 +5,7 @@ const Item = require("../models/item");
 const imageStorage = require("../services/imageStorage");
 const User = require("../models/User");
 const { sendClaimEmail } = require("../utils/emailServices");
+const { renderErrorPage } = require("../middleware/errorHandler");
 
 function getUserId(req) {
   return req.session?.user?._id || req.session?.user?.id;
@@ -17,13 +18,13 @@ function isClaimEligible(item) {
 exports.showClaimForm = async (req, res) => {
   try {
     if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
-      return res.status(400).send("Invalid item ID.");
+      return renderErrorPage(res, req, 400, "Invalid item ID.");
     }
 
     const item = await Item.findById(req.params.id).lean();
 
     if (!item) {
-      return res.status(404).send("Item not found.");
+      return renderErrorPage(res, req, 404, "Item not found.");
     }
 
     if (!isClaimEligible(item)) {
@@ -43,7 +44,7 @@ exports.showClaimForm = async (req, res) => {
     });
   } catch (error) {
     console.error("Show claim form error:", error);
-    res.status(500).send("Unable to load claim form.");
+    return renderErrorPage(res, req, 500, "Unable to load claim form.");
   }
 };
 
@@ -59,21 +60,21 @@ exports.submitClaim = async (req, res) => {
     }
 
     if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
-      return res.status(400).send("Invalid item ID.");
+      return renderErrorPage(res, req, 400, "Invalid item ID.");
     }
 
     item = await Item.findById(req.params.id);
 
     if (!item) {
-      return res.status(404).send("Item not found.");
+      return renderErrorPage(res, req, 404, "Item not found.");
     }
 
     if (!isClaimEligible(item)) {
-      return res.status(409).send("This item is not accepting claims.");
+      return renderErrorPage(res, req, 409, "This item is not accepting claims.");
     }
 
     if (String(item.reportedBy) === String(userId)) {
-      return res.status(403).send("You cannot claim an item you reported.");
+      return renderErrorPage(res, req, 403, "You cannot claim an item you reported.");
     }
 
     if (req.claimProofUploadError) {
@@ -232,7 +233,7 @@ return res.redirect(`/items/${item._id}/claim?submitted=1`);
     }
 
     console.error("Submit claim error:", error);
-    return res.status(500).send("Unable to submit your claim.");
+    return renderErrorPage(res, req, 500, "Unable to submit your claim.");
   }
 };
 
@@ -287,6 +288,6 @@ exports.showProofPhoto = async (req, res) => {
     return stream.pipe(res);
   } catch (error) {
     console.error("Claim proof photo error:", error);
-    return res.status(500).send("Unable to load this proof photo.");
+    return renderErrorPage(res, req, 500, "Unable to load this proof photo.");
   }
 };

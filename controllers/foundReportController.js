@@ -4,6 +4,7 @@ const Item = require("../models/item");
 const User = require("../models/User");
 const deleteCloudinaryUploads = require("../utils/deleteCloudinaryUploads");
 const { sendEmail } = require("../utils/emailServices");
+const { renderErrorPage } = require("../middleware/errorHandler");
 
 function getUserId(req) {
   return req.session?.user?._id || req.session?.user?.id;
@@ -108,7 +109,7 @@ exports.showFoundReportForm = async (req, res) => {
     const lostItem = await loadOpenLostItem(req.params.id);
     const finderId = getUserId(req);
     if (isOwnLostReport(lostItem, finderId)) {
-      return res.status(403).send("You cannot submit a Found report for your own Lost report.");
+      return renderErrorPage(res, req, 403, "You cannot submit a Found report for your own Lost report.");
     }
 
     const existingReport = await FoundReport.findOne({
@@ -127,7 +128,12 @@ exports.showFoundReportForm = async (req, res) => {
       success
     });
   } catch (error) {
-    return res.status(error.status || 500).send(error.status ? error.message : "Unable to load this Found report form.");
+    return renderErrorPage(
+      res,
+      req,
+      error.status || 500,
+      error.status ? error.message : "Unable to load this Found report form."
+    );
   }
 };
 
@@ -136,7 +142,7 @@ exports.validateTarget = async (req, res, next) => {
     const lostItem = await loadOpenLostItem(req.params.id);
     const finderId = getUserId(req);
     if (isOwnLostReport(lostItem, finderId)) {
-      return res.status(403).send("You cannot submit a Found report for your own Lost report.");
+      return renderErrorPage(res, req, 403, "You cannot submit a Found report for your own Lost report.");
     }
 
     const existingReport = await FoundReport.findOne({
@@ -150,7 +156,12 @@ exports.validateTarget = async (req, res, next) => {
     req.lostItem = lostItem;
     return next();
   } catch (error) {
-    return res.status(error.status || 500).send(error.status ? error.message : "Unable to validate this Lost report.");
+    return renderErrorPage(
+      res,
+      req,
+      error.status || 500,
+      error.status ? error.message : "Unable to validate this Lost report."
+    );
   }
 };
 
@@ -162,7 +173,7 @@ exports.submitFoundReport = async (req, res) => {
     const finderId = getUserId(req);
     if (isOwnLostReport(lostItem, finderId)) {
       await deleteCloudinaryUploads(files);
-      return res.status(403).send("You cannot submit a Found report for your own Lost report.");
+      return renderErrorPage(res, req, 403, "You cannot submit a Found report for your own Lost report.");
     }
 
     const description = String(req.body.description || "").trim();
@@ -243,7 +254,12 @@ exports.submitFoundReport = async (req, res) => {
           : "Unable to submit your Found report. Please try again."
       });
     }
-    return res.status(status).send(status === 400 ? error.message : "Unable to submit your Found report.");
+    return renderErrorPage(
+      res,
+      req,
+      status,
+      status === 400 ? error.message : "Unable to submit your Found report."
+    );
   }
 };
 
@@ -258,5 +274,5 @@ exports.handleUploadError = (error, req, res, next) => {
     : isUnsupported
       ? error.message
       : "Your photos could not be uploaded. Please try again later.";
-  return res.status(status).send(message);
+  return renderErrorPage(res, req, status, message);
 };

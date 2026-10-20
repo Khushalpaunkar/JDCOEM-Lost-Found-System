@@ -1,0 +1,114 @@
+:root {
+	--error-ink: #eb5f1e;
+	--error-accent: #2b170e;
+	--error-accent-bright: #d8f276;
+	--error-muted: #687873;
+	--error-line: #e5ebe7;
+}
+
+.sr-error,
+.sr-error * {
+	box-sizing: border-box;
+}
+
+.sr-error {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	min-height: calc(100vh - 82px);
+	padding: 64px 24px;
+	background:
+		radial-gradient(ellipse at 100% 0%, rgba(191, 219, 254, 0.55), transparent 42%),
+		linear-gradient(110deg, #eff6ff 0%, #f8fbff 70%, #fff8f1 100%);
+	font-family: 'Poppins', sans-serif;
+}
+
+.sr-error-card {
+	width: min(100%, 560px);
+	padding: clamp(36px, 6vw, 64px) clamp(28px, 5vw, 56px);
+	text-align: center;
+	background: #fff;
+	border: 1px solid var(--error-line);
+	border-radius: 18px;
+	box-shadow: 0 24px 60px rgb(25 52 47 / 10%);
+}
+
+.sr-error-code {
+	margin: 0 0 8px;
+	color: var(--error-ink);
+	font-size: clamp(56px, 10vw, 92px);
+	font-weight: 800;
+	line-height: 1;
+	letter-spacing: -0.04em;
+}
+
+.sr-error-title {
+	margin: 0 0 12px;
+	color: var(--error-accent);
+	font-size: clamp(24px, 4vw, 32px);
+	font-weight: 700;
+	line-height: 1.2;
+}
+
+.sr-error-message {
+	margin: 0 auto 32px;
+	max-width: 42ch;
+	color: var(--error-muted);
+	font-size: 15px;
+	font-weight: 400;
+	line-height: 1.7;
+}
+
+.sr-error-actions {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 14px;
+	justify-content: center;
+}
+
+.sr-error-btn {
+	display: inline-flex;
+	align-items: center;
+	gap: 9px;
+	padding: 13px 26px;
+	border-radius: 9px;
+	font-family: 'Poppins', sans-serif;
+	font-size: 14px;
+	font-weight: 600;
+	text-decoration: none;
+	transition: transform 180ms ease, opacity 180ms ease, box-shadow 180ms ease;
+}
+
+.sr-error-btn:hover {
+	transform: translateY(-2px);
+}
+
+.sr-error-btn-primary {
+	color: var(--error-accent-bright);
+	background: var(--error-ink);
+	box-shadow: 0 12px 26px rgb(235 95 30 / 28%);
+}
+
+.sr-error-btn-primary:hover {
+	opacity: 0.9;
+}
+
+.sr-error-btn-secondary {
+	color: var(--error-accent);
+	background: #fff;
+	border: 1px solid var(--error-line);
+}
+
+.sr-error-btn-secondary:hover {
+	border-color: var(--error-ink);
+}
+
+@media (max-width: 480px) {
+	.sr-error-actions {
+		flex-direction: column;
+	}
+
+	.sr-error-btn {
+		justify-content: center;
+	}
+}

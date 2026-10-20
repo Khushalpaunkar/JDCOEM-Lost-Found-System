@@ -288,6 +288,7 @@ exports.login = async (req, res) => {
     if (!passwordMatches) {
       return res.status(401).render("auth/login", {
         error: "Invalid email or password.",
+        returnTo,
         success: null
       });
     }
@@ -346,4 +347,3 @@ exports.logout = (req, res, next) => {
     return res.redirect("/");
   });
 };
-

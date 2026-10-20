@@ -2,6 +2,7 @@
 const mongoose = require("mongoose");
 const Item = require("../models/item");
 const deleteCloudinaryUploads = require("../utils/deleteCloudinaryUploads");
+const { renderErrorPage } = require("../middleware/errorHandler");
 
 const allowedCategories = Item.schema.path("category").enumValues;
 
@@ -170,7 +171,7 @@ exports.getAllItems = async (req, res) => {
     });
   } catch (error) {
     console.error("Fetch items error:", error);
-    res.status(500).send("Unable to load items right now.");
+    return renderErrorPage(res, req, 500, "Unable to load items right now.");
   }
 };
 
@@ -180,7 +181,7 @@ exports.getAllItems = async (req, res) => {
 exports.getItemDetails = async (req, res) => {
   try {
     if (!/^[0-9a-fA-F]{24}$/.test(req.params.id)) {
-      return res.status(400).send("Invalid item ID.");
+      return renderErrorPage(res, req, 400, "Invalid item ID.");
     }
 
     const item = await Item.findById(req.params.id)
@@ -191,7 +192,7 @@ exports.getItemDetails = async (req, res) => {
       .lean();
 
     if (!item) {
-      return res.status(404).send("Item not found.");
+      return renderErrorPage(res, req, 404, "Item not found.");
     }
 
     res.render("items/details", {
@@ -201,6 +202,6 @@ exports.getItemDetails = async (req, res) => {
     });
   } catch (error) {
     console.error("Item details error:", error);
-    res.status(500).send("Unable to load item details.");
+    return renderErrorPage(res, req, 500, "Unable to load item details.");
   }
 };
