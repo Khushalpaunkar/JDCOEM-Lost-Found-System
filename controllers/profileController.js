@@ -1,5 +1,8 @@
 const mongoose = require("mongoose");
 const User = require("../models/User");
+const Item = require("../models/item");
+const Claim = require("../models/claim");
+const FoundReport = require("../models/FoundReport");
 const imageStorage = require("../services/imageStorage");
 
 const profileFields = "name collegeId department email mobile address profilePhotoFileId collegeIdPhotoFileId role";
@@ -31,12 +34,63 @@ exports.showProfile = async (req, res, next) => {
       save: "Your images could not be saved. Please try again."
     };
 
+    // ---- My Activity: fetch everything the logged-in user owns ----
+    const userId = req.session.user.id;
+    const emptyActivity = { reports: [], claims: [], foundReports: [] };
+    let activity = emptyActivity;
+    let activityError = null;
+
+    if (!mongoose.isValidObjectId(userId)) {
+      activityError = "Your activity could not be loaded right now. Please try again later.";
+    } else {
+      const [reportsResult, claimsResult, foundReportsResult] = await Promise.allSettled([
+        Item.find({ reportedBy: userId })
+          .select(
+            "title description category status recoveryStatus image location date time createdAt"
+          )
+          .sort({ createdAt: -1 })
+          .lean(),
+        Claim.find({ claimedBy: userId })
+          .populate("item", "title image status category recoveryStatus")
+          .sort({ createdAt: -1 })
+          .lean(),
+        FoundReport.find({ foundBy: userId })
+          .populate("lostItem", "title status image recoveryStatus")
+          .sort({ createdAt: -1 })
+          .lean()
+      ]);
+
+      if (
+        reportsResult.status === "rejected" ||
+        claimsResult.status === "rejected" ||
+        foundReportsResult.status === "rejected"
+      ) {
+        [reportsResult, claimsResult, foundReportsResult].forEach((result) => {
+          if (result.status === "rejected") {
+            console.error("Profile activity query failed:", result.reason);
+          }
+        });
+        activityError =
+          "Your activity could not be loaded right now. Please try again later.";
+      } else {
+        activity = {
+          reports: reportsResult.value || [],
+          claims: claimsResult.value || [],
+          foundReports: foundReportsResult.value || []
+        };
+      }
+    }
+
     return res.render("pages/profile", {
       title: "My Profile | SmartRecover",
       currentUser: req.session.user,
       user,
       imageMessage: imageMessages[req.query.imageError] || null,
-      imageMessageIsError: req.query.imageError !== "updated"
+      imageMessageIsError: req.query.imageError !== "updated",
+      reports: activity.reports,
+      claims: activity.claims,
+      foundReports: activity.foundReports,
+      activityError
     });
   } catch (error) {
     return next(error);

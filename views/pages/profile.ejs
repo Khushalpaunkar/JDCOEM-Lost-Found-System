@@ -8,6 +8,10 @@
   <link rel="stylesheet" href="/css/navbar.css">
   <link rel="stylesheet" href="/css/footer.css">
   <link rel="stylesheet" href="/css/profile.css">
+  <link rel="stylesheet" href="/css/profile-activity.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 </head>
 <body>
   <%- include('../includes/navbar') %>
@@ -67,8 +71,354 @@
         <button type="submit" class="profile-save-button">Save image changes</button>
       </form>
     </section>
+
+    <!-- ======================= MY ACTIVITY ======================= -->
+    <section class="activity-section" aria-labelledby="activity-heading">
+      <span class="activity-kicker">MY ACTIVITY</span>
+      <h2 id="activity-heading">My Activity</h2>
+      <p class="activity-subtitle">
+        Every report, claim, and found-item submission tied to your account — straight from your SmartRecover history.
+      </p>
+
+      <% if (activityError) { %>
+        <p class="activity-error" role="alert">
+          <i class="fa-solid fa-circle-exclamation"></i>
+          <%= activityError %>
+        </p>
+      <% } else { %>
+
+        <div class="activity-tabs" role="tablist" aria-label="My activity sections">
+          <button
+            type="button"
+            class="activity-tab is-active"
+            id="tab-reports"
+            role="tab"
+            aria-selected="true"
+            aria-controls="panel-reports"
+            data-activity-tab="reports"
+          >
+            <i class="fa-solid fa-flag"></i>
+            <span>My Reports</span>
+            <span class="activity-count"><%= reports.length %></span>
+          </button>
+
+          <button
+            type="button"
+            class="activity-tab"
+            id="tab-claims"
+            role="tab"
+            aria-selected="false"
+            aria-controls="panel-claims"
+            data-activity-tab="claims"
+            tabindex="-1"
+          >
+            <i class="fa-solid fa-hand-holding-heart"></i>
+            <span>My Claims</span>
+            <span class="activity-count"><%= claims.length %></span>
+          </button>
+
+          <button
+            type="button"
+            class="activity-tab"
+            id="tab-found"
+            role="tab"
+            aria-selected="false"
+            aria-controls="panel-found"
+            data-activity-tab="found"
+            tabindex="-1"
+          >
+            <i class="fa-solid fa-box-open"></i>
+            <span>My Found Reports</span>
+            <span class="activity-count"><%= foundReports.length %></span>
+          </button>
+        </div>
+
+        <!-- ---------- Panel: My Reports ---------- -->
+        <div
+          class="activity-panel"
+          id="panel-reports"
+          role="tabpanel"
+          aria-labelledby="tab-reports"
+          data-activity-panel="reports"
+        >
+          <% if (reports.length === 0) { %>
+            <div class="activity-empty">
+              <i class="fa-regular fa-flag"></i>
+              <h3>No reports yet</h3>
+              <p>Reports you submit for lost or found items will appear here.</p>
+              <a href="/report" class="activity-cta">
+                <i class="fa-solid fa-plus"></i> Report an Item
+              </a>
+            </div>
+          <% } else { %>
+            <div class="activity-grid">
+              <% reports.forEach(function(item) {
+                const firstImage = Array.isArray(item.image)
+                  ? item.image.find(function(url) { return typeof url === 'string' && url.trim(); })
+                  : (typeof item.image === 'string' && item.image.trim() ? item.image : '');
+
+                const reportDate = item.date || item.createdAt;
+                const hasValidDate = reportDate && !Number.isNaN(new Date(reportDate).getTime());
+                const formattedDate = hasValidDate
+                  ? new Date(reportDate).toLocaleDateString('en-IN', {
+                      day: '2-digit', month: 'short', year: 'numeric'
+                    })
+                  : 'Date not available';
+
+                const isLost = item.status === 'lost';
+
+                const recoveryMap = {
+                  open: { label: 'Open', cls: 'badge-open' },
+                  claim_pending: { label: 'Claim pending', cls: 'badge-pending' },
+                  claimed: { label: 'Claimed', cls: 'badge-claimed' },
+                  recovered: { label: 'Recovered', cls: 'badge-success' },
+                  closed: { label: 'Closed', cls: 'badge-closed' }
+                };
+                const recovery = recoveryMap[item.recoveryStatus] || recoveryMap.open;
+              %>
+                <article class="activity-card">
+                  <div class="activity-card-image">
+                    <span class="activity-badge activity-badge-float <%= isLost ? 'badge-lost' : 'badge-found' %>">
+                      <i class="fa-solid <%= isLost ? 'fa-circle-exclamation' : 'fa-circle-check' %>"></i>
+                      <%= isLost ? 'Lost' : 'Found' %>
+                    </span>
+                    <% if (firstImage) { %>
+                      <img src="<%= firstImage %>" alt="<%= item.title %>" loading="lazy">
+                      <div class="activity-image-fallback" hidden>
+                        <i class="fa-regular fa-image"></i>
+                        <span>Image unavailable</span>
+                      </div>
+                    <% } else { %>
+                      <div class="activity-image-fallback">
+                        <i class="fa-regular fa-image"></i>
+                        <span>No image available</span>
+                      </div>
+                    <% } %>
+                  </div>
+
+                  <div class="activity-card-body">
+                    <div class="activity-card-meta">
+                      <span class="activity-category"><i class="fa-solid fa-tag"></i> <%= item.category %></span>
+                      <span class="activity-badge <%= recovery.cls %>"><%= recovery.label %></span>
+                    </div>
+
+                    <h3 class="activity-card-title"><%= item.title %></h3>
+                    <p class="activity-card-description"><%= item.description %></p>
+
+                    <div class="activity-card-info">
+                      <span><i class="fa-solid fa-location-dot"></i> <%= item.location %></span>
+                      <span><i class="fa-regular fa-calendar"></i> <%= formattedDate %></span>
+                    </div>
+
+                    <div class="activity-card-footer">
+                      <a href="/items/<%= item._id %>" class="activity-card-btn">
+                        View Details <i class="fa-solid fa-arrow-right"></i>
+                      </a>
+                    </div>
+                  </div>
+                </article>
+              <% }); %>
+            </div>
+          <% } %>
+        </div>
+
+        <!-- ---------- Panel: My Claims ---------- -->
+        <div
+          class="activity-panel"
+          id="panel-claims"
+          role="tabpanel"
+          aria-labelledby="tab-claims"
+          data-activity-panel="claims"
+          hidden
+        >
+          <% if (claims.length === 0) { %>
+            <div class="activity-empty">
+              <i class="fa-regular fa-handshake"></i>
+              <h3>No claims yet</h3>
+              <p>Claims you submit for found items will appear here with their review status.</p>
+              <a href="/items?status=found" class="activity-cta">
+                <i class="fa-solid fa-magnifying-glass"></i> Browse Found Items
+              </a>
+            </div>
+          <% } else { %>
+            <div class="activity-grid">
+              <% claims.forEach(function(claim) {
+                const claimItem = claim.item || null;
+                const claimItemImage = claimItem && Array.isArray(claimItem.image)
+                  ? claimItem.image.find(function(url) { return typeof url === 'string' && url.trim(); })
+                  : '';
+                const claimDate = claim.createdAt;
+                const formattedClaimDate = claimDate && !Number.isNaN(new Date(claimDate).getTime())
+                  ? new Date(claimDate).toLocaleDateString('en-IN', {
+                      day: '2-digit', month: 'short', year: 'numeric'
+                    })
+                  : 'Date not available';
+
+                const claimStatusMap = {
+                  pending: { label: 'Pending review', cls: 'badge-pending' },
+                  approved: { label: 'Approved', cls: 'badge-success' },
+                  rejected: { label: 'Rejected', cls: 'badge-danger' }
+                };
+                const claimStatus = claimStatusMap[claim.status] || claimStatusMap.pending;
+              %>
+                <article class="activity-card">
+                  <div class="activity-card-image">
+                    <span class="activity-badge activity-badge-float badge-claim">
+                      <i class="fa-solid fa-hand-holding-heart"></i> Claim
+                    </span>
+                    <% if (claimItemImage) { %>
+                      <img src="<%= claimItemImage %>" alt="<%= claimItem.title %>" loading="lazy">
+                      <div class="activity-image-fallback" hidden>
+                        <i class="fa-regular fa-image"></i>
+                        <span>Image unavailable</span>
+                      </div>
+                    <% } else { %>
+                      <div class="activity-image-fallback">
+                        <i class="fa-regular fa-image"></i>
+                        <span><%= claimItem ? 'No image available' : 'Item removed' %></span>
+                      </div>
+                    <% } %>
+                  </div>
+
+                  <div class="activity-card-body">
+                    <div class="activity-card-meta">
+                      <% if (claimItem) { %>
+                        <span class="activity-category"><i class="fa-solid fa-tag"></i> <%= claimItem.category || 'Item' %></span>
+                      <% } else { %>
+                        <span class="activity-category"><i class="fa-solid fa-link-slash"></i> Unavailable item</span>
+                      <% } %>
+                      <span class="activity-badge <%= claimStatus.cls %>"><%= claimStatus.label %></span>
+                    </div>
+
+                    <h3 class="activity-card-title">
+                      <%= claimItem ? claimItem.title : 'This item is no longer available' %>
+                    </h3>
+                    <p class="activity-card-description"><%= claim.description %></p>
+
+                    <div class="activity-card-info">
+                      <span><i class="fa-regular fa-calendar"></i> Submitted <%= formattedClaimDate %></span>
+                      <span class="activity-reference"><i class="fa-solid fa-shield-halved"></i> Ref: <%= String(claim._id).slice(-8).toUpperCase() %></span>
+                    </div>
+
+                    <div class="activity-card-footer">
+                      <% if (claimItem) { %>
+                        <a href="/items/<%= claimItem._id %>" class="activity-card-btn">
+                          View Item <i class="fa-solid fa-arrow-right"></i>
+                        </a>
+                      <% } else { %>
+                        <span class="activity-card-btn is-disabled" aria-disabled="true">
+                          Item no longer available
+                        </span>
+                      <% } %>
+                    </div>
+                  </div>
+                </article>
+              <% }); %>
+            </div>
+          <% } %>
+        </div>
+
+        <!-- ---------- Panel: My Found Reports ---------- -->
+        <div
+          class="activity-panel"
+          id="panel-found"
+          role="tabpanel"
+          aria-labelledby="tab-found"
+          data-activity-panel="found"
+          hidden
+        >
+          <% if (foundReports.length === 0) { %>
+            <div class="activity-empty">
+              <i class="fa-regular fa-box-open"></i>
+              <h3>No found reports yet</h3>
+              <p>When you help return a lost item, your Found reports will appear here.</p>
+              <a href="/items?status=lost" class="activity-cta">
+                <i class="fa-solid fa-magnifying-glass"></i> Browse Lost Items
+              </a>
+            </div>
+          <% } else { %>
+            <div class="activity-grid">
+              <% foundReports.forEach(function(report) {
+                const lostItem = report.lostItem || null;
+                const firstImage = Array.isArray(report.image)
+                  ? report.image.find(function(url) { return typeof url === 'string' && url.trim(); })
+                  : (typeof report.image === 'string' && report.image.trim() ? report.image : '');
+
+                const reportDate = report.date || report.createdAt;
+                const hasValidDate = reportDate && !Number.isNaN(new Date(reportDate).getTime());
+                const formattedDate = hasValidDate
+                  ? new Date(reportDate).toLocaleDateString('en-IN', {
+                      day: '2-digit', month: 'short', year: 'numeric'
+                    })
+                  : 'Date not available';
+                const formattedTime = report.time || '';
+
+                const foundStatusMap = {
+                  pending: { label: 'Pending review', cls: 'badge-pending' },
+                  reviewed: { label: 'Reviewed', cls: 'badge-reviewed' },
+                  closed: { label: 'Closed', cls: 'badge-closed' }
+                };
+                const foundStatus = foundStatusMap[report.status] || foundStatusMap.pending;
+              %>
+                <article class="activity-card">
+                  <div class="activity-card-image">
+                    <span class="activity-badge activity-badge-float badge-foundreport">
+                      <i class="fa-solid fa-box-open"></i> Found report
+                    </span>
+                    <% if (firstImage) { %>
+                      <img src="<%= firstImage %>" alt="Found report photo" loading="lazy">
+                      <div class="activity-image-fallback" hidden>
+                        <i class="fa-regular fa-image"></i>
+                        <span>Image unavailable</span>
+                      </div>
+                    <% } else { %>
+                      <div class="activity-image-fallback">
+                        <i class="fa-regular fa-image"></i>
+                        <span>No image available</span>
+                      </div>
+                    <% } %>
+                  </div>
+
+                  <div class="activity-card-body">
+                    <div class="activity-card-meta">
+                      <span class="activity-category"><i class="fa-solid fa-location-dot"></i> <%= report.location %></span>
+                      <span class="activity-badge <%= foundStatus.cls %>"><%= foundStatus.label %></span>
+                    </div>
+
+                    <h3 class="activity-card-title">
+                      <%= lostItem ? lostItem.title : 'Original lost report unavailable' %>
+                    </h3>
+                    <p class="activity-card-description"><%= report.description %></p>
+
+                    <div class="activity-card-info">
+                      <span><i class="fa-regular fa-calendar"></i> <%= formattedDate %><%= formattedTime ? ' · ' + formattedTime : '' %></span>
+                      <span class="activity-reference"><i class="fa-solid fa-shield-halved"></i> Ref: <%= String(report._id).slice(-8).toUpperCase() %></span>
+                    </div>
+
+                    <div class="activity-card-footer">
+                      <% if (lostItem) { %>
+                        <a href="/items/<%= lostItem._id %>" class="activity-card-btn">
+                          View Lost Report <i class="fa-solid fa-arrow-right"></i>
+                        </a>
+                      <% } else { %>
+                        <span class="activity-card-btn is-disabled" aria-disabled="true">
+                          Original report unavailable
+                        </span>
+                      <% } %>
+                    </div>
+                  </div>
+                </article>
+              <% }); %>
+            </div>
+          <% } %>
+        </div>
+
+      <% } %>
+    </section>
+    <!-- ===================== END MY ACTIVITY ===================== -->
   </main>
 
   <%- include('../includes/footer') %>
+  <script src="/js/profile-activity.js" defer></script>
 </body>
 </html>
