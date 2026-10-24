@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Support | SmartRecover</title>
+  <link rel="stylesheet" href="/css/home.css">
+  <link rel="stylesheet" href="/css/navbar.css">
+  <link rel="stylesheet" href="/css/footer.css">
+  <link rel="stylesheet" href="/css/info-pages.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+</head>
+<body>
+  <%- include('../includes/navbar') %>
+
+  <main class="info-page">
+    <div class="info-container">
+
+      <header class="info-hero">
+        <span class="info-kicker"><i class="fa-solid fa-life-ring"></i> SUPPORT CENTER</span>
+        <h1>How can we help?</h1>
+        <p class="info-lead">
+          SmartRecover is the JDCOEM campus Lost &amp; Found platform — it helps students
+          report lost belongings, report found items, submit ownership claims, and follow
+          the recovery of their items. This page collects guidance for the most common
+          situations.
+        </p>
+      </header>
+
+      <!-- Quick links -->
+      <nav class="info-quick-grid" aria-label="Support quick links">
+        <a href="/faq" class="info-quick-card">
+          <span class="info-quick-icon"><i class="fa-regular fa-circle-question"></i></span>
+          <span class="info-quick-copy">
+            <strong>FAQ</strong>
+            <span>Quick answers about reports, claims, and accounts.</span>
+          </span>
+          <i class="fa-solid fa-arrow-right info-quick-arrow" aria-hidden="true"></i>
+        </a>
+        <a href="/privacy-policy" class="info-quick-card">
+          <span class="info-quick-icon"><i class="fa-solid fa-user-shield"></i></span>
+          <span class="info-quick-copy">
+            <strong>Privacy Policy</strong>
+            <span>What information SmartRecover collects and why.</span>
+          </span>
+          <i class="fa-solid fa-arrow-right info-quick-arrow" aria-hidden="true"></i>
+        </a>
+        <a href="/terms-of-use" class="info-quick-card">
+          <span class="info-quick-icon"><i class="fa-regular fa-file-lines"></i></span>
+          <span class="info-quick-copy">
+            <strong>Terms of Use</strong>
+            <span>The rules for using the platform fairly and honestly.</span>
+          </span>
+          <i class="fa-solid fa-arrow-right info-quick-arrow" aria-hidden="true"></i>
+        </a>
+        <a href="/report-issue" class="info-quick-card info-quick-card-accent">
+          <span class="info-quick-icon"><i class="fa-solid fa-bug"></i></span>
+          <span class="info-quick-copy">
+            <strong>Report an Issue</strong>
+            <span>Something broken or wrong? Send us the details.</span>
+          </span>
+          <i class="fa-solid fa-arrow-right info-quick-arrow" aria-hidden="true"></i>
+        </a>
+      </nav>
+
+      <!-- Guidance -->
+      <section class="info-card info-section" id="guidance" aria-labelledby="guidance-heading">
+        <span class="info-kicker">GUIDANCE</span>
+        <h2 id="guidance-heading">Step-by-step help</h2>
+
+        <div class="info-guidance-grid">
+          <article class="info-guidance-item">
+            <span class="info-guidance-icon"><i class="fa-solid fa-circle-exclamation"></i></span>
+            <div>
+              <h3>Report a lost item</h3>
+              <p>
+                Open <a href="/report">Report an Item</a>, choose the <strong>Lost</strong> type,
+                and describe the item, where and when you lost it, and add up to five photos.
+                Your report appears on the <a href="/items">Browse Items</a> page so other
+                students can recognise it.
+              </p>
+            </div>
+          </article>
+
+          <article class="info-guidance-item">
+            <span class="info-guidance-icon"><i class="fa-solid fa-circle-check"></i></span>
+            <div>
+              <h3>Report a found item</h3>
+              <p>
+                If you found something, report it through the same
+                <a href="/report">Report an Item</a> form using the <strong>Found</strong> type.
+                If the item matches an existing Lost report, open that lost item's details and
+                choose <em>“I Found This Item”</em> to submit a Found report linked to it —
+                the original reporter is then notified by email.
+              </p>
+            </div>
+          </article>
+
+          <article class="info-guidance-item">
+            <span class="info-guidance-icon"><i class="fa-solid fa-hand-holding-heart"></i></span>
+            <div>
+              <h3>Submit a claim</h3>
+              <p>
+                Found an item you believe is yours? Open its details from
+                <a href="/items?status=found">Found Items</a> and choose
+                <em>“Claim This Item”</em>. You will be asked to describe the item and provide
+                proof details plus proof photos. Claims are saved with the status
+                <strong>Pending review</strong>, and the item's reporter is notified by email.
+              </p>
+            </div>
+          </article>
+
+          <article class="info-guidance-item">
+            <span class="info-guidance-icon"><i class="fa-solid fa-clipboard-list"></i></span>
+            <div>
+              <h3>Check your reports and claims</h3>
+              <p>
+                After logging in, open your <a href="/profile">Profile</a> page. The
+                <strong>My Activity</strong> section lists everything you have submitted:
+                My Reports (lost and found reports), My Claims with their current status, and
+                My Found Reports.
+              </p>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <!-- Troubleshooting -->
+      <section class="info-card info-section" id="troubleshooting" aria-labelledby="troubleshooting-heading">
+        <span class="info-kicker">TROUBLESHOOTING</span>
+        <h2 id="troubleshooting-heading">Common problems and what to try</h2>
+
+        <div class="info-faq-like">
+          <article class="info-trouble-item">
+            <h3><i class="fa-solid fa-key"></i> Can't log in</h3>
+            <p>
+              Check that you are using the email address you registered with and that
+              Caps Lock is off. Repeated failed attempts are temporarily blocked for your
+              safety — wait a few minutes before trying again. SmartRecover does not
+              currently provide a self-service password reset; if you still cannot get in,
+              report the problem from the <a href="/report-issue">Report an Issue</a> page
+              while logged into a device where you can sign in, or contact the support
+              email below.
+            </p>
+          </article>
+
+          <article class="info-trouble-item">
+            <h3><i class="fa-regular fa-image"></i> An uploaded image is not visible</h3>
+            <p>
+              Item photos must be JPG, PNG, or WebP, up to 5&nbsp;MB each, with a maximum of
+              five photos per report. If a photo still does not appear, check your internet
+              connection, disable browser extensions that block images, and reload the page.
+              Your private profile and college ID photos are only shown to you while logged in.
+            </p>
+          </article>
+
+          <article class="info-trouble-item">
+            <h3><i class="fa-solid fa-flag"></i> Report submission failed</h3>
+            <p>
+              Make sure every required field is filled in (title, description, category,
+              location, and report type), and that your photos meet the limits above. If the
+              form keeps failing, note the exact message you see and submit it through
+              <a href="/report-issue">Report an Issue</a>.
+            </p>
+          </article>
+
+          <article class="info-trouble-item">
+            <h3><i class="fa-solid fa-hand-holding-heart"></i> Claim submission failed</h3>
+            <p>
+              A claim needs a description of at least 20 characters, proof details of at
+              least 10 characters, and a valid contact number. You cannot claim an item you
+              reported yourself, and only one pending claim per item per student is allowed.
+              If you already submitted a claim, you can see it under
+              <a href="/profile">Profile → My Activity → My Claims</a>.
+            </p>
+          </article>
+        </div>
+      </section>
+
+      <!-- Contact -->
+      <section class="info-card info-contact-strip" id="contact" aria-labelledby="contact-heading">
+        <div class="info-contact-copy">
+          <span class="info-kicker">CONTACT</span>
+          <h2 id="contact-heading">Still need help?</h2>
+          <p>
+            For account problems, broken pages, or anything that does not work as expected,
+            the fastest way to reach the SmartRecover team is the issue form. You can also
+            email us directly.
+          </p>
+          <p class="info-contact-email">
+            <i class="fa-regular fa-envelope"></i>
+            <a href="mailto:support@jdlostfound.edu">support@jdlostfound.edu</a>
+          </p>
+        </div>
+        <a href="/report-issue" class="info-cta">
+          <i class="fa-solid fa-bug"></i> Report an Issue
+        </a>
+      </section>
+
+    </div>
+  </main>
+
+  <%- include('../includes/footer') %>
+</body>
+</html>

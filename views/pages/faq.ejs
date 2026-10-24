@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FAQ | SmartRecover</title>
+  <link rel="stylesheet" href="/css/home.css">
+  <link rel="stylesheet" href="/css/navbar.css">
+  <link rel="stylesheet" href="/css/footer.css">
+  <link rel="stylesheet" href="/css/info-pages.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+</head>
+<body>
+  <%- include('../includes/navbar') %>
+
+  <main class="info-page">
+    <div class="info-container">
+
+      <header class="info-hero">
+        <span class="info-kicker"><i class="fa-regular fa-circle-question"></i> FAQ</span>
+        <h1>Frequently asked questions</h1>
+        <p class="info-lead">
+          Straight answers about how SmartRecover works. If something here is unclear,
+          visit <a href="/support">Support</a> or <a href="/report-issue">report an issue</a>.
+        </p>
+      </header>
+
+      <section class="info-card" aria-label="Frequently asked questions">
+        <div class="faq-list">
+
+          <details class="faq-item">
+            <summary class="faq-question">
+              <span>What is SmartRecover?</span>
+              <i class="fa-solid fa-chevron-down faq-chevron" aria-hidden="true"></i>
+            </summary>
+            <div class="faq-answer">
+              <p>
+                SmartRecover is a campus Lost &amp; Found platform built for JDCOEM students.
+                It lets students post reports for lost and found items, claim found items they
+                recognise, and help return belongings to their owners.
+              </p>
+            </div>
+          </details>
+
+          <details class="faq-item">
+            <summary class="faq-question">
+              <span>Who can use SmartRecover?</span>
+              <i class="fa-solid fa-chevron-down faq-chevron" aria-hidden="true"></i>
+            </summary>
+            <div class="faq-answer">
+              <p>
+                Anyone can browse open reports on the <a href="/items">Browse Items</a> page.
+                To submit reports or claims you need an account. Registration asks for your
+                name, email, and — like the rest of the platform — was designed for the
+                campus community: a profile photo and a college ID photo are required at
+                sign-up.
+              </p>
+            </div>
+          </details>
+
+          <details class="faq-item">
+            <summary class="faq-question">
+              <span>How do I report a lost item?</span>
+              <i class="fa-solid fa-chevron-down faq-chevron" aria-hidden="true"></i>
+            </summary>
+            <div class="faq-answer">
+              <p>
+                Log in, open <a href="/report">Report an Item</a>, choose the
+                <strong>Lost</strong> type, and fill in the item name, description, category,
+                location, and date. You can attach up to five photos. Your report then appears
+                on the Browse Items page for others to see.
+              </p>
+            </div>
+          </details>
+
+          <details class="faq-item">
+            <summary class="faq-question">
+              <span>How do I report a found item?</span>
+              <i class="fa-solid fa-chevron-down faq-chevron" aria-hidden="true"></i>
+            </summary>
+            <div class="faq-answer">
+              <p>
+                There are two ways. If the item does not match any Lost report, use the same
+                <a href="/report">Report an Item</a> form with the <strong>Found</strong> type.
+                If it does match a Lost report, open that lost item's details page and choose
+                <em>“I Found This Item”</em> — this submits a Found report linked to that lost
+                report, and the original reporter receives an email notification. Either way,
+                hand the item over only after verifying the owner.
+              </p>
+            </div>
+          </details>
+
+          <details class="faq-item">
+            <summary class="faq-question">
+              <span>How do I claim an item?</span>
+              <i class="fa-solid fa-chevron-down faq-chevron" aria-hidden="true"></i>
+            </summary>
+            <div class="faq-answer">
+              <p>
+                Open a <strong>Found</strong> item from <a href="/items?status=found">Browse Items</a>
+                and click <em>“Claim This Item”</em>. You will be asked for a description of the
+                item (at least 20 characters), proof details such as unique markings or contents
+                (at least 10 characters), a contact number, and up to five proof photos. You
+                cannot claim an item you reported yourself.
+              </p>
+            </div>
+          </details>
+
+          <details class="faq-item">
+            <summary class="faq-question">
+              <span>Where can I see my submitted reports?</span>
+              <i class="fa-solid fa-chevron-down faq-chevron" aria-hidden="true"></i>
+            </summary>
+            <div class="faq-answer">
+              <p>
+                Log in and open your <a href="/profile">Profile</a>. The
+                <strong>My Activity</strong> section has a <em>My Reports</em> tab listing every
+                lost and found report you submitted, with its current status.
+              </p>
+            </div>
+          </details>
+
+          <details class="faq-item">
+            <summary class="faq-question">
+              <span>Where can I see my claims?</span>
+              <i class="fa-solid fa-chevron-down faq-chevron" aria-hidden="true"></i>
+            </summary>
+            <div class="faq-answer">
+              <p>
+                In the same place: <a href="/profile">Profile → My Activity → My Claims</a>.
+                Each claim shows the related item and its current status —
+                <em>Pending review</em>, <em>Approved</em>, or <em>Rejected</em>.
+              </p>
+            </div>
+          </details>
+
+          <details class="faq-item">
+            <summary class="faq-question">
+              <span>What happens after I submit a claim?</span>
+              <i class="fa-solid fa-chevron-down faq-chevron" aria-hidden="true"></i>
+            </summary>
+            <div class="faq-answer">
+              <p>
+                Your claim is saved with the status <strong>Pending review</strong>, and both
+                you and the item's reporter receive an email with the claim reference. The
+                reporter (or the campus team) then verifies ownership. SmartRecover does not
+                currently provide an in-app interface for reviewing or approving claims, so
+                progress beyond the status shown on your profile happens through direct contact.
+                Please keep your contact number reachable.
+              </p>
+            </div>
+          </details>
+
+          <details class="faq-item">
+            <summary class="faq-question">
+              <span>Will I receive an email notification?</span>
+              <i class="fa-solid fa-chevron-down faq-chevron" aria-hidden="true"></i>
+            </summary>
+            <div class="faq-answer">
+              <p>
+                Yes, in two situations: when you submit a claim (a confirmation to you and a
+                notification to the item's reporter), and when a student submits a Found report
+                linked to your Lost report. SmartRecover does not currently send emails for
+                registration, login, or ordinary lost/found report submissions.
+              </p>
+            </div>
+          </details>
+
+          <details class="faq-item">
+            <summary class="faq-question">
+              <span>Why is my uploaded image not visible?</span>
+              <i class="fa-solid fa-chevron-down faq-chevron" aria-hidden="true"></i>
+            </summary>
+            <div class="faq-answer">
+              <p>
+                Item photos must be JPG, PNG, or WebP, no larger than 5&nbsp;MB each, with a
+                maximum of five photos. If an image still does not show, reload the page, check
+                your connection, and make sure your browser is not blocking images. Private
+                images (your profile photo and college ID) are only visible to you while logged
+                in — that is intentional.
+              </p>
+            </div>
+          </details>
+
+          <details class="faq-item">
+            <summary class="faq-question">
+              <span>Can I edit or delete a report?</span>
+              <i class="fa-solid fa-chevron-down faq-chevron" aria-hidden="true"></i>
+            </summary>
+            <div class="faq-answer">
+              <p>
+                <strong>Not currently.</strong> Editing and deleting reports from your profile
+                is not supported in this version of SmartRecover. If a report contains
+                sensitive or incorrect information, <a href="/report-issue">report an issue</a>
+                with the report details so the campus team can help.
+              </p>
+            </div>
+          </details>
+
+          <details class="faq-item">
+            <summary class="faq-question">
+              <span>How should I verify ownership of an item?</span>
+              <i class="fa-solid fa-chevron-down faq-chevron" aria-hidden="true"></i>
+            </summary>
+            <div class="faq-answer">
+              <p>
+                Ask for details only the real owner would know: unique markings, contents,
+                serial numbers, or proof photos of the item in a private setting. Meet in a
+                busy campus location, double-check any identifiers before handing the item
+                over, and never share your passwords or OTPs. If something feels wrong, trust
+                your instincts and <a href="/report-issue">report the situation</a>.
+              </p>
+            </div>
+          </details>
+
+          <details class="faq-item">
+            <summary class="faq-question">
+              <span>What should I do if a claim is incorrect?</span>
+              <i class="fa-solid fa-chevron-down faq-chevron" aria-hidden="true"></i>
+            </summary>
+            <div class="faq-answer">
+              <p>
+                If you are the reporter and receive a claim you believe is wrong, do not hand
+                the item over. Reply through the contact details you have, ask for stronger
+                proof, and <a href="/report-issue">report the issue</a> so the campus team can
+                look into it. Never transfer an item just because someone asked.
+              </p>
+            </div>
+          </details>
+
+          <details class="faq-item">
+            <summary class="faq-question">
+              <span>How do I report a technical issue?</span>
+              <i class="fa-solid fa-chevron-down faq-chevron" aria-hidden="true"></i>
+            </summary>
+            <div class="faq-answer">
+              <p>
+                Log in and use the <a href="/report-issue">Report an Issue</a> page. Choose a
+                category, describe what happened, and if possible include the page you were on
+                and the exact error message. Your report is saved securely and sent to the
+                support team. You can also email
+                <a href="mailto:support@jdlostfound.edu">support@jdlostfound.edu</a>.
+              </p>
+            </div>
+          </details>
+
+          <details class="faq-item">
+            <summary class="faq-question">
+              <span>How is my personal information used?</span>
+              <i class="fa-solid fa-chevron-down faq-chevron" aria-hidden="true"></i>
+            </summary>
+            <div class="faq-answer">
+              <p>
+                Your details are used to run the recovery process: reports show your name and
+                contact details so item finders and claimants can reach you, claims are stored
+                with your proof and contact number, and profile/college ID photos support
+                campus-only trust. Full details, including what is stored and who can see it,
+                are in the <a href="/privacy-policy">Privacy Policy</a>.
+              </p>
+            </div>
+          </details>
+
+        </div>
+      </section>
+
+      <section class="info-card info-contact-strip" aria-labelledby="faq-help-heading">
+        <div class="info-contact-copy">
+          <span class="info-kicker">MORE HELP</span>
+          <h2 id="faq-help-heading">Didn't find your answer?</h2>
+          <p>
+            Visit the <a href="/support">Support center</a> for step-by-step guidance, or
+            send the team a message directly.
+          </p>
+          <p class="info-contact-email">
+            <i class="fa-regular fa-envelope"></i>
+            <a href="mailto:support@jdlostfound.edu">support@jdlostfound.edu</a>
+          </p>
+        </div>
+        <a href="/report-issue" class="info-cta">
+          <i class="fa-solid fa-bug"></i> Report an Issue
+        </a>
+      </section>
+
+    </div>
+  </main>
+
+  <%- include('../includes/footer') %>
+</body>
+</html>

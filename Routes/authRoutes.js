@@ -19,6 +19,8 @@ router.post("/logout", authController.logout);
 
 // Authenticated profile and image routes
 router.get("/profile", requireAuth, profileController.showProfile);
+router.get("/profile/edit", requireAuth, profileController.showEditProfile);
+router.post("/profile/edit", requireAuth, profileController.updateProfile);
 router.post("/profile/images", requireAuth, imageUpload.profileImages, profileController.updateImages);
 router.get("/users/:userId/images/:kind", requireAuth, profileController.showImage);
 

@@ -35,4 +35,23 @@ const registerLimiter = rateLimit({
   }
 });
 
-module.exports = { loginLimiter, registerLimiter };
+const issueLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  limit: 5,
+  standardHeaders: true,
+  legacyHeaders: false,
+  handler: (req, res) => {
+    res.status(429).render("pages/report-issue", {
+      title: "Report an Issue | SmartRecover",
+      currentUser: req.session?.user || null,
+      submitted: false,
+      error:
+        "Too many issue reports were submitted from this device. Please wait a few minutes and try again.",
+      values: {},
+      reference: null,
+      supportEmail: "support@jdlostfound.edu"
+    });
+  }
+});
+
+module.exports = { loginLimiter, registerLimiter, issueLimiter };

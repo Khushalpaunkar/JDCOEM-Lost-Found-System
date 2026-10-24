@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Privacy Policy | SmartRecover</title>
+  <link rel="stylesheet" href="/css/home.css">
+  <link rel="stylesheet" href="/css/navbar.css">
+  <link rel="stylesheet" href="/css/footer.css">
+  <link rel="stylesheet" href="/css/info-pages.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+</head>
+<body>
+  <%- include('../includes/navbar') %>
+
+  <main class="info-page">
+    <div class="info-container">
+
+      <header class="info-hero">
+        <span class="info-kicker"><i class="fa-solid fa-user-shield"></i> PRIVACY POLICY</span>
+        <h1>Privacy Policy</h1>
+        <p class="info-lead">
+          This policy explains what information SmartRecover — Lost &amp; Found JDCOEM
+          collects, how it is used, and the choices you have. It is written for students
+          using the platform and is based on how the application actually works today.
+        </p>
+        <p class="info-meta">
+          <i class="fa-regular fa-calendar"></i>
+          Effective date: <strong>To be confirmed on publication</strong>
+          <span class="info-badge">This page is project documentation, not legal advice.</span>
+        </p>
+      </header>
+
+      <nav class="info-toc info-card" aria-label="Privacy policy contents">
+        <h2 class="info-toc-title">On this page</h2>
+        <ol>
+          <li><a href="#pp-introduction">Introduction and purpose</a></li>
+          <li><a href="#pp-collection">Information we collect</a></li>
+          <li><a href="#pp-usage">How information is used</a></li>
+          <li><a href="#pp-visibility">Who can see your information</a></li>
+          <li><a href="#pp-email">Email notifications</a></li>
+          <li><a href="#pp-services">Service providers and storage</a></li>
+          <li><a href="#pp-security">Security practices and limitations</a></li>
+          <li><a href="#pp-retention">Data retention and deletion</a></li>
+          <li><a href="#pp-responsibilities">Your responsibilities</a></li>
+          <li><a href="#pp-contact">Contact and policy updates</a></li>
+        </ol>
+      </nav>
+
+      <article class="info-card info-prose">
+
+        <section id="pp-introduction">
+          <h2>1. Introduction and purpose</h2>
+          <p>
+            SmartRecover is a campus Lost &amp; Found application for the JDCOEM community.
+            Its purpose is to help students report lost belongings, report found items, claim
+            items they recognise, and return property to its owner. To do this, the platform
+            necessarily handles personal information such as your name, contact details, and
+            photos. This policy describes that handling.
+          </p>
+        </section>
+
+        <section id="pp-collection">
+          <h2>2. Information we collect</h2>
+
+          <h3>Account and authentication</h3>
+          <p>When you register, SmartRecover stores:</p>
+          <ul>
+            <li>Your full name and email address</li>
+            <li>Your College BT ID and department (optional at sign-up)</li>
+            <li>Your mobile number and address (optional)</li>
+            <li>A password, which is stored only as a salted hash (never as readable text)</li>
+            <li>A profile photo and a college ID card photo — both required at registration</li>
+          </ul>
+
+          <h3>Lost and found reports</h3>
+          <p>Each report you submit stores the item title, description, category, whether it is a lost or found report, the location, the reported date and time, and up to five photos. Your account is linked as the reporter, and your name, department, mobile number, and college ID are also saved with the report for contact purposes.</p>
+
+          <h3>Claims</h3>
+          <p>When you claim an item, SmartRecover stores the claim description, your proof details, up to five proof photos, your contact number, the claim's review status, and a link to both the item and your account.</p>
+
+          <h3>Found reports linked to lost items</h3>
+          <p>If you report that you found an item matching someone's lost report, SmartRecover stores your description, the location and date/time you found it, up to five photos, the report status, and links to the original lost report and your account.</p>
+
+          <h3>Issue reports</h3>
+          <p>When you use the <a href="/report-issue">Report an Issue</a> page, the category, subject, description, affected page, and error message you provide are stored together with your account and a review status.</p>
+
+          <h3>Sessions and usage data</h3>
+          <p>
+            Login sessions are stored server-side (in the database) so you stay signed in;
+            your browser holds an identifier cookie that cannot be read by page scripts.
+            The service also applies temporary login throttling, which uses your network
+            address to limit repeated attempts. Standard server log entries may include
+            the pages requested and error details during operation.
+          </p>
+        </section>
+
+        <section id="pp-usage">
+          <h2>3. How information is used</h2>
+          <ul>
+            <li>To create your account and keep you signed in securely</li>
+            <li>To publish your reports so the campus community can help</li>
+            <li>To connect finders, owners, and claimants through contact details you provided</li>
+            <li>To send the claim and found-report email notifications described below</li>
+            <li>To record issue reports so problems can be investigated</li>
+            <li>To limit abusive behaviour such as repeated failed logins</li>
+          </ul>
+          <p>
+            SmartRecover does not use your information for advertising, and it is not sold
+            or shared for marketing purposes.
+          </p>
+        </section>
+
+        <section id="pp-visibility">
+          <h2>4. Who can see your information</h2>
+          <ul>
+            <li><strong>Open reports are public.</strong> Anyone — including visitors who are not logged in — can browse open lost and found reports and view an item's details page.</li>
+            <li><strong>Reporter details on item pages.</strong> An item's details page displays the reporter's name, department, mobile number, and college ID to whoever views it. Keep this in mind when writing report descriptions.</li>
+            <li><strong>Claims are private.</strong> Claims are not shown on public pages. Your claim and its proof photos are accessible to you, to the reporter of the claimed item, and to administrator accounts on the platform.</li>
+            <li><strong>Profile is private.</strong> Your profile page — including your profile photo, college ID image, and the My Activity history of your reports, claims, and found reports — is visible only to you while logged in (and to administrator accounts where applicable).</li>
+            <li><strong>Found reports</strong> linked to a lost report are not listed publicly as items; they are shown to you on your profile, and the original lost reporter is notified by email with the details you provided.</li>
+            <li><strong>Issue reports</strong> are visible to you and to the support team.</li>
+          </ul>
+        </section>
+
+        <section id="pp-email">
+          <h2>5. Email notifications</h2>
+          <p>SmartRecover sends transactional emails through a configured mail service in these situations:</p>
+          <ul>
+            <li>When you submit a claim: a confirmation to you and a notification to the item's reporter</li>
+            <li>When someone submits a Found report linked to your lost report: a notification with the finder's description, location, and time</li>
+            <li>Best-effort notifications to the support mailbox when an issue report is recorded</li>
+          </ul>
+          <p>
+            These emails contain only the details needed for that recovery step. SmartRecover
+            does not currently send marketing emails.
+          </p>
+        </section>
+
+        <section id="pp-services">
+          <h2>6. Service providers and storage</h2>
+          <ul>
+            <li><strong>MongoDB Atlas</strong> — hosts the application database, including accounts, reports, claims, login sessions, and your private images (profile photo and college ID).</li>
+            <li><strong>Cloudinary</strong> — stores the photos uploaded with item reports and found reports. These images are hosted publicly as part of the reporting workflow.</li>
+            <li><strong>Mail service (Gmail)</strong> — delivers the notification emails described above.</li>
+            <li><strong>Web fonts and icon libraries</strong> — pages load fonts and icons from public CDNs (Google Fonts and cdnjs); those providers may receive standard request data such as your IP address.</li>
+          </ul>
+        </section>
+
+        <section id="pp-security">
+          <h2>7. Security practices and limitations</h2>
+          <p>SmartRecover takes reasonable precautions, including:</p>
+          <ul>
+            <li>Passwords stored only as salted hashes (bcrypt), never in readable form</li>
+            <li>Server-side login sessions with cookies that scripts cannot read</li>
+            <li>Access checks so private pages and images require a valid login</li>
+            <li>Rate limiting on login, registration, and issue-report forms</li>
+          </ul>
+          <p>
+            No internet application can be guaranteed completely secure. SmartRecover does not
+            claim end-to-end encryption or absolute protection against all risks. Please use a
+            strong, unique password and never share your account.
+          </p>
+        </section>
+
+        <section id="pp-retention">
+          <h2>8. Data retention and deletion</h2>
+          <p>
+            Your information is retained for as long as your account and the SmartRecover
+            service operate, so that reports, claims, and recovery histories remain available.
+            The application does not currently provide automatic deletion of reports or
+            accounts, and does not apply a fixed retention schedule.
+          </p>
+          <p>
+            If you want your account or a specific report removed, contact
+            <a href="mailto:support@jdlostfound.edu">support@jdlostfound.edu</a> with the
+            details and the request will be handled by the campus team as far as technically
+            and operationally practical.
+          </p>
+        </section>
+
+        <section id="pp-responsibilities">
+          <h2>9. Your responsibilities</h2>
+          <ul>
+            <li>Provide accurate account details and keep your contact number reachable</li>
+            <li>Do not include passwords, OTPs, bank details, or other sensitive secrets in public report descriptions</li>
+            <li>Upload only photos you have the right to share</li>
+            <li>Use claims and reports honestly — see the <a href="/terms-of-use">Terms of Use</a></li>
+          </ul>
+        </section>
+
+        <section id="pp-contact">
+          <h2>10. Contact and policy updates</h2>
+          <p>
+            Questions about this policy or your data can be sent to
+            <a href="mailto:support@jdlostfound.edu">support@jdlostfound.edu</a> or through the
+            <a href="/report-issue">Report an Issue</a> page.
+          </p>
+          <p>
+            This policy may be updated as the platform evolves. The effective date at the top
+            of this page will be revised when an updated version is published. Continued use
+            of SmartRecover after an update means you accept the revised policy.
+          </p>
+          <p class="info-note">
+            <i class="fa-solid fa-circle-info"></i>
+            This document is project documentation for SmartRecover and may require review by
+            the college or an appropriate legal adviser before formal publication.
+          </p>
+        </section>
+
+      </article>
+
+    </div>
+  </main>
+
+  <%- include('../includes/footer') %>
+</body>
+</html>

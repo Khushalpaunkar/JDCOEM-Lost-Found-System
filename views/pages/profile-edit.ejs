@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= title %></title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/home.css">
+  <link rel="stylesheet" href="/css/navbar.css">
+  <link rel="stylesheet" href="/css/footer.css">
+  <link rel="stylesheet" href="/css/profile.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+</head>
+<body>
+  <%- include('../includes/navbar') %>
+
+  <main class="profile-page profile-edit-page">
+    <div class="profile-shell profile-edit-shell">
+
+      <header class="profile-header">
+        <span class="profile-kicker">ACCOUNT SETTINGS</span>
+        <h1>Edit Profile</h1>
+        <p class="profile-subtitle">Keep your campus details accurate so recovered items find their way back to you.</p>
+      </header>
+
+      <% if (formError) { %>
+        <p class="profile-message is-error" role="alert">
+          <i class="fa-solid fa-circle-exclamation"></i>
+          <%= formError %>
+        </p>
+      <% } %>
+
+      <form class="profile-card profile-edit-card" action="/profile/edit" method="POST" novalidate>
+        <div class="profile-edit-grid">
+
+          <div class="pp-field">
+            <label class="pp-field-label" for="edit-name">Full name</label>
+            <input
+              class="pp-input <%= errors.name ? 'is-invalid' : '' %>"
+              id="edit-name"
+              name="name"
+              type="text"
+              maxlength="60"
+              autocomplete="name"
+              value="<%= values.name %>"
+              <% if (errors.name) { %>aria-describedby="edit-name-error"<% } %>
+            >
+            <% if (errors.name) { %>
+              <span class="pp-field-error" id="edit-name-error">
+                <i class="fa-solid fa-circle-exclamation" aria-hidden="true"></i> <%= errors.name %>
+              </span>
+            <% } %>
+          </div>
+
+          <div class="pp-field">
+            <label class="pp-field-label" for="edit-department">Department</label>
+            <select
+              class="pp-input <%= errors.department ? 'is-invalid' : '' %>"
+              id="edit-department"
+              name="department"
+            >
+              <%
+                const deptOptions = ['', 'CSE', 'IT', 'ECE', 'MECH', 'CIVIL', 'ENTC'];
+                deptOptions.forEach(function (option) {
+              %>
+                <option value="<%= option %>" <%= values.department === option ? 'selected' : '' %>>
+                  <%= option || 'Not provided' %>
+                </option>
+              <%
+                });
+              %>
+            </select>
+            <% if (errors.department) { %>
+              <span class="pp-field-error" id="edit-department-error">
+                <i class="fa-solid fa-circle-exclamation" aria-hidden="true"></i> <%= errors.department %>
+              </span>
+            <% } %>
+          </div>
+
+          <div class="pp-field">
+            <label class="pp-field-label" for="edit-email">College email</label>
+            <input
+              class="pp-input is-readonly"
+              id="edit-email"
+              type="email"
+              value="<%= user.email %>"
+              readonly
+              aria-readonly="true"
+            >
+            <span class="pp-field-hint"><i class="fa-solid fa-lock" aria-hidden="true"></i> Used for sign-in — reach out via Support to change it.</span>
+          </div>
+
+          <div class="pp-field">
+            <label class="pp-field-label" for="edit-college-id">College ID</label>
+            <input
+              class="pp-input is-readonly"
+              id="edit-college-id"
+              type="text"
+              value="<%= user.collegeId || '' %>"
+              placeholder="Not provided"
+              readonly
+              aria-readonly="true"
+            >
+            <span class="pp-field-hint"><i class="fa-solid fa-lock" aria-hidden="true"></i> Set during registration.</span>
+          </div>
+
+          <div class="pp-field">
+            <label class="pp-field-label" for="edit-mobile">Mobile number</label>
+            <input
+              class="pp-input <%= errors.mobile ? 'is-invalid' : '' %>"
+              id="edit-mobile"
+              name="mobile"
+              type="tel"
+              inputmode="numeric"
+              maxlength="10"
+              autocomplete="tel"
+              placeholder="10-digit mobile number"
+              value="<%= values.mobile %>"
+              <% if (errors.mobile) { %>aria-describedby="edit-mobile-error"<% } %>
+            >
+            <% if (errors.mobile) { %>
+              <span class="pp-field-error" id="edit-mobile-error">
+                <i class="fa-solid fa-circle-exclamation" aria-hidden="true"></i> <%= errors.mobile %>
+              </span>
+            <% } %>
+          </div>
+
+          <div class="pp-field">
+            <label class="pp-field-label" for="edit-role">Account type</label>
+            <input
+              class="pp-input is-readonly"
+              id="edit-role"
+              type="text"
+              value="<%= user.role === 'admin' ? 'Administrator' : 'Student' %>"
+              readonly
+              aria-readonly="true"
+            >
+          </div>
+
+          <div class="pp-field pp-field-wide">
+            <label class="pp-field-label" for="edit-address">Address</label>
+            <textarea
+              class="pp-input <%= errors.address ? 'is-invalid' : '' %>"
+              id="edit-address"
+              name="address"
+              rows="3"
+              maxlength="250"
+              placeholder="Hostel, landmark or city"
+              <% if (errors.address) { %>aria-describedby="edit-address-error"<% } %>
+            ><%= values.address %></textarea>
+            <% if (errors.address) { %>
+              <span class="pp-field-error" id="edit-address-error">
+                <i class="fa-solid fa-circle-exclamation" aria-hidden="true"></i> <%= errors.address %>
+              </span>
+            <% } %>
+          </div>
+
+        </div>
+
+        <div class="profile-edit-actions">
+          <button type="submit" class="pp-btn pp-btn-primary">
+            <i class="fa-solid fa-check" aria-hidden="true"></i> Save changes
+          </button>
+          <a href="/profile" class="pp-btn pp-btn-secondary">
+            <i class="fa-solid fa-arrow-left" aria-hidden="true"></i> Cancel
+          </a>
+        </div>
+      </form>
+
+    </div>
+  </main>
+
+  <%- include('../includes/footer') %>
+</body>
+</html>

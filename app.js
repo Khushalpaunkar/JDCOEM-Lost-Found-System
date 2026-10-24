@@ -9,6 +9,7 @@ const authRoutes = require("./Routes/authRoutes");
 const itemRoutes = require("./Routes/itemRoutes");
 const claimRoutes = require("./Routes/claimRoutes");
 const foundReportRoutes = require("./Routes/foundReportRoutes");
+const infoRoutes = require("./Routes/infoRoutes");
 const { notFound, globalErrorHandler } = require("./middleware/errorHandler");
 const Item = require("./models/item");
 
@@ -103,6 +104,9 @@ app.use("/", foundReportRoutes);
 
 // Authentication routes
 app.use("/", authRoutes);
+
+// Informational pages and issue reporting
+app.use("/", infoRoutes);
 
 app.use(claimRoutes);
 

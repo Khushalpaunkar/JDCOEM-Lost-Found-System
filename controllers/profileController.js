@@ -5,7 +5,39 @@ const Claim = require("../models/claim");
 const FoundReport = require("../models/FoundReport");
 const imageStorage = require("../services/imageStorage");
 
-const profileFields = "name collegeId department email mobile address profilePhotoFileId collegeIdPhotoFileId role";
+const profileFields = "name collegeId department email mobile address profilePhotoFileId collegeIdPhotoFileId role isActive";
+
+const DEPARTMENTS = ["CSE", "IT", "ECE", "MECH", "CIVIL", "ENTC", ""];
+
+function validateProfileForm(body) {
+  const values = {
+    name: String(body.name ?? "").trim(),
+    department: String(body.department ?? ""),
+    mobile: String(body.mobile ?? "").trim(),
+    address: String(body.address ?? "").trim()
+  };
+  const errors = {};
+
+  if (!values.name) {
+    errors.name = "Full name is required.";
+  } else if (values.name.length < 2 || values.name.length > 60) {
+    errors.name = "Name must be between 2 and 60 characters.";
+  }
+
+  if (!DEPARTMENTS.includes(values.department)) {
+    errors.department = "Select a valid department.";
+  }
+
+  if (values.mobile && !/^\d{10}$/.test(values.mobile)) {
+    errors.mobile = "Enter a valid 10-digit mobile number.";
+  }
+
+  if (values.address.length > 250) {
+    errors.address = "Address must be 250 characters or fewer.";
+  }
+
+  return { values, errors };
+}
 
 function canAccessUser(req, user) {
   return req.session.user.role === "admin" ||
@@ -33,6 +65,19 @@ exports.showProfile = async (req, res, next) => {
       upload: "The image upload could not be processed. Check the 5 MB limit and try again.",
       save: "Your images could not be saved. Please try again."
     };
+
+    const profileMessages = {
+      updated: "Your profile details were updated.",
+      save: "Your profile could not be saved. Please try again."
+    };
+
+    const flashMessage =
+      imageMessages[req.query.imageError] ||
+      profileMessages[req.query.profile] ||
+      null;
+    const flashIsError = !(
+      req.query.imageError === "updated" || req.query.profile === "updated"
+    );
 
     // ---- My Activity: fetch everything the logged-in user owns ----
     const userId = req.session.user.id;
@@ -85,12 +130,81 @@ exports.showProfile = async (req, res, next) => {
       title: "My Profile | SmartRecover",
       currentUser: req.session.user,
       user,
-      imageMessage: imageMessages[req.query.imageError] || null,
-      imageMessageIsError: req.query.imageError !== "updated",
+      flashMessage,
+      flashIsError,
       reports: activity.reports,
       claims: activity.claims,
       foundReports: activity.foundReports,
       activityError
+    });
+  } catch (error) {
+    return next(error);
+  }
+};
+
+exports.showEditProfile = async (req, res, next) => {
+  try {
+    const user = await User.findById(req.session.user.id).select(profileFields);
+    if (!user) {
+      return clearStaleSession(req, res);
+    }
+
+    return res.render("pages/profile-edit", {
+      title: "Edit Profile | SmartRecover",
+      currentUser: req.session.user,
+      user,
+      values: {
+        name: user.name || "",
+        department: user.department || "",
+        mobile: user.mobile || "",
+        address: user.address || ""
+      },
+      errors: {},
+      formError: null
+    });
+  } catch (error) {
+    return next(error);
+  }
+};
+
+exports.updateProfile = async (req, res, next) => {
+  try {
+    const user = await User.findById(req.session.user.id);
+    if (!user) {
+      return clearStaleSession(req, res);
+    }
+
+    const { values, errors } = validateProfileForm(req.body);
+
+    if (Object.keys(errors).length === 0) {
+      user.name = values.name;
+      user.department = values.department;
+      user.mobile = values.mobile;
+      user.address = values.address;
+
+      try {
+        await user.save();
+        req.session.user.name = user.name;
+        return res.redirect("/profile?profile=updated");
+      } catch (saveError) {
+        if (saveError.name !== "ValidationError") {
+          throw saveError;
+        }
+        Object.keys(saveError.errors || {}).forEach((field) => {
+          if (!errors[field]) {
+            errors[field] = saveError.errors[field].message;
+          }
+        });
+      }
+    }
+
+    return res.status(400).render("pages/profile-edit", {
+      title: "Edit Profile | SmartRecover",
+      currentUser: req.session.user,
+      user,
+      values,
+      errors,
+      formError: "Please review the highlighted fields and try again."
     });
   } catch (error) {
     return next(error);

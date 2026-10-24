@@ -1,0 +1,286 @@
+/* =========================================================
+   SmartRecover — Report an Issue page
+   Form card styles (scoped; tokens from home.css)
+   ========================================================= */
+
+.issue-page {
+  min-height: 65vh;
+  padding: 56px 20px 72px;
+  background: var(--sr-background);
+}
+
+.issue-card {
+  width: 100%;
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 38px;
+  background: var(--sr-white);
+  border: 1px solid var(--sr-border);
+  border-radius: 16px;
+  box-shadow: var(--sr-shadow);
+}
+
+.back-link {
+  display: inline-flex;
+  gap: 8px;
+  align-items: center;
+  margin-bottom: 22px;
+  color: var(--sr-primary-dark);
+  font-size: 13.5px;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.back-link:hover {
+  text-decoration: underline;
+}
+
+.back-link:focus-visible {
+  outline: 2px solid var(--sr-primary);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+.eyebrow {
+  display: inline-flex;
+  gap: 8px;
+  align-items: center;
+  color: var(--sr-primary-dark);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+}
+
+.issue-card h1 {
+  margin: 10px 0 8px;
+  color: var(--sr-heading);
+  font-size: clamp(26px, 4.5vw, 34px);
+  letter-spacing: -0.5px;
+  line-height: 1.25;
+}
+
+.intro {
+  max-width: 620px;
+  margin: 0 0 26px;
+  color: var(--sr-text);
+  font-size: 14px;
+  line-height: 1.7;
+}
+
+.intro a {
+  color: var(--sr-primary-dark);
+  font-weight: 600;
+}
+
+/* -------------------- Form -------------------- */
+
+.form-row {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px;
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 8px;
+  color: var(--sr-heading);
+  font-size: 13.5px;
+  font-weight: 600;
+}
+
+.required-mark {
+  color: var(--sr-danger);
+}
+
+.optional-mark {
+  color: var(--sr-muted);
+  font-weight: 500;
+  font-size: 12px;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+  display: block;
+  width: 100%;
+  padding: 13px 14px;
+  color: var(--sr-heading);
+  background: var(--sr-white);
+  border: 1px solid var(--sr-border);
+  border-radius: 9px;
+  font: inherit;
+  font-size: 13.5px;
+  outline: none;
+  transition: border-color 0.18s ease, box-shadow 0.18s ease;
+}
+
+.form-group select {
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='%238492a6' d='M1.4 0 6 4.6 10.6 0 12 1.4 6 7.4 0 1.4z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 14px center;
+  padding-right: 38px;
+  cursor: pointer;
+}
+
+.form-group textarea {
+  min-height: 140px;
+  resize: vertical;
+  line-height: 1.65;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+  border-color: var(--sr-primary);
+  box-shadow: 0 0 0 4px rgba(235, 95, 30, 0.12);
+}
+
+.form-group input::placeholder,
+.form-group textarea::placeholder {
+  color: #a5b1c2;
+}
+
+.form-group small {
+  display: block;
+  margin-top: 7px;
+  color: var(--sr-muted);
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.submit-btn {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  min-height: 48px;
+  margin-top: 6px;
+  color: #fff;
+  background: var(--sr-primary);
+  border: 0;
+  border-radius: 9px;
+  font: inherit;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.18s ease, transform 0.18s ease;
+}
+
+.submit-btn:hover {
+  background: var(--sr-primary-dark);
+  transform: translateY(-1px);
+}
+
+.submit-btn:focus-visible {
+  outline: 2px solid var(--sr-heading);
+  outline-offset: 2px;
+}
+
+.privacy-note {
+  margin: 16px 0 0;
+  color: var(--sr-muted);
+  font-size: 12px;
+  line-height: 1.65;
+  text-align: center;
+}
+
+.privacy-note a {
+  color: var(--sr-primary-dark);
+  font-weight: 600;
+}
+
+/* -------------------- Feedback banners -------------------- */
+
+.success-message,
+.error-message {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  margin: 0 0 22px;
+  padding: 15px 17px;
+  border-radius: 9px;
+  font-size: 13.5px;
+  line-height: 1.65;
+}
+
+.success-message {
+  color: #166534;
+  background: #f0fdf4;
+  border: 1px solid #bbf7d0;
+}
+
+.error-message {
+  color: #991b1b;
+  background: #fef2f2;
+  border: 1px solid #fecaca;
+}
+
+.success-message a,
+.error-message a {
+  color: inherit;
+  font-weight: 700;
+}
+
+.issue-success-actions {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.issue-inline-btn {
+  text-decoration: none;
+}
+
+.issue-secondary-btn {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  justify-content: center;
+  min-height: 48px;
+  color: var(--sr-heading);
+  background: var(--sr-white);
+  border: 1px solid var(--sr-border);
+  border-radius: 9px;
+  font-size: 14px;
+  font-weight: 700;
+  text-decoration: none;
+  transition: border-color 0.18s ease, background 0.18s ease;
+}
+
+.issue-secondary-btn:hover {
+  border-color: #c8d8f0;
+  background: var(--sr-background);
+}
+
+.issue-secondary-btn:focus-visible {
+  outline: 2px solid var(--sr-primary);
+  outline-offset: 2px;
+}
+
+/* -------------------- Responsive -------------------- */
+
+@media (max-width: 640px) {
+  .issue-page {
+    padding: 32px 14px 52px;
+  }
+
+  .issue-card {
+    padding: 26px 18px;
+    border-radius: 12px;
+  }
+
+  .form-row {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+
+  .issue-success-actions {
+    grid-template-columns: 1fr;
+  }
+}
