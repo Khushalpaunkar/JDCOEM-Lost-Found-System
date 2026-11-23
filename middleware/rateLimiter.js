@@ -35,6 +35,38 @@ const registerLimiter = rateLimit({
   }
 });
 
+const forgotPasswordLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  limit: 5,
+  standardHeaders: true,
+  legacyHeaders: false,
+  handler: (req, res) => {
+    res.status(429).render("auth/forgot-password", {
+      error: "Too many reset link requests. Please wait a few minutes and try again.",
+      success: null
+    });
+  }
+});
+
+const resetPasswordLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  limit: 10,
+  standardHeaders: true,
+  legacyHeaders: false,
+  handler: (req, res) => {
+    const token =
+      typeof req.params?.token === "string" && /^[a-f0-9]{64}$/i.test(req.params.token)
+        ? req.params.token
+        : null;
+
+    res.status(429).render("auth/reset-password", {
+      error: "Too many attempts. Please wait a few minutes and try again.",
+      success: null,
+      token
+    });
+  }
+});
+
 const issueLimiter = rateLimit({
   windowMs: 15 * 60 * 1000,
   limit: 5,
@@ -54,4 +86,4 @@ const issueLimiter = rateLimit({
   }
 });
 
-module.exports = { loginLimiter, registerLimiter, issueLimiter };
+module.exports = { loginLimiter, registerLimiter, forgotPasswordLimiter, resetPasswordLimiter, issueLimiter };

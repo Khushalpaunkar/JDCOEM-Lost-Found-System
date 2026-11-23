@@ -154,3 +154,21 @@ body {
   text-decoration: none;
   font-weight: 600;
 }
+
+.forgot-password-row {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 8px;
+}
+
+.forgot-password-link {
+  color: #f16128;
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.forgot-password-link:hover {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}

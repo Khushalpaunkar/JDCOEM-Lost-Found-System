@@ -1,7 +1,26 @@
 
+const crypto = require("crypto");
 const User = require("../models/User");
 const bcrypt = require("bcryptjs");
 const imageStorage = require("../services/imageStorage");
+const { sendEmail } = require("../utils/emailServices");
+
+const RESET_TOKEN_BYTES = 32;
+const RESET_TOKEN_TTL_MS = 15 * 60 * 1000;
+const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+const RESET_TOKEN_REGEX = /^[a-f0-9]{64}$/i;
+
+function hashResetToken(token) {
+  return crypto.createHash("sha256").update(token).digest("hex");
+}
+
+function getResetBaseUrl(req) {
+  if (process.env.BASE_URL) {
+    return process.env.BASE_URL.replace(/\/+$/, "");
+  }
+
+  return `${req.protocol}://${req.get("host")}`;
+}
 
 function getSafeReturnTo(value) {
   if (typeof value !== "string" || !value.startsWith("/") || value.startsWith("//")) {
@@ -251,7 +270,9 @@ exports.showLogin = (req, res) => {
     success:
       req.query.registered === "success"
         ? "Account created successfully! Please log in."
-        : null
+        : req.query.reset === "success"
+          ? "Password reset successful! Please log in with your new password."
+          : null
   });
 };
 
@@ -346,4 +367,208 @@ exports.logout = (req, res, next) => {
     res.clearCookie("smartrecover.sid");
     return res.redirect("/");
   });
+};
+
+/* Show forgot password page */
+exports.showForgotPassword = (req, res) => {
+  if (req.session && req.session.user) {
+    return res.redirect("/");
+  }
+
+  res.render("auth/forgot-password", {
+    error: null,
+    success: null
+  });
+};
+
+/* Send password reset link */
+exports.forgotPassword = async (req, res) => {
+  const genericSuccess =
+    "If an account with that email exists, a password reset link has been sent. Please check your inbox.";
+
+  try {
+    const email = req.body.email?.trim().toLowerCase();
+
+    if (!email || !EMAIL_REGEX.test(email)) {
+      return res.status(400).render("auth/forgot-password", {
+        error: "Please enter a valid email address.",
+        success: null
+      });
+    }
+
+    const user = await User.findOne({ email, isActive: true });
+
+    if (user) {
+      const rawToken = crypto.randomBytes(RESET_TOKEN_BYTES).toString("hex");
+
+      await User.updateOne(
+        { _id: user._id },
+        {
+          $set: {
+            resetPasswordToken: hashResetToken(rawToken),
+            resetPasswordExpires: new Date(Date.now() + RESET_TOKEN_TTL_MS)
+          }
+        }
+      );
+
+      const resetUrl = `${getResetBaseUrl(req)}/reset-password/${rawToken}`;
+
+      try {
+        await sendEmail({
+          to: user.email,
+          subject: "SmartRecover – Reset Your Password",
+          text:
+            `Hello ${user.name},\n\n` +
+            `We received a request to reset your SmartRecover password.\n\n` +
+            `Click the link below to choose a new password (valid for 15 minutes):\n\n` +
+            `${resetUrl}\n\n` +
+            `If you did not request this, you can safely ignore this email. ` +
+            `Your password will not change until you set a new one.\n\n` +
+            `— SmartRecover Team`
+        });
+      } catch (emailError) {
+        console.error("Password reset email failed:", emailError.message);
+      }
+    }
+
+    return res.status(200).render("auth/forgot-password", {
+      error: null,
+      success: genericSuccess
+    });
+  } catch (error) {
+    console.error("Forgot password error:", error.message);
+
+    return res.status(500).render("auth/forgot-password", {
+      error: "Something went wrong. Please try again.",
+      success: null
+    });
+  }
+};
+
+/* Show reset password page */
+exports.showResetPassword = async (req, res) => {
+  if (req.session && req.session.user) {
+    return res.redirect("/");
+  }
+
+  const { token } = req.params;
+  const invalidLinkError =
+    "This password reset link is invalid or has expired. Please request a new one.";
+
+  try {
+    if (!token || !RESET_TOKEN_REGEX.test(token)) {
+      return res.status(400).render("auth/reset-password", {
+        error: invalidLinkError,
+        success: null,
+        token: null
+      });
+    }
+
+    const user = await User.findOne({
+      resetPasswordToken: hashResetToken(token),
+      resetPasswordExpires: { $gt: new Date() }
+    }).select("+resetPasswordToken +resetPasswordExpires");
+
+    if (!user) {
+      return res.status(400).render("auth/reset-password", {
+        error: invalidLinkError,
+        success: null,
+        token: null
+      });
+    }
+
+    return res.render("auth/reset-password", {
+      error: null,
+      success: null,
+      token
+    });
+  } catch (error) {
+    console.error("Reset password page error:", error.message);
+
+    return res.status(500).render("auth/reset-password", {
+      error: "Something went wrong. Please try again.",
+      success: null,
+      token: null
+    });
+  }
+};
+
+/* Reset the password */
+exports.resetPassword = async (req, res) => {
+  const { token } = req.params;
+  const invalidLinkError =
+    "This password reset link is invalid, expired, or has already been used. Please request a new one.";
+
+  try {
+    const { newPassword, confirmPassword } = req.body;
+
+    if (!token || !RESET_TOKEN_REGEX.test(token)) {
+      return res.status(400).render("auth/reset-password", {
+        error: invalidLinkError,
+        success: null,
+        token: null
+      });
+    }
+
+    if (!newPassword || !confirmPassword) {
+      return res.status(400).render("auth/reset-password", {
+        error: "Please fill in both password fields.",
+        success: null,
+        token
+      });
+    }
+
+    if (newPassword.length < 6 || newPassword.length > 72) {
+      return res.status(400).render("auth/reset-password", {
+        error: "Password must contain 6 to 72 characters.",
+        success: null,
+        token
+      });
+    }
+
+    if (newPassword !== confirmPassword) {
+      return res.status(400).render("auth/reset-password", {
+        error: "Passwords do not match.",
+        success: null,
+        token
+      });
+    }
+
+    const hashedPassword = await bcrypt.hash(newPassword, 12);
+
+    // Atomic single-use update: only succeeds while the token is valid and
+    // unexpired, and clears it immediately so the link cannot be replayed.
+    const updatedUser = await User.findOneAndUpdate(
+      {
+        resetPasswordToken: hashResetToken(token),
+        resetPasswordExpires: { $gt: new Date() }
+      },
+      {
+        $set: {
+          password: hashedPassword,
+          resetPasswordToken: null,
+          resetPasswordExpires: null
+        }
+      },
+      { new: true }
+    ).select("+resetPasswordToken +resetPasswordExpires");
+
+    if (!updatedUser) {
+      return res.status(400).render("auth/reset-password", {
+        error: invalidLinkError,
+        success: null,
+        token: null
+      });
+    }
+
+    return res.redirect("/login?reset=success");
+  } catch (error) {
+    console.error("Reset password error:", error.message);
+
+    return res.status(500).render("auth/reset-password", {
+      error: "Something went wrong. Please try again.",
+      success: null,
+      token: token && RESET_TOKEN_REGEX.test(token) ? token : null
+    });
+  }
 };

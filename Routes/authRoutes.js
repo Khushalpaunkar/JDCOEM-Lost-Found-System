@@ -6,7 +6,7 @@ const authController = require("../controllers/authController");
 const profileController = require("../controllers/profileController");
 const { requireAuth } = require("../middleware/authMiddleware");
 const imageUpload = require("../middleware/imageUpload");
-const { loginLimiter, registerLimiter } = require("../middleware/rateLimiter");
+const { loginLimiter, registerLimiter, forgotPasswordLimiter, resetPasswordLimiter } = require("../middleware/rateLimiter");
 
 // Registration
 router.get("/register", authController.showRegister);
@@ -16,6 +16,12 @@ router.post("/register", registerLimiter, imageUpload.registrationImages, authCo
 router.get("/login", authController.showLogin);
 router.post("/login", loginLimiter, authController.login);
 router.post("/logout", authController.logout);
+
+// Forgot / reset password
+router.get("/forgot-password", authController.showForgotPassword);
+router.post("/forgot-password", forgotPasswordLimiter, authController.forgotPassword);
+router.get("/reset-password/:token", authController.showResetPassword);
+router.post("/reset-password/:token", resetPasswordLimiter, authController.resetPassword);
 
 // Authenticated profile and image routes
 router.get("/profile", requireAuth, profileController.showProfile);
