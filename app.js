@@ -12,6 +12,7 @@ const foundReportRoutes = require("./Routes/foundReportRoutes");
 const infoRoutes = require("./Routes/infoRoutes");
 const { notFound, globalErrorHandler } = require("./middleware/errorHandler");
 const Item = require("./models/item");
+const connectDB = require("./config/db");
 
 const app = express();
 
@@ -37,6 +38,15 @@ app.use(
 // Parse form data
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+
+app.use(async (req, res, next) => {
+  try {
+    await connectDB();
+    next();
+  } catch (error) {
+    next(error);
+  }
+});
 
 app.use(
   session({

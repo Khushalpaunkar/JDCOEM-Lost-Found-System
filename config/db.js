@@ -1,22 +1,38 @@
 
 const mongoose = require("mongoose");
 
+let connectionPromise = null;
+
+mongoose.connection.on("error", (error) => {
+  console.error("MongoDB connection error:", error.message);
+});
+
 async function connectDB() {
   const uri = process.env.MONGODB_URI;
 
   if (!uri) {
-    throw new Error("MONGODB_URI is missing in .env");
+    throw new Error("MONGODB_URI is missing from the environment");
   }
 
-  mongoose.connection.on("error", (error) => {
-    console.error("MongoDB connection error:", error.message);
-  });
+  if (mongoose.connection.readyState === 1) {
+    return mongoose.connection;
+  }
 
-  await mongoose.connect(uri, {
-    serverSelectionTimeoutMS: 10000,
-  });
+  if (!connectionPromise) {
+    connectionPromise = mongoose
+      .connect(uri, {
+        serverSelectionTimeoutMS: 10000,
+      })
+      .then(() => {
+        console.log("MongoDB Atlas connected successfully");
+        return mongoose.connection;
+      })
+      .finally(() => {
+        connectionPromise = null;
+      });
+  }
 
-  console.log("MongoDB Atlas connected successfully");
+  return connectionPromise;
 }
 
 module.exports = connectDB;
