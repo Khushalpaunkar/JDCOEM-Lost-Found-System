@@ -1,4 +1,6 @@
-const rateLimit = require("express-rate-limit");
+const { rateLimit, ipKeyGenerator } = require("express-rate-limit");
+
+const clientIpKeyGenerator = (req) => ipKeyGenerator(req.ip);
 
 function getSafeReturnTo(value) {
   if (typeof value !== "string" || !value.startsWith("/") || value.startsWith("//")) {
@@ -9,6 +11,7 @@ function getSafeReturnTo(value) {
 }
 
 const loginLimiter = rateLimit({
+  keyGenerator: clientIpKeyGenerator,
   windowMs: 15 * 60 * 1000,
   limit: 10,
   standardHeaders: true,
@@ -23,6 +26,7 @@ const loginLimiter = rateLimit({
 });
 
 const registerLimiter = rateLimit({
+  keyGenerator: clientIpKeyGenerator,
   windowMs: 15 * 60 * 1000,
   limit: 5,
   standardHeaders: true,
@@ -36,6 +40,7 @@ const registerLimiter = rateLimit({
 });
 
 const forgotPasswordLimiter = rateLimit({
+  keyGenerator: clientIpKeyGenerator,
   windowMs: 15 * 60 * 1000,
   limit: 5,
   standardHeaders: true,
@@ -49,6 +54,7 @@ const forgotPasswordLimiter = rateLimit({
 });
 
 const resetPasswordLimiter = rateLimit({
+  keyGenerator: clientIpKeyGenerator,
   windowMs: 15 * 60 * 1000,
   limit: 10,
   standardHeaders: true,
@@ -68,6 +74,7 @@ const resetPasswordLimiter = rateLimit({
 });
 
 const issueLimiter = rateLimit({
+  keyGenerator: clientIpKeyGenerator,
   windowMs: 15 * 60 * 1000,
   limit: 5,
   standardHeaders: true,
